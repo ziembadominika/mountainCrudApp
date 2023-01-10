@@ -63,6 +63,7 @@ public class MountainServiceTest {
     @Test
     public void getMountainTest(){
         //Given
+        Mountain mountainOne = new Mountain(1L, "Śnieżka", 1603, "Poland", "Sudety");
         when(mountainRepository.getReferenceById(1L)).thenReturn(mountainOne);
 
         //When
@@ -72,8 +73,8 @@ public class MountainServiceTest {
         assertEquals("Śnieżka", mountainOne.getName());
     }
 
-    @Test
-    public void findMountainByNameTest(){
+//    @Test
+//    public void findMountainByNameTest(){
         //Given
 //        when(mountainRepository.findByNameContaining("Śnie")).thenReturn(mountainsList);
 //        //When
@@ -87,11 +88,12 @@ public class MountainServiceTest {
 //        List<MountainDto>resultList = new ArrayList<>();
 //        mountainService.findAllMountainByNameContaining(mountain.getName()).forEach(m->resultList.add(m));
 //        assertEquals(resultList.size(), 1);
-    }
+//    }
 
     @Test
     public void saveMountainTest(){
         //Given
+        Mountain mountainOne = new Mountain(1L, "Śnieżka", 1603, "Poland", "Sudety");
         MountainDto mountainTest = mountainMapper.mapToMountainDto(mountainOne);
 
         //When
@@ -116,6 +118,7 @@ public class MountainServiceTest {
     @Test
     public void deleteMountainTest(){
         //Given
+        Mountain mountainOne = new Mountain(1L, "Śnieżka", 1603, "Poland", "Sudety");
         Long mountainId = mountainOne.getId();
 
         //When

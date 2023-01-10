@@ -9,16 +9,18 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 
-@Entity(name = "MOUNTAINS")
+@Entity
+@Table(name = "MOUNTAINS")
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@NamedQuery(name = "Mountain.findByNameContaining", query = "select m from Mountain m where m.name = ?1")
+//@NamedQuery(name = "Mountain.findByNameContaining", query = "select m from Mountain m where m.name = ?1")
 public class Mountain {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull
     private long id;
 
     @Column(name = "MOUNTAIN_NAME")

@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface MountainRepository extends JpaRepository<Mountain, Long> {
-    @Query
+//    @Query
     List<Mountain> findByNameContaining(String name);
 }

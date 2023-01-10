@@ -8,8 +8,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 //		(exclude = {DataSourceAutoConfiguration.class })
 public class MountainApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MountainApplication.class, args);
+	public static void main(String[] args) {SpringApplication.run(MountainApplication.class, args);
 	}
 
 }

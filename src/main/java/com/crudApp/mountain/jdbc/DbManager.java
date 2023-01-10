@@ -18,7 +18,8 @@ public class DbManager {
         connectionProps.put("password", "dominika_password");
         conn = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/dominika_learning?serverTimezone=Europe/Warsaw" +
-                        "&useSSL=False",
+                        "&allowPublicKeyRetrieval=true" +
+                        "&useSSL=false",
                 (connectionProps));
     }
 
@@ -28,7 +29,6 @@ public class DbManager {
         }
         return dbManagerInstance;
     }
-
 
     public Connection getConnection() {
         return conn;
