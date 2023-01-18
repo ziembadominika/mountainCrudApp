@@ -29,20 +29,21 @@ public class MountainService {
         return mountainMapper.mapToMountainDtoList(mountainRepository.findAll());
     }
 
-    public MountainDto getMountain(final Long id){
+    public MountainDto getMountain(Long id){
         return mountainMapper.mapToMountainDto(mountainRepository.getReferenceById(id));
     }
 
-    public List<MountainDto> findAllMountainByNameContaining(String name){
-        return mountainMapper.mapToMountainDtoList(mountainRepository.findByNameContaining(name));
+    public List<MountainDto> findMountainByNameLike(String name){
+        List<Mountain>mountains = mountainRepository.findByNameLike(name + "%");
+        return mountainMapper.mapToMountainDtoList(mountains);
     }
 
-    public void saveMountain(final MountainDto mountainDto) {
+    public void createMountain(MountainDto mountainDto) {
         Mountain mountain = mountainMapper.mapToMountain(mountainDto);
         mountainRepository.save(mountain);
     }
 
-    public MountainDto updateMountain(final MountainDto mountainDto){
+    public MountainDto updateMountain(MountainDto mountainDto){
         Mountain mountain = mountainMapper.mapToMountain(mountainDto);
         mountainRepository.save(mountain);
         return mountainMapper.mapToMountainDto(mountain);

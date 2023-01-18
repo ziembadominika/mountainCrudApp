@@ -2,9 +2,12 @@ package com.crudApp.mountain.mapper;
 
 import com.crudApp.mountain.domain.User;
 import com.crudApp.mountain.domain.UserDto;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Component
 public class UserMapper {
 
     public UserDto mapToUserDto(User user){
@@ -28,12 +31,20 @@ public class UserMapper {
                 userDto.getUserName(),
                 userDto.getFirstName(),
                 userDto.getLastName(),
-                userDto.getBirthDate().getYear(),
-                userDto.getBirthDate().getMonthValue(),
-                userDto.getBirthDate().getDayOfMonth(),
+                userDto.getDateOfRegistration().getYear(),
+                userDto.getDateOfRegistration().getMonthValue(),
+                userDto.getDateOfRegistration().getDayOfMonth(),
                 userDto.getEmail(),
                 userDto.getDateOfRegistration().getYear(),
                 userDto.getDateOfRegistration().getMonthValue(),
                 userDto.getDateOfRegistration().getDayOfMonth());
+    }
+
+    public List<UserDto>mapToUserDtoList(List<User>userList){
+        return userList.stream()
+                .map(u->new UserDto(u.getId(), u.getUserName(), u.getFirstName(), u.getLastName(), u.getBirthDate().getDayOfYear(), u.getBirthDate().getMonthValue(),
+                        u.getBirthDate().getDayOfMonth(), u.getEmail(), u.getDateOfRegistration().getYear(), u.getDateOfRegistration().getMonthValue(),
+                        u.getDateOfRegistration().getDayOfMonth()))
+                .collect(Collectors.toList());
     }
 }

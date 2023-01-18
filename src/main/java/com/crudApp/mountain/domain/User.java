@@ -1,16 +1,23 @@
 package com.crudApp.mountain.domain;
 
+import com.crudApp.mountain.deserializer.DateHandler;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.sun.istack.NotNull;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-@Data
+
 @Entity
 @Table(name = "USERS")
 @NoArgsConstructor
+@Getter
 public class User {
 
     @Id
@@ -18,26 +25,31 @@ public class User {
     @NotNull
     private Long id;
 
-    @Column(name= "USER_NAME")
+    @Column(name = "USER_NAME")
     @NotNull
     private String userName;
 
-    @Column(name= "FIRST_NAME")
+    @Column(name = "FIRST_NAME")
     @NotNull
     private String firstName;
 
-    @Column(name= "LAST_NAME")
+    @Column(name = "LAST_NAME")
     @NotNull
     private String lastName;
 
-    @Column(name="DATE_OF_BIRTH")
+    @Column(name = "DATE_OF_BIRTH")
+    @JsonDeserialize(using = DateHandler.class)
+    @JsonFormat(pattern="yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
     private LocalDate birthDate;
 
     @NotNull
     private String email;
 
+
     @Column(name = "DATE_OF_REGISTRATION")
     @NotNull
+    @JsonDeserialize(using = DateHandler.class)
+    @JsonFormat(pattern="yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
     private LocalDate dateOfRegistration;
 
 

@@ -10,18 +10,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-@AllArgsConstructor
+
 @Component
 public class MountainMapper {
 
 
-    public Mountain mapToMountain(final MountainDto mountainDto){
+    public Mountain mapToMountain(MountainDto mountainDto){
         return new Mountain(
                 mountainDto.getId(),
                 mountainDto.getName(),
                 mountainDto.getHeight(),
-                mountainDto.getCountry(),
-                mountainDto.getMountainRange());
+                mountainDto.getCountry());
     }
 
     public MountainDto mapToMountainDto(final Mountain mountain){
@@ -29,12 +28,11 @@ public class MountainMapper {
                 mountain.getId(),
                 mountain.getName(),
                 mountain.getHeight(),
-                mountain.getCountry(),
-                mountain.getMountainRange());
+                mountain.getCountry());
     }
     public List<MountainDto> mapToMountainDtoList(final List<Mountain> mountainList){
         return mountainList.stream()
-                .map(m-> new MountainDto(m.getId(), m.getName(), m.getHeight(), m.getCountry(), m.getMountainRange()))
+                .map(m-> new MountainDto(m.getId(), m.getName(), m.getHeight(), m.getCountry()))
                 .collect(Collectors.toList());
     }
 }

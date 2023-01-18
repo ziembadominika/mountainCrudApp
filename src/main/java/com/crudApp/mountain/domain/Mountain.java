@@ -12,7 +12,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "MOUNTAINS")
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 //@NamedQuery(name = "Mountain.findByNameContaining", query = "select m from Mountain m where m.name = ?1")
 public class Mountain {
@@ -33,9 +32,22 @@ public class Mountain {
     @NotNull
     private String country;
 
-    @Column(name = "MOUNTAIN_RANGE")
-    @NotNull
-    private String mountainRange;
+    @Transient
+    private MountainRange mountainRange;
+
+    public Mountain(long id, String name, int height, String country) {
+        this.id = id;
+        this.name = name;
+        this.height = height;
+        this.country = country;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "mountain_range_id")
+    public MountainRange getMountainRange() {
+        return mountainRange;
+    }
+
 
 }
 

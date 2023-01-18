@@ -1,16 +1,12 @@
 package com.crudApp.mountain.controller;
 
-import com.crudApp.mountain.domain.Mountain;
 import com.crudApp.mountain.domain.MountainDto;
-import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.service.MountainService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@AllArgsConstructor
 @RestController
 @RequestMapping("/mountainApp")
 public class MountainController {
@@ -41,6 +37,11 @@ public class MountainController {
 
     @PostMapping(value = "/createMountain")
     public void createMountain(@RequestBody MountainDto mountainDto) {
-        mountainService.saveMountain(mountainDto);
+        mountainService.createMountain(mountainDto);
+    }
+
+    @GetMapping(value = "getMountainByName")
+    public List<MountainDto> getMountainByName(@RequestParam String name){
+        return mountainService.findMountainByNameLike(name);
     }
 }
