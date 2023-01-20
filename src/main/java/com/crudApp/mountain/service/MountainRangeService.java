@@ -1,30 +1,35 @@
 package com.crudApp.mountain.service;
 
+import com.crudApp.mountain.domain.Mountain;
 import com.crudApp.mountain.domain.MountainDto;
 import com.crudApp.mountain.domain.MountainRange;
 import com.crudApp.mountain.domain.MountainRangeDto;
 import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.mapper.MountainRangeMapper;
 import com.crudApp.mountain.repository.MountainRangeRepository;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Data
 public class MountainRangeService {
 
-    private MountainRangeMapper mountainRangeMapper;
+
     private MountainRangeRepository mountainRangeRepository;
+
+    private MountainRangeMapper mountainRangeMapper;
 
     private MountainRange mountainRange;
 
     private MountainMapper mountainMapper;
 
     @Autowired
-    public MountainRangeService(MountainRangeMapper mountainRangeMapper, MountainRangeRepository mountainRangeRepository) {
-        this.mountainRangeMapper = mountainRangeMapper;
+    public MountainRangeService(MountainRangeRepository mountainRangeRepository, MountainRangeMapper mountainRangeMapper) {
         this.mountainRangeRepository = mountainRangeRepository;
+        this.mountainRangeMapper = mountainRangeMapper;
     }
 
     public List<MountainRangeDto> getAllMountainRanges() {
@@ -35,10 +40,10 @@ public class MountainRangeService {
         return mountainRangeMapper.mapToMountainRangeDto(mountainRangeRepository.getReferenceById(id));
     }
 
-    public List<MountainRangeDto> findMountainRangeByNameLike(String name){
-        List<MountainRange> mountainRanges = mountainRangeRepository.findByNameLike(name + "%");
-        return mountainRangeMapper.mapToMountainRangeDtoList(mountainRanges);
-    }
+//    public List<MountainRangeDto> findMountainRangeByNameLike(String name){
+//        List<MountainRange> mountainRanges = mountainRangeRepository.findByNameLike(name + "%");
+//        return mountainRangeMapper.mapToMountainRangeDtoList(mountainRanges);
+//    }
 
     public void createMountainRange(MountainRangeDto mountainRangeDto) {
         MountainRange mountainRange = mountainRangeMapper.mapToMountainRange(mountainRangeDto);
@@ -55,7 +60,8 @@ public class MountainRangeService {
         mountainRangeRepository.deleteById(id);
     }
 
-    public List<MountainDto> getMountainsFromRange(String rangeName) {
-        return mountainMapper.mapToMountainDtoList(mountainRange.getMountainsFromRange(rangeName));
+    public List<MountainDto> getMountainsFromRange(Long id) {
+        List<Mountain> mountainsInRange = mountainRange.getMountains();
+        return mountainMapper.mapToMountainDtoList(mountainsInRange);
     }
 }

@@ -1,6 +1,7 @@
 package com.crudApp.mountain.controller;
 
 import com.crudApp.mountain.domain.MountainDto;
+import com.crudApp.mountain.domain.MountainRange;
 import com.crudApp.mountain.domain.MountainRangeDto;
 import com.crudApp.mountain.service.MountainRangeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController(value = "/mountainApp")
+@RestController
+@RequestMapping(value = "/mountainApp")
 public class MountainRangeController {
 
     @Autowired
@@ -39,8 +41,8 @@ public class MountainRangeController {
         mountainRangeService.deleteMountainRange(id);
     }
 
-    private List<MountainDto> getMountainsFromRange(String mountainRangeName){
-        return mountainRangeService.getMountainsFromRange(mountainRangeName);
+    @GetMapping(value = "/getMountainsFromRange")
+    private List<MountainDto> getMountainsFromRange(@RequestParam Long id){
+        return mountainRangeService.getMountainsFromRange(id);
     }
-
 }

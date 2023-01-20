@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
+
 @Getter
 @Setter
 @Entity
@@ -29,12 +29,32 @@ public class MountainRange {
     @Transient
     private List<Mountain> mountains = new ArrayList<>();
 
+    @Transient
+    private List<Country> countries = new ArrayList<>();
+
+    public MountainRange(long id, String rangeName, List<Mountain> mountains) {
+        this.id = id;
+        this.rangeName = rangeName;
+        this.mountains = mountains;
+    }
+
     @OneToMany(
             targetEntity = Mountain.class,
             mappedBy = "mountainRange",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
-    public List<Mountain> getMountainsFromRange(String rangeName) {
+    public List<Mountain> getMountains() {
         return mountains;
     }
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "JOIN_COUNTRY_RANGE",
+            joinColumns = {@JoinColumn(name = "RANGE_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "COUNTRY_ID", referencedColumnName = "ID")}
+    )
+    public List<Country> getCountries() {
+        return countries;
+    }
 }
+

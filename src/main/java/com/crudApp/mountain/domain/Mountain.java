@@ -43,7 +43,7 @@ public class Mountain {
     }
 
     @ManyToOne
-    @JoinColumn(name = "mountain_range_id")
+    @JoinColumn(name = "range_id")
     public MountainRange getMountainRange() {
         return mountainRange;
     }

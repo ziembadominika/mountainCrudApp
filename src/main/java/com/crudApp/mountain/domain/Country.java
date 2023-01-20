@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -23,22 +23,25 @@ public class Country {
     @NotNull
     private long id;
 
-    @Column(name = "COUNTRY_NAME", nullable=false)
+    @Column(name = "COUNTRY_NAME", nullable = false)
     private String countryName;
 
     @Transient
-    private List<MountainRange>mountainRanges;
+    private List<MountainRange> mountainRanges = new ArrayList<>();
 
+    public Country(long id, String countryName) {
+        this.id = id;
+        this.countryName = countryName;
+    }
 
-
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "countries")
     public List<MountainRange> getMountainRanges() {
         return mountainRanges;
     }
 
-    public List<Mountain> getMountainsFromCountry(String countryName){
+    public List<Mountain> getMountainsFromCountry(String countryName) {
         return mountainRanges.stream()
-                .flatMap(mountainRange -> mountainRange.getMountainsFromRange(mountainRange.getRangeName()).stream())
+                .flatMap(mountainRange -> mountainRange.getMountains().stream())
                 .filter(mountain -> mountain.getCountry().contains(countryName))
                 .collect(Collectors.toList());
     }
