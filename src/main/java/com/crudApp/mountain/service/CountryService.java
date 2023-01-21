@@ -2,6 +2,8 @@ package com.crudApp.mountain.service;
 
 import com.crudApp.mountain.domain.Country;
 import com.crudApp.mountain.domain.CountryDto;
+import com.crudApp.mountain.domain.Mountain;
+import com.crudApp.mountain.domain.MountainDto;
 import com.crudApp.mountain.mapper.CountryMapper;
 import com.crudApp.mountain.repository.CountryRepository;
 import com.crudApp.mountain.repository.MountainRepository;
@@ -40,8 +42,8 @@ public class CountryService {
 
     public CountryDto updateCountry (CountryDto countryDto){
         Country country = countryMapper.mapToCountry(countryDto);
-        Country updatedCountry = countryRepository.save(country);
-        return countryMapper.mapToCountryDto(updatedCountry);
+        countryRepository.save(country);
+        return countryMapper.mapToCountryDto(country);
     }
 
     public void deleteCountry(Long id){

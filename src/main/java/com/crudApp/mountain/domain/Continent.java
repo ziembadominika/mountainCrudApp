@@ -28,7 +28,16 @@ public class Continent {
     @Transient
     private List<Country>countries;
 
-    @ManyToMany
+    public Continent(long id, String continentName) {
+        this.id = id;
+        this.continentName = continentName;
+    }
+
+    @OneToMany(
+    targetEntity = Country.class,
+    mappedBy = "continent",
+    cascade = CascadeType.ALL,
+    fetch = FetchType.LAZY)
     public List<Country> getCountries() {
         return countries;
     }

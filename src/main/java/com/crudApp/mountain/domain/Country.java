@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Entity
-@Table(name = "COUNTRY")
+@Table(name = "COUNTRIES")
 @NoArgsConstructor
 public class Country {
 
@@ -33,6 +33,10 @@ public class Country {
         this.id = id;
         this.countryName = countryName;
     }
+
+    @ManyToOne
+    @JoinColumn(name = "continent_id")
+    Continent continent;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "countries")
     public List<MountainRange> getMountainRanges() {

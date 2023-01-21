@@ -14,7 +14,6 @@ public class MountainController {
     @Autowired
     private MountainService mountainService;
 
-
     @GetMapping(value = "/getAllMountains")
     public List<MountainDto> getMountains() {
         return mountainService.getAllMountains();

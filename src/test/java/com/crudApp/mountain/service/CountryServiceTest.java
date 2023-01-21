@@ -45,7 +45,6 @@ public class CountryServiceTest {
     @Test
     public void getAllCountries() {
         //Given
-        List<Country> countries = new ArrayList<>();
         countryService = new CountryService(countryMapper, countryRepository);
         poland = new Country(1L, "Poland");
         Country slovakia = new Country(2L, "Slovakia");
@@ -56,6 +55,9 @@ public class CountryServiceTest {
         List<CountryDto> allCountries = countryService.getAllCountries();
         //Then
         Assert.assertEquals(2, allCountries.size());
+        //CleanUp
+        countryRepository.deleteById(2L);
+
     }
 
     @Test
@@ -86,10 +88,9 @@ public class CountryServiceTest {
     public void updateCountry() {
         //Given
         countryService = new CountryService(countryMapper, countryRepository);
-        poland = new Country(3L, "Poland");
-        CountryDto countryDto = countryMapper.mapToCountryDto(poland);
+        CountryDto poland = new CountryDto(3L, "Poland");
         //When
-        CountryDto updatedCountry = countryService.updateCountry(countryDto);
+        CountryDto updatedCountry = countryService.updateCountry(poland);
         //Then
         Assert.assertEquals(3L, updatedCountry.getId());
     }
