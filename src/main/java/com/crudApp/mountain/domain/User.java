@@ -12,6 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 
 @Entity
@@ -45,7 +46,6 @@ public class User {
     @NotNull
     private String email;
 
-
     @Column(name = "DATE_OF_REGISTRATION")
     @NotNull
     @JsonDeserialize(using = DateHandler.class)
@@ -63,5 +63,9 @@ public class User {
         this.email = email;
         this.dateOfRegistration = LocalDate.of(yearOfRegistration, monthOfRegistration, dayOfRegistration);
     }
+
+    @OneToMany
+    @JoinColumn(name = "USER_ID")
+    private List<UserRating> userRatings;
 }
 

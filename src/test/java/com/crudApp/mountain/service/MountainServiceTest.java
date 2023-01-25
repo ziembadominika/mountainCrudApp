@@ -3,6 +3,7 @@ package com.crudApp.mountain.service;
 import com.crudApp.mountain.domain.Mountain;
 import com.crudApp.mountain.domain.MountainDto;
 import com.crudApp.mountain.domain.MountainRange;
+import com.crudApp.mountain.exception.MountainNotFoundException;
 import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.repository.MountainRepository;
 
@@ -28,19 +29,18 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class MountainServiceTest {
 
-    private Mountain mountainOne;
-    private Mountain mountainTwo;
     private MountainService mountainService;
-
-    private MountainRange sudety;
-
-    List<Mountain> mountainsList = new ArrayList<>();
 
     @InjectMocks
     private MountainMapper mountainMapper = new MountainMapper();
 
     @Mock
     private MountainRepository mountainRepository;
+
+    private Mountain mountainOne;
+    private Mountain mountainTwo;
+    private MountainRange sudety;
+    private List<Mountain> mountainsList = new ArrayList<>();
 
     @Before
     public void setUp() {
@@ -53,19 +53,19 @@ public class MountainServiceTest {
     }
 
     @Test
-    public void getAllMountainsTest() {
+    public void shouldGetAllMountains() {
         //Given
         when(mountainRepository.findAll()).thenReturn(mountainsList);
 
         //When
-        List<MountainDto> mountainDtosList = mountainService.getAllMountains();
+        List<MountainDto> mountainDtoList = mountainService.getAllMountains();
 
         //Then
-        assertEquals(2, mountainDtosList.size());
+        assertEquals(2, mountainDtoList.size());
     }
 
     @Test
-    public void getMountainTest(){
+    public void shouldGetMountain() {
         //Given
         when(mountainRepository.getReferenceById(1L)).thenReturn(mountainOne);
 
@@ -76,19 +76,19 @@ public class MountainServiceTest {
         assertEquals("Śnieżka", mountainDto.getName());
     }
 
-//    @Test
-//    public void findMountainByNameTest(){
-//        //Given
-//        when(mountainRepository.findByNameLike("Śnie%")).thenReturn(mountainsList);
-//        //When
-//        List<MountainDto>mountainDtos = mountainService.findMountainByNameLike("Śnie");
-//        mountainDtos.size();
-//        //Then
-//        Assert.assertEquals(2, mountainDtos.size());
-//    }
+    @Test
+    public void shouldFindMountainByName() {
+        //Given
+        when(mountainRepository.findByNameLike("Śnie%")).thenReturn(mountainsList);
+        //When
+        List<MountainDto> mountainDtos = mountainService.findMountainByNameLike("Śnie");
+        mountainDtos.size();
+        //Then
+        Assert.assertEquals(2, mountainDtos.size());
+    }
 
     @Test
-    public void saveMountainTest(){
+    public void shouldSaveMountain() {
         //Given
         MountainDto mountainOneDto = mountainMapper.mapToMountainDto(mountainOne);
 
@@ -98,11 +98,10 @@ public class MountainServiceTest {
         //Then
 
         verify(mountainRepository, times(1)).save(any(Mountain.class));
-//        verify(mountainRepository, times(1)).save(ArgumentMatchers.refEq(mountainOne));
     }
 
     @Test
-    public void updateMountainTest(){
+    public void shouldUpdateMountain() {
         //Given
         Mountain mountainOne = new Mountain(1L, "Śnieżka", 1610, "Poland");
         MountainDto mountainDto = mountainMapper.mapToMountainDto(mountainOne);
@@ -115,9 +114,8 @@ public class MountainServiceTest {
     }
 
     @Test
-    public void deleteMountainTest(){
+    public void shouldDeleteMountain() {
         //Given
-        Mountain mountainOne = new Mountain(1L, "Śnieżka", 1603, "Poland");
         Long mountainId = mountainOne.getId();
 
         //When
@@ -125,6 +123,21 @@ public class MountainServiceTest {
 
         //Then
         verify(mountainRepository, times(1)).deleteById(mountainId);
+    }
+
+    @Test
+    public void shouldReturnMountainsWithHeightAbove() {
+        //Given
+        int height = 1400;
+        when(mountainRepository.findAll()).thenReturn(mountainsList);
+        //When
+        List<MountainDto> mountainDtoList = mountainService.getMountainByHeight(height);
+        //Then
+        Assert.assertEquals(2, mountainDtoList.size());
+    }
+
+    @Test
+    public void shouldReturnAverageRating(){
 
     }
 }

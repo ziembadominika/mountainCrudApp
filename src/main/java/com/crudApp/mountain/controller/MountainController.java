@@ -1,6 +1,7 @@
 package com.crudApp.mountain.controller;
 
 import com.crudApp.mountain.domain.MountainDto;
+import com.crudApp.mountain.exception.MountainNotFoundException;
 import com.crudApp.mountain.service.MountainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +41,17 @@ public class MountainController {
     }
 
     @GetMapping(value = "getMountainByName")
-    public List<MountainDto> getMountainByName(@RequestParam String name){
+    public List<MountainDto> getMountainByName(@RequestParam String name) {
         return mountainService.findMountainByNameLike(name);
+    }
+
+    @GetMapping(value = "/getMountainsByHeightAbove")
+    public List<MountainDto> getMountainsByHeightAbove(@RequestParam int height) {
+        return mountainService.getMountainByHeight(height);
+    }
+
+    @GetMapping(value = "getRatingForMountain")
+    public double getUserRatingForMountain(@RequestParam Long mountainId){
+        return mountainService.getUserRatingForMountain(mountainId);
     }
 }

@@ -40,10 +40,10 @@ public class MountainRangeService {
         return mountainRangeMapper.mapToMountainRangeDto(mountainRangeRepository.getReferenceById(id));
     }
 
-//    public List<MountainRangeDto> findMountainRangeByNameLike(String name){
-//        List<MountainRange> mountainRanges = mountainRangeRepository.findByNameLike(name + "%");
-//        return mountainRangeMapper.mapToMountainRangeDtoList(mountainRanges);
-//    }
+    public List<MountainRangeDto> findMountainRangeByNameLike(String name){
+        List<MountainRange> mountainRanges = mountainRangeRepository.findByRangeNameLike(name + "%");
+        return mountainRangeMapper.mapToMountainRangeDtoList(mountainRanges);
+    }
 
     public void createMountainRange(MountainRangeDto mountainRangeDto) {
         MountainRange mountainRange = mountainRangeMapper.mapToMountainRange(mountainRangeDto);

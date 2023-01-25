@@ -1,18 +1,14 @@
 package com.crudApp.mountain.domain;
 
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "MOUNTAIN_RANGE")
 @NoArgsConstructor
@@ -29,9 +25,6 @@ public class MountainRange {
     @Transient
     private List<Mountain> mountains = new ArrayList<>();
 
-    @Transient
-    private List<Country> countries = new ArrayList<>();
-
     public MountainRange(long id, String rangeName, List<Mountain> mountains) {
         this.id = id;
         this.rangeName = rangeName;
@@ -40,7 +33,7 @@ public class MountainRange {
 
     @OneToMany(
             targetEntity = Mountain.class,
-            mappedBy = "mountainRange",
+            mappedBy = "rangeId",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
     public List<Mountain> getMountains() {
@@ -53,8 +46,6 @@ public class MountainRange {
             joinColumns = {@JoinColumn(name = "RANGE_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "COUNTRY_ID", referencedColumnName = "ID")}
     )
-    public List<Country> getCountries() {
-        return countries;
-    }
+    private List<Country> countries;
 }
 

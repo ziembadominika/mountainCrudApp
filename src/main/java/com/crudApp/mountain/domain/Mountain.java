@@ -5,8 +5,10 @@ import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.catalina.User;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -22,6 +24,10 @@ public class Mountain {
     @NotNull
     private long id;
 
+    @ManyToOne
+    @JoinColumn(name = "RANGE_ID")
+    private Long rangeId;
+
     @Column(name = "MOUNTAIN_NAME")
     @NotNull
     private String name;
@@ -32,8 +38,6 @@ public class Mountain {
     @NotNull
     private String country;
 
-    @Transient
-    private MountainRange mountainRange;
 
     public Mountain(long id, String name, int height, String country) {
         this.id = id;
@@ -42,12 +46,14 @@ public class Mountain {
         this.country = country;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "range_id")
-    public MountainRange getMountainRange() {
-        return mountainRange;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "MOUNTAIN_ID")
+    private List<UserRating> mountainRatings;
+
+    public double userRatingAverage() {
+        return mountainRatings.stream()
+                .map(u -> u.getRate())
+                .reduce(0, (sum, current) -> sum += current) * 1.0 / mountainRatings.size();
     }
-
-
 }
 

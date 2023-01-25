@@ -1,7 +1,5 @@
 package com.crudApp.mountain.mapper;
 
-import com.crudApp.mountain.domain.Mountain;
-import com.crudApp.mountain.domain.MountainDto;
 import com.crudApp.mountain.domain.MountainRange;
 import com.crudApp.mountain.domain.MountainRangeDto;
 import org.springframework.stereotype.Component;
@@ -25,9 +23,9 @@ public class MountainRangeMapper {
                 mountainRange.getMountains());
     }
 
-    public List<MountainRangeDto> mapToMountainRangeDtoList(final List<MountainRange> mountainRangesList){
+    public List<MountainRangeDto> mapToMountainRangeDtoList(final List<MountainRange> mountainRangesList) {
         return mountainRangesList.stream()
-                .map(r-> new MountainRangeDto(r.getId(), r.getRangeName(), r.getMountains()))
+                .map(r -> new MountainRangeDto(r.getId(), r.getRangeName(), r.getMountains()))
                 .collect(Collectors.toList());
     }
 }
