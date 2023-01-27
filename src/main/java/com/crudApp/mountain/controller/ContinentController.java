@@ -1,6 +1,8 @@
 package com.crudApp.mountain.controller;
 
 import com.crudApp.mountain.domain.ContinentDto;
+import com.crudApp.mountain.domain.CountryDto;
+import com.crudApp.mountain.domain.MountainDto;
 import com.crudApp.mountain.service.ContinentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,4 +41,8 @@ public class ContinentController {
         continentService.deleteContinent(id);
     }
 
+    @GetMapping(value = "/getMountainsFromRange")
+    public List<MountainDto> getMountainsFromContinent(@RequestParam String continentName){
+        return continentService.getMountainsFromContinent(continentName);
+    }
 }

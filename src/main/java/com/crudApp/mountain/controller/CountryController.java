@@ -1,6 +1,7 @@
 package com.crudApp.mountain.controller;
 
 import com.crudApp.mountain.domain.CountryDto;
+import com.crudApp.mountain.domain.MountainDto;
 import com.crudApp.mountain.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -37,5 +38,15 @@ public class CountryController {
     @DeleteMapping(value = "/deleteCountry")
     public void deleteCountry(@RequestParam Long id) {
         countryService.deleteCountry(id);
+    }
+
+    @GetMapping(value = "/getMountainsFromRange")
+    public List<MountainDto> getMountainsFromCountry(@RequestParam String countryName){
+        return countryService.getMountainsFromCountry(countryName);
+    }
+
+    @GetMapping(value = "/getCountryByNameLike")
+    public List<CountryDto>getCountryByNameLike(@RequestParam String name){
+        return countryService.findByCountryNameLike(name);
     }
 }

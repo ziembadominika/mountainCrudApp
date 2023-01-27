@@ -1,5 +1,6 @@
 package com.crudApp.mountain.controller;
 
+import com.crudApp.mountain.domain.MountainDto;
 import com.crudApp.mountain.domain.User;
 import com.crudApp.mountain.domain.UserDto;
 import com.crudApp.mountain.service.UserService;
@@ -43,5 +44,10 @@ public class UserController {
     @DeleteMapping(value = "/deleteUser")
     public void deleteUser(@RequestParam Long id){
         userService.deleteUser(id);
+    }
+
+    @GetMapping(value = "/getUserMountains")
+    public List<MountainDto> getUserMountains(@RequestParam Long userId){
+        return userService.getUserMountains(userId);
     }
 }

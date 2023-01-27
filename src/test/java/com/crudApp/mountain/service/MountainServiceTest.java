@@ -1,13 +1,11 @@
 package com.crudApp.mountain.service;
 
-import com.crudApp.mountain.domain.Mountain;
-import com.crudApp.mountain.domain.MountainDto;
-import com.crudApp.mountain.domain.MountainRange;
-import com.crudApp.mountain.exception.MountainNotFoundException;
+import com.crudApp.mountain.domain.*;
 import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.repository.MountainRepository;
 
 
+import com.crudApp.mountain.repository.UserRatingRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,11 +13,13 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 import static org.junit.Assert.assertEquals;
@@ -42,24 +42,35 @@ public class MountainServiceTest {
     private MountainRange sudety;
     private List<Mountain> mountainsList = new ArrayList<>();
 
+    private List<UserRating> userRatings = new ArrayList<>();
+
+    private List<Country> countries = new ArrayList<>();
+
+    private User user;
+
+    private User userOne;
+
+    private List<User>usersList;
+    @Autowired
+    private UserRatingRepository userRatingRepository;
+
     @Before
     public void setUp() {
         mountainService = new MountainService(mountainRepository, mountainMapper);
-        mountainOne = new Mountain(1L, "Śnieżka", 1603, "Poland");
-        mountainTwo = new Mountain(2L, "Śnieżnik", 1423, "Poland");
+        mountainOne = new Mountain(1L, "Śnieżka", 1603, "Poland", sudety, userRatings, usersList);
+        mountainTwo = new Mountain(2L, "Śnieżnik", 1423, "Poland", sudety, userRatings, usersList);
         mountainsList.add(mountainOne);
         mountainsList.add(mountainTwo);
-        sudety = new MountainRange(1L, "Sudety", mountainsList);
+        sudety = new MountainRange(1L, "Sudety", mountainsList, countries);
     }
 
     @Test
     public void shouldGetAllMountains() {
         //Given
+        mountainService = new MountainService(mountainRepository, mountainMapper);
         when(mountainRepository.findAll()).thenReturn(mountainsList);
-
         //When
         List<MountainDto> mountainDtoList = mountainService.getAllMountains();
-
         //Then
         assertEquals(2, mountainDtoList.size());
     }
@@ -68,10 +79,8 @@ public class MountainServiceTest {
     public void shouldGetMountain() {
         //Given
         when(mountainRepository.getReferenceById(1L)).thenReturn(mountainOne);
-
         //When
         MountainDto mountainDto = mountainService.getMountain(1L);
-
         //Then
         assertEquals("Śnieżka", mountainDto.getName());
     }
@@ -91,24 +100,19 @@ public class MountainServiceTest {
     public void shouldSaveMountain() {
         //Given
         MountainDto mountainOneDto = mountainMapper.mapToMountainDto(mountainOne);
-
         //When
         mountainService.createMountain(mountainOneDto);
-
         //Then
-
         verify(mountainRepository, times(1)).save(any(Mountain.class));
     }
 
     @Test
     public void shouldUpdateMountain() {
         //Given
-        Mountain mountainOne = new Mountain(1L, "Śnieżka", 1610, "Poland");
+        Mountain mountainOne = new Mountain(1L, "Śnieżka", 1610, "Poland", sudety, userRatings, usersList);
         MountainDto mountainDto = mountainMapper.mapToMountainDto(mountainOne);
-
         //When
         MountainDto updatedMountain = mountainService.updateMountain(mountainDto);
-
         //Then
         Assert.assertEquals(updatedMountain.getHeight(), 1610);
     }
@@ -117,16 +121,14 @@ public class MountainServiceTest {
     public void shouldDeleteMountain() {
         //Given
         Long mountainId = mountainOne.getId();
-
         //When
         mountainService.deleteMountain(mountainId);
-
         //Then
         verify(mountainRepository, times(1)).deleteById(mountainId);
     }
 
     @Test
-    public void shouldReturnMountainsWithHeightAbove() {
+    public void shouldReturnAllMountainsAboveGivenHeight() {
         //Given
         int height = 1400;
         when(mountainRepository.findAll()).thenReturn(mountainsList);
@@ -137,7 +139,15 @@ public class MountainServiceTest {
     }
 
     @Test
-    public void shouldReturnAverageRating(){
-
+    public void shouldGetUserRatingForMountain(){
+    //Given
+        mountainOne = new Mountain(1L, "Śnieżka", 1603, "Poland", sudety, userRatings, usersList);
+        UserRating userRating = new UserRating(1L, user, 5, mountainOne);
+        userRatings.add(userRating);
+        when(mountainRepository.findById(1L)).thenReturn(Optional.of(mountainOne));
+        //When
+        double averageRating = mountainService.getUserRatingForMountain(mountainOne.getId());
+        //Then
+        Assert.assertEquals(5, averageRating, 0.1);
     }
 }

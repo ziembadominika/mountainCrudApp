@@ -1,7 +1,9 @@
 package com.crudApp.mountain.service;
 
+import com.crudApp.mountain.domain.MountainDto;
 import com.crudApp.mountain.domain.User;
 import com.crudApp.mountain.domain.UserDto;
+import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.mapper.UserMapper;
 import com.crudApp.mountain.repository.UserRepository;
 import lombok.Data;
@@ -17,6 +19,10 @@ public class UserService {
     private UserRepository userRepository;
 
     private UserMapper userMapper;
+
+    private User user;
+
+    private MountainMapper mountainMapper;
 
     @Autowired
     public UserService(UserRepository userRepository, UserMapper userMapper) {
@@ -49,5 +55,9 @@ public class UserService {
 
     public void deleteUser(final Long id){
         userRepository.deleteById(id);
+    }
+
+    public List<MountainDto> getUserMountains(Long userId){
+        return mountainMapper.mapToMountainDtoList(userRepository.getReferenceById(userId).getUserMountains());
     }
 }

@@ -1,7 +1,6 @@
 package com.crudApp.mountain.service;
 
-import com.crudApp.mountain.domain.Continent;
-import com.crudApp.mountain.domain.ContinentDto;
+import com.crudApp.mountain.domain.*;
 import com.crudApp.mountain.mapper.ContinentMapper;
 import com.crudApp.mountain.repository.ContinentRepository;
 import org.junit.Assert;
@@ -34,7 +33,12 @@ public class ContinentServiceTest {
 
     private Continent asia;
 
+    private Continent continent;
+    private MountainRange tatraMountains;
+    private List<UserRating> userRatings = new ArrayList<>();
     private List<Continent>continents = new ArrayList<>();
+    private List<Mountain> tatry = new ArrayList<>();
+    private List<User> usersList;
 
     public void SetUp(){
         continentService = new ContinentService(continentMapper, continentRepository);
@@ -42,6 +46,10 @@ public class ContinentServiceTest {
         asia = new Continent(2L, "Asia");
         continents.add(europe);
         continents.add(asia);
+        Mountain rysy = new Mountain(1L, "Rysy", 2499, "Poland", tatraMountains, userRatings, usersList);
+        Mountain łomnica = new Mountain(2L, "Łomnica", 2634, "Slovakia", tatraMountains, userRatings, usersList);
+        tatry.add(rysy);
+        tatry.add(łomnica);
     }
 
     @Test
@@ -106,5 +114,16 @@ public class ContinentServiceTest {
         continentService.deleteContinent(continentId);
         //Then
         verify(continentRepository, times(1)).deleteById(continentId);
+    }
+
+    @Test
+    public void shouldGetMountainsFromContinent(){
+//        //Given
+//        when(continent.getMountainFromContinent("Europe")).thenReturn(tatry);
+//        //When
+//        List<MountainDto> mountainDtos = continentService.getMountainsFromContinent("Europe");
+//        //Then
+//        Assert.assertEquals(2, mountainDtos.size());
+
     }
 }

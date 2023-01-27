@@ -1,7 +1,6 @@
 package com.crudApp.mountain.service;
 
-import com.crudApp.mountain.domain.Country;
-import com.crudApp.mountain.domain.CountryDto;
+import com.crudApp.mountain.domain.*;
 import com.crudApp.mountain.mapper.CountryMapper;
 import com.crudApp.mountain.repository.CountryRepository;
 import org.junit.Assert;
@@ -31,40 +30,56 @@ public class CountryServiceTest {
     private CountryService countryService;
 
     private List<Country> countries = new ArrayList<>();
-
     private Country poland;
+    private Country slovakia;
+    private List<MountainRange> polishMountains = new ArrayList<>();
+    private MountainRange tatraMountains;
+    private List<Mountain> tatry = new ArrayList<>();
+    private List<UserRating> userRatings = new ArrayList<>();
+    private Continent Europe;
+    private List<MountainRange>slovakianMountains;
+    private List<User> usersList;
 
     public void setUp() {
         countryService = new CountryService(countryMapper, countryRepository);
-        poland = new Country(1L, "Poland");
-        Country slovakia = new Country(2L, "Slovakia");
+
+        poland = new Country(1L, "Poland", polishMountains, Europe);
+        slovakia = new Country(2L, "Slovakia", slovakianMountains, Europe);
         countries.add(poland);
         countries.add(slovakia);
+
+        Mountain rysy = new Mountain(1L, "Rysy", 2499, "Poland", tatraMountains, userRatings, usersList);
+        Mountain łomnica = new Mountain(2L, "Łomnica", 2634, "Slovakia", tatraMountains, userRatings, usersList);
+        tatry.add(rysy);
+        tatry.add(łomnica);
+
+        tatraMountains = new MountainRange(1L, "Tatra Mountains", tatry, countries);
+
+        polishMountains.add(tatraMountains);
     }
 
     @Test
     public void getAllCountries() {
         //Given
         countryService = new CountryService(countryMapper, countryRepository);
-        poland = new Country(1L, "Poland");
-        Country slovakia = new Country(2L, "Slovakia");
+        when(countryRepository.findAll()).thenReturn(countries);
+        poland = new Country(1L, "Poland", polishMountains, Europe);
+        slovakia = new Country(2L, "Slovakia", slovakianMountains, Europe);
         countries.add(poland);
         countries.add(slovakia);
-        when(countryRepository.findAll()).thenReturn(countries);
         //When
         List<CountryDto> allCountries = countryService.getAllCountries();
         //Then
         Assert.assertEquals(2, allCountries.size());
         //CleanUp
         countryRepository.deleteById(2L);
-
     }
 
     @Test
     public void getCountry() {
         //Given
         countryService = new CountryService(countryMapper, countryRepository);
-        poland = new Country(1L, "Poland");
+        poland = new Country(1L, "Poland", polishMountains, Europe);
         when(countryRepository.getReferenceById(1L)).thenReturn(poland);
         //When
         CountryDto countryDto = countryService.getCountry(1L);
@@ -76,7 +91,7 @@ public class CountryServiceTest {
     public void saveCountry() {
         //Given
         countryService = new CountryService(countryMapper, countryRepository);
-        poland = new Country(1L, "Poland");
+        poland = new Country(1L, "Poland", polishMountains, Europe);
         CountryDto countryDto = countryMapper.mapToCountryDto(poland);
         //When
         countryService.saveCountry(countryDto);
@@ -88,7 +103,7 @@ public class CountryServiceTest {
     public void updateCountry() {
         //Given
         countryService = new CountryService(countryMapper, countryRepository);
-        CountryDto poland = new CountryDto(3L, "Poland");
+        CountryDto poland = new CountryDto(3L, "Poland", polishMountains, Europe);
         //When
         CountryDto updatedCountry = countryService.updateCountry(poland);
         //Then
@@ -99,11 +114,45 @@ public class CountryServiceTest {
     public void deleteCountry() {
         //Given
         countryService = new CountryService(countryMapper, countryRepository);
-        poland = new Country(3L, "Poland");
+        poland = new Country(3L, "Poland", polishMountains, Europe);
         Long countryId = poland.getId();
         //When
         countryService.deleteCountry(countryId);
         //Then
         verify(countryRepository, times(1)).deleteById(countryId);
+    }
+
+    @Test
+    public void shouldFindCountryByNameLike(){
+        //Given
+        countryService = new CountryService(countryMapper, countryRepository);
+        poland = new Country(3L, "Poland", polishMountains, Europe);
+        countries.add(poland);
+        when(countryRepository.findByCountryNameLike("Pol")).thenReturn(countries);
+        //When
+        countryService.findByCountryNameLike("Pol");
+        //Then
+        Assert.assertEquals(1, countries.size());
+    }
+
+
+    @Test
+    public void shouldGetMountainsFromCountry(){
+//        //Given
+//        countryService = new CountryService(countryMapper, countryRepository);
+//        poland = new Country(3L, "Poland", polishMountains, Europe);
+//        Mountain rysy = new Mountain(1L, "Rysy", 2499, "Poland", tatraMountains, userRatings);
+//        Mountain łomnica = new Mountain(2L, "Łomnica", 2634, "Slovakia", tatraMountains, userRatings);
+//        tatry.add(rysy);
+//        tatry.add(łomnica);
+//        tatraMountains = new MountainRange(1L, "Tatra Mountains", tatry, countries);
+//        polishMountains.add(tatraMountains);
+//        countries.add(poland);
+//        when(countryRepository.findAll()).thenReturn(countries);
+//        //When
+//        List<MountainDto> testList = countryService.getMountainsFromCountry("Poland");
+//
+//        //Then
+//        Assert.assertEquals(3, testList.size());
     }
 }

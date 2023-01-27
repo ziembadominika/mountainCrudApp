@@ -16,7 +16,10 @@ public class MountainMapper {
                 mountainDto.getId(),
                 mountainDto.getName(),
                 mountainDto.getHeight(),
-                mountainDto.getCountry());
+                mountainDto.getCountry(),
+                mountainDto.getMountainRange(),
+                mountainDto.getUserRatings(),
+                mountainDto.getUsers());
     }
 
     public MountainDto mapToMountainDto(final Mountain mountain) {
@@ -24,12 +27,15 @@ public class MountainMapper {
                 mountain.getId(),
                 mountain.getName(),
                 mountain.getHeight(),
-                mountain.getCountry());
+                mountain.getCountry(),
+                mountain.getMountainRange(),
+                mountain.getUserRatings(),
+                mountain.getUsers());
     }
 
     public List<MountainDto> mapToMountainDtoList(final List<Mountain> mountainList) {
         return mountainList.stream()
-                .map(m -> new MountainDto(m.getId(), m.getName(), m.getHeight(), m.getCountry()))
+                .map(m -> new MountainDto(m.getId(), m.getName(), m.getHeight(), m.getCountry(), m.getMountainRange(), m.getUserRatings(), m.getUsers()))
                 .collect(Collectors.toList());
     }
 }

@@ -12,12 +12,12 @@ public class UserRatingMapper {
 
     public UserRatingDto mapToUserRatingDto(UserRating userRating){
         return new UserRatingDto(userRating.getId(), userRating.getUser(), userRating.getRate(),
-                userRating.getMountainId());
+                userRating.getMountain());
     }
 
     public UserRating mapToUserRating(UserRatingDto userRatingDto){
         return new UserRating(userRatingDto.getId(), userRatingDto.getUser(), userRatingDto.getRate(),
-                userRatingDto.getMountainId());
+                userRatingDto.getMountain());
     }
 
     public List<UserRatingDto>mapToUserRatingDtoList(List<UserRating>userRatings){

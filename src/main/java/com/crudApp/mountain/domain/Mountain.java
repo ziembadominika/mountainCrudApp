@@ -3,57 +3,47 @@ package com.crudApp.mountain.domain;
 
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.catalina.User;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
 @Entity
 @Table(name = "MOUNTAINS")
-@Getter
+@Data
 @NoArgsConstructor
-//@NamedQuery(name = "Mountain.findByNameContaining", query = "select m from Mountain m where m.name = ?1")
+@AllArgsConstructor
 public class Mountain {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @NotNull
-    private long id;
+    private Long id;
+
+    @Column(name = "MOUNTAIN_NAME")
+    private String name;
+    private int height;
+    private String country;
 
     @ManyToOne
     @JoinColumn(name = "RANGE_ID")
-    private Long rangeId;
-
-    @Column(name = "MOUNTAIN_NAME")
-    @NotNull
-    private String name;
-
-    @NotNull
-    private int height;
-
-    @NotNull
-    private String country;
-
-
-    public Mountain(long id, String name, int height, String country) {
-        this.id = id;
-        this.name = name;
-        this.height = height;
-        this.country = country;
-    }
+    private MountainRange mountainRange;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "MOUNTAIN_ID")
-    private List<UserRating> mountainRatings;
+    private List<UserRating> userRatings;
+
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "userMountains")
+    private List<User> users = new ArrayList<>();
 
     public double userRatingAverage() {
-        return mountainRatings.stream()
+        return userRatings.stream()
                 .map(u -> u.getRate())
-                .reduce(0, (sum, current) -> sum += current) * 1.0 / mountainRatings.size();
+                .reduce(0, (sum, current) -> sum += current) * 1.0 / userRatings.size();
     }
+
 }
 

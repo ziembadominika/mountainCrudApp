@@ -1,17 +1,15 @@
 package com.crudApp.mountain.service;
 
-import com.crudApp.mountain.domain.Country;
-import com.crudApp.mountain.domain.CountryDto;
-import com.crudApp.mountain.domain.Mountain;
-import com.crudApp.mountain.domain.MountainDto;
+import com.crudApp.mountain.domain.*;
 import com.crudApp.mountain.mapper.CountryMapper;
+import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.repository.CountryRepository;
-import com.crudApp.mountain.repository.MountainRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Data
@@ -20,6 +18,10 @@ public class CountryService {
     private CountryMapper countryMapper;
 
     private CountryRepository countryRepository;
+
+    private MountainMapper mountainMapper;
+
+    private Country country;
 
     @Autowired
     public CountryService(CountryMapper countryMapper, CountryRepository countryRepository) {
@@ -48,5 +50,13 @@ public class CountryService {
 
     public void deleteCountry(Long id){
         countryRepository.deleteById(id);
+    }
+
+    public List<MountainDto>getMountainsFromCountry(String countryName){
+        return mountainMapper.mapToMountainDtoList(country.getMountainsFromCountry(countryName));
+    }
+
+    public List<CountryDto>findByCountryNameLike(String name){
+        return countryMapper.mapToCountryDtoList(countryRepository.findByCountryNameLike(name));
     }
 }

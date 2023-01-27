@@ -13,19 +13,21 @@ public class MountainRangeMapper {
         return new MountainRange(
                 mountainRangeDto.getId(),
                 mountainRangeDto.getRangeName(),
-                mountainRangeDto.getMountains());
+                mountainRangeDto.getMountains(),
+                mountainRangeDto.getCountries());
     }
 
     public MountainRangeDto mapToMountainRangeDto(MountainRange mountainRange) {
         return new MountainRangeDto(
                 mountainRange.getId(),
                 mountainRange.getRangeName(),
-                mountainRange.getMountains());
+                mountainRange.getMountains(),
+                mountainRange.getCountries());
     }
 
     public List<MountainRangeDto> mapToMountainRangeDtoList(final List<MountainRange> mountainRangesList) {
         return mountainRangesList.stream()
-                .map(r -> new MountainRangeDto(r.getId(), r.getRangeName(), r.getMountains()))
+                .map(r -> new MountainRangeDto(r.getId(), r.getRangeName(), r.getMountains(),r.getCountries()))
                 .collect(Collectors.toList());
     }
 }

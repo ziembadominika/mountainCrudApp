@@ -12,11 +12,10 @@ import java.util.List;
 @Setter
 public class MountainRangeDto {
 
-    private long id;
-
+    private Long id;
     private String rangeName;
-
     private List<Mountain> mountains;
+    private List<Country> countries;
 
 
 }

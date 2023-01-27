@@ -2,6 +2,7 @@ package com.crudApp.mountain.service;
 
 import com.crudApp.mountain.domain.Mountain;
 import com.crudApp.mountain.domain.MountainDto;
+import com.crudApp.mountain.domain.UserRating;
 import com.crudApp.mountain.exception.MountainNotFoundException;
 import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.repository.MountainRepository;
@@ -34,12 +35,14 @@ public class MountainService {
     }
 
     public MountainDto getMountain(Long id) {
-        try {
-            Mountain mountain = mountainRepository.getReferenceById(id);
-        } catch (NumberFormatException e) {
-            System.out.println("This is not a number");
-        }
-        return mountainMapper.mapToMountainDto(mountain);
+//        try {
+//            Mountain mountain = mountainRepository.getReferenceById(id);
+//        } catch (NumberFormatException e) {
+//            System.out.println("This is not a number");
+//        }
+//        return mountainMapper.mapToMountainDto(mountain);
+
+        return mountainMapper.mapToMountainDto(mountainRepository.getReferenceById(id));
     }
 
     public List<MountainDto> findMountainByNameLike(String name) {
@@ -72,5 +75,4 @@ public class MountainService {
         Mountain mountain = mountainRepository.findById(mountainId).orElseThrow(MountainNotFoundException::new);
         return mountain.userRatingAverage();
     }
-
 }

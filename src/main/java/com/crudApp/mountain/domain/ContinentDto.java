@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class ContinentDto {
-    private long id;
+    private Long id;
     private String continentName;
     private List<Country> countries;
 

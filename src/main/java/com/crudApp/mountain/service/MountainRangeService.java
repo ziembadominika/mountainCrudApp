@@ -7,6 +7,7 @@ import com.crudApp.mountain.domain.MountainRangeDto;
 import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.mapper.MountainRangeMapper;
 import com.crudApp.mountain.repository.MountainRangeRepository;
+import com.crudApp.mountain.repository.MountainRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,14 +23,23 @@ public class MountainRangeService {
 
     private MountainRangeMapper mountainRangeMapper;
 
-    private MountainRange mountainRange;
-
-    private MountainMapper mountainMapper;
-
     @Autowired
     public MountainRangeService(MountainRangeRepository mountainRangeRepository, MountainRangeMapper mountainRangeMapper) {
         this.mountainRangeRepository = mountainRangeRepository;
         this.mountainRangeMapper = mountainRangeMapper;
+    }
+
+    private MountainRange mountainRange;
+
+    private MountainMapper mountainMapper;
+    private MountainRepository mountainRepository;
+
+    @Autowired
+    public MountainRangeService(MountainRangeRepository mountainRangeRepository, MountainRangeMapper mountainRangeMapper,
+                                MountainRepository mountainRepository) {
+        this.mountainRangeRepository = mountainRangeRepository;
+        this.mountainRangeMapper = mountainRangeMapper;
+        this.mountainRepository = mountainRepository;
     }
 
     public List<MountainRangeDto> getAllMountainRanges() {
@@ -60,8 +70,9 @@ public class MountainRangeService {
         mountainRangeRepository.deleteById(id);
     }
 
-    public List<MountainDto> getMountainsFromRange(Long id) {
-        List<Mountain> mountainsInRange = mountainRange.getMountains();
+    public List<MountainDto>getMountainsFromRange(Long id) {
+        MountainRange mountainRange1 = mountainRepository.getReferenceById(id).getMountainRange();
+        List<Mountain>mountainsInRange=mountainRange1.getMountains();
         return mountainMapper.mapToMountainDtoList(mountainsInRange);
     }
 }

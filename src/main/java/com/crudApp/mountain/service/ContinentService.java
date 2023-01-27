@@ -2,7 +2,10 @@ package com.crudApp.mountain.service;
 
 import com.crudApp.mountain.domain.Continent;
 import com.crudApp.mountain.domain.ContinentDto;
+import com.crudApp.mountain.domain.Mountain;
+import com.crudApp.mountain.domain.MountainDto;
 import com.crudApp.mountain.mapper.ContinentMapper;
+import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.repository.ContinentRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,10 @@ public class ContinentService {
     private ContinentMapper continentMapper;
 
     private ContinentRepository continentRepository;
+
+    private Continent continent;
+
+    private MountainMapper mountainMapper;
 
     @Autowired
     public ContinentService(ContinentMapper continentMapper, ContinentRepository continentRepository) {
@@ -44,5 +51,9 @@ public class ContinentService {
 
     public void deleteContinent(Long id){
         continentRepository.deleteById(id);
+    }
+
+    public List<MountainDto>getMountainsFromContinent(String continentName){
+        return mountainMapper.mapToMountainDtoList(continent.getMountainFromContinent(continentName));
     }
 }

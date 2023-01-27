@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "USER_RATINGS")
 public class UserRating {
 
     @Id
@@ -25,9 +26,6 @@ public class UserRating {
 
     @ManyToOne
     @JoinColumn(name = "MOUNTAIN_ID")
-    private Long mountainId;
+    private Mountain mountain;
 
-    public int getRate() {
-        return rate;
-    }
 }
