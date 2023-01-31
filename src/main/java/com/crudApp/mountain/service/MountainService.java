@@ -75,4 +75,21 @@ public class MountainService {
         Mountain mountain = mountainRepository.findById(mountainId).orElseThrow(MountainNotFoundException::new);
         return mountain.userRatingAverage();
     }
+
+    public List<MountainDto> getMountainsByCountry(String countryName) {
+        List<Mountain> mountains = mountainRepository.findAll();
+        mountains.stream()
+                .filter(m -> m.getCountry().contains(countryName))
+                .collect(Collectors.toList());
+        return mountainMapper.mapToMountainDtoList(mountains);
+    }
+
+    public List<MountainDto> getMountainsByContinent(String continentName) {
+        List<MountainDto>mountainDtoList = mountainMapper.mapToMountainDtoList(mountainRepository.findAll());
+        return  mountainDtoList.stream()
+                .filter(m -> m.getContinent().contains(continentName))
+                .collect(Collectors.toList());
+
+    }
+
 }

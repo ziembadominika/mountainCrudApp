@@ -34,14 +34,6 @@ public class MountainRangeService {
     private MountainMapper mountainMapper;
     private MountainRepository mountainRepository;
 
-    @Autowired
-    public MountainRangeService(MountainRangeRepository mountainRangeRepository, MountainRangeMapper mountainRangeMapper,
-                                MountainRepository mountainRepository) {
-        this.mountainRangeRepository = mountainRangeRepository;
-        this.mountainRangeMapper = mountainRangeMapper;
-        this.mountainRepository = mountainRepository;
-    }
-
     public List<MountainRangeDto> getAllMountainRanges() {
         return mountainRangeMapper.mapToMountainRangeDtoList(mountainRangeRepository.findAll());
     }

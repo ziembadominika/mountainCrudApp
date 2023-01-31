@@ -1,5 +1,6 @@
 package com.crudApp.mountain.controller;
 
+import com.crudApp.mountain.domain.Mountain;
 import com.crudApp.mountain.domain.MountainDto;
 import com.crudApp.mountain.exception.MountainNotFoundException;
 import com.crudApp.mountain.service.MountainService;
@@ -51,7 +52,17 @@ public class MountainController {
     }
 
     @GetMapping(value = "getRatingForMountain")
-    public double getUserRatingForMountain(@RequestParam Long mountainId){
+    public double getUserRatingForMountain(@RequestParam Long mountainId) {
         return mountainService.getUserRatingForMountain(mountainId);
+    }
+
+    @GetMapping(value = "/getMountainsByCountry")
+    public List<MountainDto> getMountainsByCountry(@RequestParam String countryName) {
+        return mountainService.getMountainsByCountry(countryName);
+    }
+
+    @GetMapping(value = "/getMountainsByContinent")
+    public List<MountainDto> getMountainsByContinent(@RequestParam String continent) {
+        return mountainService.getMountainsByContinent(continent);
     }
 }

@@ -1,14 +1,14 @@
 package com.crudApp.mountain.domain;
 
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -20,30 +20,41 @@ public class Mountain {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
     private Long id;
 
     @Column(name = "MOUNTAIN_NAME")
     private String name;
+
     private int height;
-    private String country;
 
     @ManyToOne
     @JoinColumn(name = "RANGE_ID")
     private MountainRange mountainRange;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "MOUNTAIN_ID")
+    private String country;
+
+    private String continent;
+
+    @OneToMany(
+            mappedBy = "mountain",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
     private List<UserRating> userRatings;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "userMountains")
-    private List<User> users = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE})
+    @JoinTable(
+            name = "MOUNTAINS_USERS",
+            joinColumns = @JoinColumn(name = "MOUNTAIN_ID"),
+            inverseJoinColumns = @JoinColumn(name = "USER_ID"))
+    private Set<User> users = new HashSet<>();
 
     public double userRatingAverage() {
         return userRatings.stream()
                 .map(u -> u.getRate())
                 .reduce(0, (sum, current) -> sum += current) * 1.0 / userRatings.size();
     }
-
 }
 

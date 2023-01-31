@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CountryDto {
 
-    private Long id;
+    private long id;
     private String countryName;
     private List<MountainRange> mountainRanges;
     private Continent continent;

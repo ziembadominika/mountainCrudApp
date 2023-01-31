@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -33,9 +34,9 @@ public class UserServiceTest {
     private User userTwo;
     private List<User> usersList = new ArrayList<>();
     private List<UserRating> userOneRatings;
-    private List<Mountain> userOneMountains;
+    private Set<Mountain> userOneMountains;
     private List<UserRating> userTwoRatings;
-    private List<Mountain> userTwoMountains;
+    private Set<Mountain> userTwoMountains;
     private MountainRange tatraMountains;
 
     @Before

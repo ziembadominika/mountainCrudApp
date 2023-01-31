@@ -20,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 import static org.junit.Assert.assertEquals;
@@ -50,15 +51,15 @@ public class MountainServiceTest {
 
     private User userOne;
 
-    private List<User>usersList;
+    private Set<User> usersList;
     @Autowired
     private UserRatingRepository userRatingRepository;
 
     @Before
     public void setUp() {
         mountainService = new MountainService(mountainRepository, mountainMapper);
-        mountainOne = new Mountain(1L, "Śnieżka", 1603, "Poland", sudety, userRatings, usersList);
-        mountainTwo = new Mountain(2L, "Śnieżnik", 1423, "Poland", sudety, userRatings, usersList);
+        mountainOne = new Mountain(1L, "Śnieżka", 1603, sudety, "Poland", "Europe", userRatings, usersList);
+        mountainTwo = new Mountain(2L, "Śnieżnik", 1423, sudety, "Poland", "Europe", userRatings, usersList);
         mountainsList.add(mountainOne);
         mountainsList.add(mountainTwo);
         sudety = new MountainRange(1L, "Sudety", mountainsList, countries);
@@ -109,7 +110,7 @@ public class MountainServiceTest {
     @Test
     public void shouldUpdateMountain() {
         //Given
-        Mountain mountainOne = new Mountain(1L, "Śnieżka", 1610, "Poland", sudety, userRatings, usersList);
+        Mountain mountainOne = new Mountain(1L, "Śnieżka", 1603, sudety, "Poland", "Europe", userRatings, usersList);
         MountainDto mountainDto = mountainMapper.mapToMountainDto(mountainOne);
         //When
         MountainDto updatedMountain = mountainService.updateMountain(mountainDto);
@@ -141,7 +142,7 @@ public class MountainServiceTest {
     @Test
     public void shouldGetUserRatingForMountain(){
     //Given
-        mountainOne = new Mountain(1L, "Śnieżka", 1603, "Poland", sudety, userRatings, usersList);
+        mountainOne = new Mountain(1L, "Śnieżka", 1603, sudety, "Poland", "Europe", userRatings, usersList);
         UserRating userRating = new UserRating(1L, user, 5, mountainOne);
         userRatings.add(userRating);
         when(mountainRepository.findById(1L)).thenReturn(Optional.of(mountainOne));
@@ -149,5 +150,31 @@ public class MountainServiceTest {
         double averageRating = mountainService.getUserRatingForMountain(mountainOne.getId());
         //Then
         Assert.assertEquals(5, averageRating, 0.1);
+    }
+
+    @Test
+    public void shouldGetMountainsByCountry(){
+        //Given
+        List<Mountain>mountains = new ArrayList<>();
+        mountains.add(mountainOne);
+        mountains.add(mountainTwo);
+        when(mountainRepository.findAll()).thenReturn(mountains);
+        //When
+        List<MountainDto>mountainDtoList = mountainService.getMountainsByCountry("Poland");
+        //Then
+        Assert.assertEquals(2, mountainDtoList.size());
+    }
+
+    @Test
+    public void shouldGetMountainsByContinent(){
+        //Given
+        List<Mountain>mountains = new ArrayList<>();
+        mountains.add(mountainOne);
+        mountains.add(mountainTwo);
+        when(mountainRepository.findAll()).thenReturn(mountains);
+        //When
+        List<MountainDto>mountainDtoList = mountainService.getMountainsByContinent("Europe");
+        //Then
+        Assert.assertEquals(2, mountainDtoList.size());
     }
 }

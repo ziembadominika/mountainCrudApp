@@ -17,7 +17,6 @@ public class MountainRange {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
     private Long id;
 
     @Column(name = "RANGE_NAME")
@@ -29,12 +28,13 @@ public class MountainRange {
             fetch = FetchType.LAZY)
     private List<Mountain> mountains = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "JOIN_COUNTRY_RANGE",
-            joinColumns = {@JoinColumn(name = "RANGE_ID", referencedColumnName = "ID")},
-            inverseJoinColumns = {@JoinColumn(name = "COUNTRY_ID", referencedColumnName = "id")}
-    )
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(
+//            name = "JOIN_COUNTRY_RANGE",
+//            joinColumns = {@JoinColumn(name = "RANGE_ID", referencedColumnName = "ID")},
+//            inverseJoinColumns = {@JoinColumn(name = "COUNTRY_ID", referencedColumnName = "id")}
+//    )
+    @Transient
     private List<Country> countries;
 
 }

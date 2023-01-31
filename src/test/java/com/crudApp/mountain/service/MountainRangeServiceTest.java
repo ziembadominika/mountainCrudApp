@@ -14,6 +14,8 @@ import org.mockito.Mock;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -38,18 +40,18 @@ public class MountainRangeServiceTest {
     private List<Country> countries = new ArrayList<>();
     private List<Mountain> sudetes = new ArrayList<>();
     private Continent Europe;
-    private List<User> usersList;
+    private Set<User> usersList;
 
     @Before
     public void setUp() {
         mountainRangeService = new MountainRangeService(mountainRangeRepository, mountainRangeMapper);
-        Mountain rysy = new Mountain(1L, "Rysy", 2499, "Poland", tatraMountains, userRatings, usersList);
-        Mountain łomnica = new Mountain(2L, "Łomnica", 2634, "Slovakia", tatraMountains, userRatings, usersList);
+        Mountain rysy = new Mountain(1L, "Rysy", 2499, tatraMountains, "Poland", "Europe", userRatings, usersList);
+        Mountain łomnica = new Mountain(2L, "Łomnica", 2634, tatraMountains, "Slovakia", "Europe", userRatings, usersList);
         tatry.add(rysy);
         tatry.add(łomnica);
 
-        Mountain śnieżnik = new Mountain(3L, "Śnieżnik", 1423, "Poland", theSudetes, userRatings, usersList);
-        Mountain śnieżka = new Mountain(4L, "Śnieżka", 1603, "Poland", theSudetes, userRatings, usersList);
+        Mountain śnieżnik = new Mountain(3L, "Śnieżnik", 1423, theSudetes, "Poland", "Europe", userRatings, usersList);
+        Mountain śnieżka = new Mountain(4L, "Śnieżka", 1603, theSudetes, "Poland", "Europe", userRatings, usersList);
         sudetes.add(śnieżnik);
         sudetes.add(śnieżka);
 
@@ -113,7 +115,7 @@ public class MountainRangeServiceTest {
         //When
         mountainRangeService.updateMountainRange(mountainRangeDto);
         //Then
-        Assert.assertEquals(3L, mountainRangeDto.getId());
+        Assert.assertEquals(Optional.of(3L), mountainRangeDto.getId());
     }
 
     @Test

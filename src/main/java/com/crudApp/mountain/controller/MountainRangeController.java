@@ -1,7 +1,6 @@
 package com.crudApp.mountain.controller;
 
 import com.crudApp.mountain.domain.MountainDto;
-import com.crudApp.mountain.domain.MountainRange;
 import com.crudApp.mountain.domain.MountainRangeDto;
 import com.crudApp.mountain.service.MountainRangeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +40,8 @@ public class MountainRangeController {
         mountainRangeService.deleteMountainRange(id);
     }
 
-    @GetMapping(value = "/getMountainsFromRange")
-    private List<MountainDto> getMountainsFromRange(@RequestParam Long id){
-        return mountainRangeService.getMountainsFromRange(id);
-    }
+//    @GetMapping(value = "/getMountainsFromRange")
+//    private List<MountainDto> getMountainsFromRange(@RequestParam Long id){
+//        return mountainRangeService.getMountainsFromRange(id);
+//    }
 }

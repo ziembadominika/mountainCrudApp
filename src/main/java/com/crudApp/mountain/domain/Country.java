@@ -19,12 +19,13 @@ public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @NotNull
-    private Long id;
+    private long id;
 
     @Column(name = "COUNTRY_NAME", nullable = false)
     private String countryName;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "countries")
+//    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "countries")
+    @Transient
     private List<MountainRange> mountainRanges = new ArrayList<>();
 
     @ManyToOne

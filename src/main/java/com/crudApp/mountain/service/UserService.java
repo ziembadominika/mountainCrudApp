@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Data
@@ -57,7 +58,8 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public List<MountainDto> getUserMountains(Long userId){
-        return mountainMapper.mapToMountainDtoList(userRepository.getReferenceById(userId).getUserMountains());
+    public Set<MountainDto> getUserMountains(Long userId){
+        User user = userRepository.getReferenceById(userId);
+        return mountainMapper.mapToMountainDtoSet(user.getMountains());
     }
 }

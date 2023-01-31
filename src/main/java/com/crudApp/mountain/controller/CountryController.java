@@ -12,41 +12,41 @@ import java.util.List;
 @RequestMapping("/mountainApp")
 public class CountryController {
 
-    @Autowired
-    private CountryService countryService;
-
-    @GetMapping(value = "/getAllCountries")
-    public List<CountryDto> getAllCountries() {
-        return countryService.getAllCountries();
-    }
-
-    @GetMapping(value = "/getCountry")
-    public CountryDto getCountry(@RequestParam Long id) {
-        return countryService.getCountry(id);
-    }
-
-    @PostMapping(value = "/createCountry")
-    public void createCountry(@RequestBody CountryDto countryDto) {
-        countryService.saveCountry(countryDto);
-    }
-
-    @PutMapping(value = "/updateCountry")
-    public CountryDto updateCountry(@RequestBody CountryDto countryDto) {
-        return countryService.updateCountry(countryDto);
-    }
-
-    @DeleteMapping(value = "/deleteCountry")
-    public void deleteCountry(@RequestParam Long id) {
-        countryService.deleteCountry(id);
-    }
-
-    @GetMapping(value = "/getMountainsFromRange")
-    public List<MountainDto> getMountainsFromCountry(@RequestParam String countryName){
-        return countryService.getMountainsFromCountry(countryName);
-    }
-
-    @GetMapping(value = "/getCountryByNameLike")
-    public List<CountryDto>getCountryByNameLike(@RequestParam String name){
-        return countryService.findByCountryNameLike(name);
-    }
+//    @Autowired
+//    private CountryService countryService;
+//
+//    @GetMapping(value = "/getAllCountries")
+//    public List<CountryDto> getAllCountries() {
+//        return countryService.getAllCountries();
+//    }
+//
+//    @GetMapping(value = "/getCountry")
+//    public CountryDto getCountry(@RequestParam Long id) {
+//        return countryService.getCountry(id);
+//    }
+//
+//    @PostMapping(value = "/createCountry")
+//    public void createCountry(@RequestBody CountryDto countryDto) {
+//        countryService.saveCountry(countryDto);
+//    }
+//
+//    @PutMapping(value = "/updateCountry")
+//    public CountryDto updateCountry(@RequestBody CountryDto countryDto) {
+//        return countryService.updateCountry(countryDto);
+//    }
+//
+//    @DeleteMapping(value = "/deleteCountry")
+//    public void deleteCountry(@RequestParam Long id) {
+//        countryService.deleteCountry(id);
+//    }
+//
+//    @GetMapping(value = "/getMountainsFromRange")
+//    public List<MountainDto> getMountainsFromCountry(@RequestParam String countryName){
+//        return countryService.getMountainsFromCountry(countryName);
+//    }
+//
+//    @GetMapping(value = "/getCountryByNameLike")
+//    public List<CountryDto>getCountryByNameLike(@RequestParam String name){
+//        return countryService.findByCountryNameLike(name);
+//    }
 }
