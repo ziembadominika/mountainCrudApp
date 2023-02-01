@@ -69,13 +69,13 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldFindUseByNameContaining() {
+    public void shouldFindUseByUserNameContaining() {
         //Given
         userOne = new User(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 01, 11, userOneRatings, userOneMountains);
         usersList.add(userOne);
         when(userRepository.findByUserNameContaining("Su")).thenReturn(usersList);
         //When
-        userService.findUseByNameContaining("Su");
+        userService.findUserByUserNameContaining("Su");
         //Then
         Assert.assertEquals(1, usersList.size());
     }

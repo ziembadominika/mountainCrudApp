@@ -2,7 +2,6 @@ package com.crudApp.mountain.mapper;
 
 import com.crudApp.mountain.domain.Mountain;
 import com.crudApp.mountain.domain.MountainDto;
-import javafx.scene.effect.SepiaTone;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

@@ -1,6 +1,7 @@
 package com.crudApp.mountain.service;
 
 import com.crudApp.mountain.domain.*;
+import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.mapper.MountainRangeMapper;
 import com.crudApp.mountain.repository.MountainRangeRepository;
 import org.junit.Assert;
@@ -32,19 +33,20 @@ public class MountainRangeServiceTest {
     @InjectMocks
     private MountainRangeMapper mountainRangeMapper;
 
+    @InjectMocks
+    private MountainMapper mountainMapper;
+
     private List<MountainRange> polishMountains = new ArrayList<>();
     private MountainRange tatraMountains;
     private MountainRange theSudetes;
     private List<Mountain> tatry = new ArrayList<>();
     private List<UserRating> userRatings = new ArrayList<>();
-    private List<Country> countries = new ArrayList<>();
     private List<Mountain> sudetes = new ArrayList<>();
-    private Continent Europe;
     private Set<User> usersList;
 
     @Before
     public void setUp() {
-        mountainRangeService = new MountainRangeService(mountainRangeRepository, mountainRangeMapper);
+        mountainRangeService = new MountainRangeService(mountainRangeRepository, mountainRangeMapper, mountainMapper );
         Mountain rysy = new Mountain(1L, "Rysy", 2499, tatraMountains, "Poland", "Europe", userRatings, usersList);
         Mountain łomnica = new Mountain(2L, "Łomnica", 2634, tatraMountains, "Slovakia", "Europe", userRatings, usersList);
         tatry.add(rysy);
@@ -55,13 +57,12 @@ public class MountainRangeServiceTest {
         sudetes.add(śnieżnik);
         sudetes.add(śnieżka);
 
-        tatraMountains = new MountainRange(1L, "Tatra Mountains", tatry, countries);
-        theSudetes = new MountainRange(2L, "Sudetes", sudetes, countries);
+        tatraMountains = new MountainRange(1L, "Tatra Mountains", tatry);
+        theSudetes = new MountainRange(2L, "Sudetes", sudetes);
 
         polishMountains.add(tatraMountains);
         polishMountains.add(theSudetes);
 
-        Country poland = new Country(1L, "Poland", polishMountains, Europe);
     }
 
     @Test
@@ -111,7 +112,7 @@ public class MountainRangeServiceTest {
     @Test
     public void shouldUpdateMountainRange() {
         //Given
-        MountainRangeDto mountainRangeDto = new MountainRangeDto(3L, "Tatra Mountains", tatry, countries);
+        MountainRangeDto mountainRangeDto = new MountainRangeDto(3L, "Tatra Mountains", tatry);
         //When
         mountainRangeService.updateMountainRange(mountainRangeDto);
         //Then
@@ -121,7 +122,7 @@ public class MountainRangeServiceTest {
     @Test
     public void shouldDeleteMountainRange() {
         //Given
-        MountainRangeDto mountainRangeDto = new MountainRangeDto(3L, "Tatra Mountains", tatry, countries);
+        MountainRangeDto mountainRangeDto = new MountainRangeDto(3L, "Tatra Mountains", tatry);
         Long mountainRangeId = mountainRangeDto.getId();
         //When
         mountainRangeService.deleteMountainRange(mountainRangeId);
@@ -131,16 +132,13 @@ public class MountainRangeServiceTest {
 
     @Test
     public void shouldGetMountainsFromRange() {
-//        //Given
-//        MountainRangeDto mountainRangeDto = new MountainRangeDto(3L, "Tatra Mountains", tatry, countries);
-//        Mountain rysy = new Mountain(1L, "Rysy", 2499, "Poland", tatraMountains, userRatings);
-//        Mountain łomnica = new Mountain(2L, "Łomnica", 2634, "Slovakia", tatraMountains, userRatings);
-//        tatry.add(rysy);
-//        tatry.add(łomnica);
-//        Long rangeId = mountainRangeDto.getId();
-//        //When
-//        List<MountainDto> mountainsFromRange = mountainRangeService.getMountainsFromRange(rangeId);
-//        //Then
-//        Assert.assertEquals(2, mountainsFromRange.size());
+        //Given
+        tatraMountains = new MountainRange(1L, "Tatra Mountains", tatry);
+        Long rangeId = tatraMountains.getId();
+        when(mountainRangeRepository.findById(rangeId)).thenReturn(Optional.ofNullable(tatraMountains));
+        //When
+        List<MountainDto> mountainsFromRange = mountainRangeService.getMountainsFromRange(rangeId);
+        //Then
+        Assert.assertEquals(2, mountainsFromRange.size());
     }
 }

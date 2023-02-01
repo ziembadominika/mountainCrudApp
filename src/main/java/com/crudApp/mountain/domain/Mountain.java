@@ -1,9 +1,8 @@
 package com.crudApp.mountain.domain;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -13,7 +12,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "MOUNTAINS")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Mountain {
@@ -29,6 +29,7 @@ public class Mountain {
 
     @ManyToOne
     @JoinColumn(name = "RANGE_ID")
+    @JsonIgnore
     private MountainRange mountainRange;
 
     private String country;
@@ -39,6 +40,7 @@ public class Mountain {
             mappedBy = "mountain",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<UserRating> userRatings;
 
     @ManyToMany(fetch = FetchType.LAZY,
@@ -49,6 +51,7 @@ public class Mountain {
             name = "MOUNTAINS_USERS",
             joinColumns = @JoinColumn(name = "MOUNTAIN_ID"),
             inverseJoinColumns = @JoinColumn(name = "USER_ID"))
+    @JsonIgnore
     private Set<User> users = new HashSet<>();
 
     public double userRatingAverage() {

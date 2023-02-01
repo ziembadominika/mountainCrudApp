@@ -1,7 +1,6 @@
 package com.crudApp.mountain.controller;
 
 import com.crudApp.mountain.domain.MountainDto;
-import com.crudApp.mountain.domain.User;
 import com.crudApp.mountain.domain.UserDto;
 import com.crudApp.mountain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +26,9 @@ public class UserController {
         return userService.getUser(id);
     }
 
-    @GetMapping(value = "/getUsersByNameContaining")
-    public List<UserDto> getUsersByNameContaining(@RequestParam String name){
-        return userService.findUseByNameContaining(name);
+    @GetMapping(value = "/getUsersByUserNameContaining")
+    public List<UserDto> getUsersByUserNameContaining(@RequestParam String name){
+        return userService.findUserByUserNameContaining(name);
     }
 
     @PostMapping(value = "/createUser")

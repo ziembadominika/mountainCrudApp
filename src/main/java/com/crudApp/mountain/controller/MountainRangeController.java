@@ -30,7 +30,7 @@ public class MountainRangeController {
         mountainRangeService.createMountainRange(mountainRangeDto);
     }
 
-    @PutMapping(value = "updateMountainRange")
+    @PutMapping(value = "/updateMountainRange")
     private MountainRangeDto updateMountainRange(@RequestBody MountainRangeDto mountainRangeDto){
         return mountainRangeService.updateMountainRange(mountainRangeDto);
     }
@@ -40,8 +40,8 @@ public class MountainRangeController {
         mountainRangeService.deleteMountainRange(id);
     }
 
-//    @GetMapping(value = "/getMountainsFromRange")
-//    private List<MountainDto> getMountainsFromRange(@RequestParam Long id){
-//        return mountainRangeService.getMountainsFromRange(id);
-//    }
+    @GetMapping(value = "/getMountainsFromRange")
+    private List<MountainDto> getMountainsFromRange(@RequestParam Long id){
+        return mountainRangeService.getMountainsFromRange(id);
+    }
 }

@@ -5,7 +5,6 @@ import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.repository.MountainRepository;
 
 
-import com.crudApp.mountain.repository.UserRatingRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +12,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 
@@ -31,38 +29,29 @@ import static org.mockito.Mockito.*;
 public class MountainServiceTest {
 
     private MountainService mountainService;
-
     @InjectMocks
     private MountainMapper mountainMapper = new MountainMapper();
-
     @Mock
     private MountainRepository mountainRepository;
 
     private Mountain mountainOne;
     private Mountain mountainTwo;
-    private MountainRange sudety;
+    private Mountain mountainThree;
+    private MountainRange sudetes;
     private List<Mountain> mountainsList = new ArrayList<>();
-
     private List<UserRating> userRatings = new ArrayList<>();
-
-    private List<Country> countries = new ArrayList<>();
-
     private User user;
-
-    private User userOne;
-
     private Set<User> usersList;
-    @Autowired
-    private UserRatingRepository userRatingRepository;
 
     @Before
     public void setUp() {
         mountainService = new MountainService(mountainRepository, mountainMapper);
-        mountainOne = new Mountain(1L, "Śnieżka", 1603, sudety, "Poland", "Europe", userRatings, usersList);
-        mountainTwo = new Mountain(2L, "Śnieżnik", 1423, sudety, "Poland", "Europe", userRatings, usersList);
+        mountainOne = new Mountain(1L, "Śnieżka", 1603, sudetes, "Poland", "Europe", userRatings, usersList);
+        mountainTwo = new Mountain(2L, "Śnieżnik", 1423, sudetes, "Poland", "Europe", userRatings, usersList);
+        mountainThree = new Mountain(3L, "Lomnica", 2600, sudetes, "Slovakia", "Europe", userRatings, usersList);
         mountainsList.add(mountainOne);
         mountainsList.add(mountainTwo);
-        sudety = new MountainRange(1L, "Sudety", mountainsList, countries);
+        sudetes = new MountainRange(1L, "Sudetes", mountainsList);
     }
 
     @Test
@@ -110,7 +99,7 @@ public class MountainServiceTest {
     @Test
     public void shouldUpdateMountain() {
         //Given
-        Mountain mountainOne = new Mountain(1L, "Śnieżka", 1603, sudety, "Poland", "Europe", userRatings, usersList);
+        Mountain mountainOne = new Mountain(1L, "Śnieżka", 1603, sudetes, "Poland", "Europe", userRatings, usersList);
         MountainDto mountainDto = mountainMapper.mapToMountainDto(mountainOne);
         //When
         MountainDto updatedMountain = mountainService.updateMountain(mountainDto);
@@ -142,7 +131,7 @@ public class MountainServiceTest {
     @Test
     public void shouldGetUserRatingForMountain(){
     //Given
-        mountainOne = new Mountain(1L, "Śnieżka", 1603, sudety, "Poland", "Europe", userRatings, usersList);
+        mountainOne = new Mountain(1L, "Śnieżka", 1603, sudetes, "Poland", "Europe", userRatings, usersList);
         UserRating userRating = new UserRating(1L, user, 5, mountainOne);
         userRatings.add(userRating);
         when(mountainRepository.findById(1L)).thenReturn(Optional.of(mountainOne));
@@ -158,6 +147,7 @@ public class MountainServiceTest {
         List<Mountain>mountains = new ArrayList<>();
         mountains.add(mountainOne);
         mountains.add(mountainTwo);
+//        mountains.add(mountainThree);
         when(mountainRepository.findAll()).thenReturn(mountains);
         //When
         List<MountainDto>mountainDtoList = mountainService.getMountainsByCountry("Poland");

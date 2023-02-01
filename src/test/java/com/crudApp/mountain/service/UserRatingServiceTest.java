@@ -15,6 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -37,7 +38,7 @@ public class UserRatingServiceTest {
     private List<UserRating> userRatings;
     private User userOne;
     private List<UserRating> userOneRatings;
-    private List<Mountain> userOneMountains;
+    private Set<Mountain> userOneMountains;
     private Mountain mountain;
 
 

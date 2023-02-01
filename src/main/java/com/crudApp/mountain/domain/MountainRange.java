@@ -1,6 +1,6 @@
 package com.crudApp.mountain.domain;
 
-import com.sun.istack.NotNull;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "MOUNTAIN_RANGE")
 @NoArgsConstructor
@@ -26,16 +27,8 @@ public class MountainRange {
             mappedBy = "mountainRange",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Mountain> mountains = new ArrayList<>();
-
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(
-//            name = "JOIN_COUNTRY_RANGE",
-//            joinColumns = {@JoinColumn(name = "RANGE_ID", referencedColumnName = "ID")},
-//            inverseJoinColumns = {@JoinColumn(name = "COUNTRY_ID", referencedColumnName = "id")}
-//    )
-    @Transient
-    private List<Country> countries;
 
 }
 

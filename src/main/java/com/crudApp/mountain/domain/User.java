@@ -2,6 +2,7 @@ package com.crudApp.mountain.domain;
 
 import com.crudApp.mountain.deserializer.DateHandler;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -45,12 +47,14 @@ public class User {
 
     @OneToMany
     @JoinColumn(name = "USER_ID")
+    @JsonIgnore
     private List<UserRating> userRatings;
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE}, mappedBy = "users")
+    @JsonIgnore
     private Set<Mountain> mountains = new HashSet<>();
 
     public User(long id, String userName, String firstName, String lastName, int yearOfBirth, int monthOfBirth,

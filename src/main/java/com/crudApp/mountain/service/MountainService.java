@@ -2,7 +2,6 @@ package com.crudApp.mountain.service;
 
 import com.crudApp.mountain.domain.Mountain;
 import com.crudApp.mountain.domain.MountainDto;
-import com.crudApp.mountain.domain.UserRating;
 import com.crudApp.mountain.exception.MountainNotFoundException;
 import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.repository.MountainRepository;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 
@@ -79,7 +79,7 @@ public class MountainService {
     public List<MountainDto> getMountainsByCountry(String countryName) {
         List<Mountain> mountains = mountainRepository.findAll();
         mountains.stream()
-                .filter(m -> m.getCountry().contains(countryName))
+                .filter(m -> m.getCountry().equals(countryName))
                 .collect(Collectors.toList());
         return mountainMapper.mapToMountainDtoList(mountains);
     }
@@ -87,7 +87,7 @@ public class MountainService {
     public List<MountainDto> getMountainsByContinent(String continentName) {
         List<MountainDto>mountainDtoList = mountainMapper.mapToMountainDtoList(mountainRepository.findAll());
         return  mountainDtoList.stream()
-                .filter(m -> m.getContinent().contains(continentName))
+                .filter(m -> m.getContinent().equals(continentName))
                 .collect(Collectors.toList());
 
     }

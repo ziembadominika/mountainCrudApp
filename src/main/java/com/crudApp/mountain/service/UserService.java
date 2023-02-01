@@ -18,11 +18,9 @@ import java.util.Set;
 public class UserService {
 
     private UserRepository userRepository;
-
     private UserMapper userMapper;
 
     private User user;
-
     private MountainMapper mountainMapper;
 
     @Autowired
@@ -39,7 +37,7 @@ public class UserService {
         return userMapper.mapToUserDto(userRepository.getReferenceById(id));
     }
 
-    public List<UserDto> findUseByNameContaining(String name){
+    public List<UserDto> findUserByUserNameContaining(String name){
         return userMapper.mapToUserDtoList(userRepository.findByUserNameContaining(name));
     }
 

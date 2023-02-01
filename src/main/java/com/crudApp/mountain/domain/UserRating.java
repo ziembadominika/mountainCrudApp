@@ -1,5 +1,6 @@
 package com.crudApp.mountain.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class UserRating {
 
     @ManyToOne
     @JoinColumn(name = "USER_ID")
+    @JsonIgnore
     private User user;
 
     @Column
@@ -26,6 +28,7 @@ public class UserRating {
 
     @ManyToOne
     @JoinColumn(name = "MOUNTAIN_ID")
+    @JsonIgnore
     private Mountain mountain;
 
 }

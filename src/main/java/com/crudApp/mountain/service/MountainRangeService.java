@@ -1,9 +1,10 @@
 package com.crudApp.mountain.service;
 
-import com.crudApp.mountain.domain.Mountain;
 import com.crudApp.mountain.domain.MountainDto;
 import com.crudApp.mountain.domain.MountainRange;
 import com.crudApp.mountain.domain.MountainRangeDto;
+import com.crudApp.mountain.exception.MountainNotFoundException;
+import com.crudApp.mountain.exception.MountainRangeNotFoundException;
 import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.mapper.MountainRangeMapper;
 import com.crudApp.mountain.repository.MountainRangeRepository;
@@ -19,20 +20,17 @@ import java.util.List;
 public class MountainRangeService {
 
 
+    private MountainMapper mountainMapper;
     private MountainRangeRepository mountainRangeRepository;
-
     private MountainRangeMapper mountainRangeMapper;
-
     @Autowired
-    public MountainRangeService(MountainRangeRepository mountainRangeRepository, MountainRangeMapper mountainRangeMapper) {
+    public MountainRangeService(MountainRangeRepository mountainRangeRepository, MountainRangeMapper mountainRangeMapper, MountainMapper mountainMapper) {
         this.mountainRangeRepository = mountainRangeRepository;
         this.mountainRangeMapper = mountainRangeMapper;
+        this.mountainMapper = mountainMapper;
     }
 
     private MountainRange mountainRange;
-
-    private MountainMapper mountainMapper;
-    private MountainRepository mountainRepository;
 
     public List<MountainRangeDto> getAllMountainRanges() {
         return mountainRangeMapper.mapToMountainRangeDtoList(mountainRangeRepository.findAll());
@@ -63,8 +61,7 @@ public class MountainRangeService {
     }
 
     public List<MountainDto>getMountainsFromRange(Long id) {
-        MountainRange mountainRange1 = mountainRepository.getReferenceById(id).getMountainRange();
-        List<Mountain>mountainsInRange=mountainRange1.getMountains();
-        return mountainMapper.mapToMountainDtoList(mountainsInRange);
+     MountainRange mountainRange = mountainRangeRepository.findById(id).orElseThrow(MountainRangeNotFoundException::new);
+     return mountainMapper.mapToMountainDtoList(mountainRange.getMountains());
     }
 }
