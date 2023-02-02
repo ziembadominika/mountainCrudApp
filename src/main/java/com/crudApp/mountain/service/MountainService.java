@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 public class MountainService {
 
     private MountainRepository mountainRepository;
-
     private MountainMapper mountainMapper;
 
     private Mountain mountain;

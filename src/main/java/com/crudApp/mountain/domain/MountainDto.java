@@ -1,10 +1,12 @@
 package com.crudApp.mountain.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @AllArgsConstructor
@@ -16,6 +18,7 @@ public class MountainDto {
     private String country;
     private String continent;
     private List<UserRating> userRatings;
-    private Set<User> users;
+    @JsonIgnore
+    private List<User> users= new ArrayList<>();
 }
 

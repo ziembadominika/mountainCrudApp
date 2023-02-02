@@ -1,6 +1,7 @@
 package com.crudApp.mountain.service;
 
 import com.crudApp.mountain.domain.*;
+import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.mapper.UserMapper;
 import com.crudApp.mountain.repository.UserRepository;
 import org.junit.Assert;
@@ -14,7 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -25,25 +25,26 @@ public class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
-
     @InjectMocks
     private UserMapper userMapper = new UserMapper();
-
+    @InjectMocks
+    private MountainMapper mountainMapper;
     private UserService userService;
     private User userOne;
     private User userTwo;
     private List<User> usersList = new ArrayList<>();
     private List<UserRating> userOneRatings;
-    private Set<Mountain> userOneMountains;
+    private List<Mountain> userOneMountains = new ArrayList<>();
     private List<UserRating> userTwoRatings;
-    private Set<Mountain> userTwoMountains;
+    private List<Mountain> userTwoMountains;
     private MountainRange tatraMountains;
+    private List<UserRating> userRatings;
 
     @Before
-    public void setUp(){
-        userService = new UserService(userRepository, userMapper);
-        userOne = new User(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 01, 11, userOneRatings, userOneMountains);
-        userTwo = new User(2L, "mountain_addict", "Thomas", "Evans", 1980, 05, 27, "evanst@gmail.com", 2023, 01, 11, userTwoRatings, userTwoMountains);
+    public void setUp() {
+        userService = new UserService(userRepository, userMapper, mountainMapper);
+        userOne = new User(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains);
+        userTwo = new User(2L, "mountain_addict", "Thomas", "Evans", 1980, 5, 27, "evanst@gmail.com", 2023, 1, 11, userTwoRatings, userTwoMountains);
         usersList.add(userOne);
         usersList.add(userTwo);
     }
@@ -71,7 +72,8 @@ public class UserServiceTest {
     @Test
     public void shouldFindUseByUserNameContaining() {
         //Given
-        userOne = new User(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 01, 11, userOneRatings, userOneMountains);
+        List<User> usersList = new ArrayList<>();
+        userOne = new User(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains);
         usersList.add(userOne);
         when(userRepository.findByUserNameContaining("Su")).thenReturn(usersList);
         //When
@@ -93,7 +95,7 @@ public class UserServiceTest {
     @Test
     public void shouldUpdateUser() {
         //Given
-        User userOne = new User(1L, "Susan97", "Susan", "Jones", 1998, 10, 12, "susan97@gmail.com", 2023, 01, 11, userOneRatings, userOneMountains);
+        User userOne = new User(1L, "Susan97", "Susan", "Jones", 1998, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains);
         UserDto userDto = userMapper.mapToUserDto(userOne);
 
         //When
@@ -114,18 +116,18 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldGetUserMountains(){
-//        //Given
-//        List<Mountain> userOneMountains = new ArrayList<>();
-//        userOne = new User(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 01, 11, userOneRatings, userOneMountains);
-//        Mountain rysy = new Mountain(1L, "Rysy", 2499, "Poland", tatraMountains, userOneRatings, usersList);
-//        Mountain łomnica = new Mountain(2L, "Łomnica", 2634, "Slovakia", tatraMountains, userOneRatings, usersList);
-//        userOneMountains.add(rysy);
-//        userOneMountains.add(łomnica);
-//        when(userRepository.getReferenceById(userOne.getId())).thenReturn(userOne);
-//        //When
-//        List<MountainDto> mountainList = userService.getUserMountains(userOne.getId());
-//        //Then
-//        Assert.assertEquals(2, mountainList.size());
+    public void shouldGetUsersMountains() {
+        //Given
+        List<Mountain> userOneMountains = new ArrayList<>();
+        userOne = new User(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains);
+        Mountain rysy = new Mountain(1L, "Rysy", 2499, tatraMountains, "Poland", "Europe", userRatings, usersList);
+        Mountain łomnica = new Mountain(2L, "Łomnica", 2634, tatraMountains, "Slovakia", "Europe", userRatings, usersList);
+        userOneMountains.add(rysy);
+        userOneMountains.add(łomnica);
+        when(userRepository.getReferenceById(userOne.getId())).thenReturn(userOne);
+        //When
+        List<MountainDto> mountainList = userService.getUserMountains(userOne.getId());
+        //Then
+        Assert.assertEquals(2, mountainList.size());
     }
 }

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/mountainApp")
@@ -47,7 +46,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/getUserMountains")
-    public Set<MountainDto> getUserMountains(@RequestParam Long userId){
+    public List<MountainDto> getUserMountains(@RequestParam Long userId){
         return userService.getUserMountains(userId);
     }
 }

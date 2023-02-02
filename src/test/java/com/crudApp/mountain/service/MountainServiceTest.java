@@ -41,7 +41,7 @@ public class MountainServiceTest {
     private List<Mountain> mountainsList = new ArrayList<>();
     private List<UserRating> userRatings = new ArrayList<>();
     private User user;
-    private Set<User> usersList;
+    private List<User> usersList;
 
     @Before
     public void setUp() {
@@ -51,18 +51,18 @@ public class MountainServiceTest {
         mountainThree = new Mountain(3L, "Lomnica", 2600, sudetes, "Slovakia", "Europe", userRatings, usersList);
         mountainsList.add(mountainOne);
         mountainsList.add(mountainTwo);
+        mountainsList.add(mountainThree);
         sudetes = new MountainRange(1L, "Sudetes", mountainsList);
     }
 
     @Test
     public void shouldGetAllMountains() {
         //Given
-        mountainService = new MountainService(mountainRepository, mountainMapper);
         when(mountainRepository.findAll()).thenReturn(mountainsList);
         //When
         List<MountainDto> mountainDtoList = mountainService.getAllMountains();
         //Then
-        assertEquals(2, mountainDtoList.size());
+        assertEquals(3, mountainDtoList.size());
     }
 
     @Test
@@ -99,7 +99,7 @@ public class MountainServiceTest {
     @Test
     public void shouldUpdateMountain() {
         //Given
-        Mountain mountainOne = new Mountain(1L, "Śnieżka", 1603, sudetes, "Poland", "Europe", userRatings, usersList);
+        Mountain mountainOne = new Mountain(1L, "Śnieżka", 1610, sudetes, "Poland", "Europe", userRatings, usersList);
         MountainDto mountainDto = mountainMapper.mapToMountainDto(mountainOne);
         //When
         MountainDto updatedMountain = mountainService.updateMountain(mountainDto);

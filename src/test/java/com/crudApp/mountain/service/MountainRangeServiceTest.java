@@ -16,7 +16,6 @@ import org.mockito.Mock;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -42,11 +41,11 @@ public class MountainRangeServiceTest {
     private List<Mountain> tatry = new ArrayList<>();
     private List<UserRating> userRatings = new ArrayList<>();
     private List<Mountain> sudetes = new ArrayList<>();
-    private Set<User> usersList;
+    private List<User> usersList;
 
     @Before
     public void setUp() {
-        mountainRangeService = new MountainRangeService(mountainRangeRepository, mountainRangeMapper, mountainMapper );
+        mountainRangeService = new MountainRangeService(mountainRangeRepository, mountainRangeMapper, mountainMapper);
         Mountain rysy = new Mountain(1L, "Rysy", 2499, tatraMountains, "Poland", "Europe", userRatings, usersList);
         Mountain łomnica = new Mountain(2L, "Łomnica", 2634, tatraMountains, "Slovakia", "Europe", userRatings, usersList);
         tatry.add(rysy);

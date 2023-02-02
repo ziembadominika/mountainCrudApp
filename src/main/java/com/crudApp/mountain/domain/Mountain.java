@@ -5,10 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
 
 @Entity
 @Table(name = "MOUNTAINS")
@@ -52,7 +50,7 @@ public class Mountain {
             joinColumns = @JoinColumn(name = "MOUNTAIN_ID"),
             inverseJoinColumns = @JoinColumn(name = "USER_ID"))
     @JsonIgnore
-    private Set<User> users = new HashSet<>();
+    private List<User> users = new ArrayList<>();
 
     public double userRatingAverage() {
         return userRatings.stream()

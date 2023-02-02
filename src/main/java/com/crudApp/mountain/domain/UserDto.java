@@ -16,11 +16,11 @@ public class UserDto {
     private String email;
     private LocalDate dateOfRegistration;
     private List<UserRating> userRatings;
-    private Set<Mountain> mountains;
+    private List<Mountain> mountains;
 
     public UserDto(Long id, String userName, String firstName, String lastName, int yearOfBirth, int monthOfBirth,
                    int dayOfBirth, String email, int yearOfRegistration, int monthOfRegistration, int dayOfRegistration,
-                   List<UserRating> userRatings, Set<Mountain> mountains) {
+                   List<UserRating> userRatings, List<Mountain> mountains) {
         this.id = id;
         this.userName = userName;
         this.firstName = firstName;

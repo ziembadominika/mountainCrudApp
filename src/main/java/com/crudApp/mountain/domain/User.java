@@ -8,10 +8,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 
 @Entity
@@ -55,11 +52,11 @@ public class User {
                     CascadeType.PERSIST,
                     CascadeType.MERGE}, mappedBy = "users")
     @JsonIgnore
-    private Set<Mountain> mountains = new HashSet<>();
+    private List<Mountain> mountains = new ArrayList<>();
 
     public User(long id, String userName, String firstName, String lastName, int yearOfBirth, int monthOfBirth,
                 int dayOfBirth, String email, int yearOfRegistration, int monthOfRegistration, int dayOfRegistration,
-                List<UserRating> userRatings, Set<Mountain> userMountains) {
+                List<UserRating> userRatings, List<Mountain> userMountains) {
         this.id = id;
         this.userName = userName;
         this.firstName = firstName;

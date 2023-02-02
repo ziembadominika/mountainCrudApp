@@ -24,9 +24,10 @@ public class UserService {
     private MountainMapper mountainMapper;
 
     @Autowired
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
+    public UserService(UserRepository userRepository, UserMapper userMapper, MountainMapper mountainMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.mountainMapper = mountainMapper;
     }
 
     public List<UserDto> getAllUsers(){
@@ -56,8 +57,8 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public Set<MountainDto> getUserMountains(Long userId){
+    public List<MountainDto> getUserMountains(Long userId){
         User user = userRepository.getReferenceById(userId);
-        return mountainMapper.mapToMountainDtoSet(user.getMountains());
+        return mountainMapper.mapToMountainDtoList(user.getMountains());
     }
 }
