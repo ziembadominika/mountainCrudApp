@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -124,7 +125,7 @@ public class UserServiceTest {
         Mountain łomnica = new Mountain(2L, "Łomnica", 2634, tatraMountains, "Slovakia", "Europe", userRatings, usersList);
         userOneMountains.add(rysy);
         userOneMountains.add(łomnica);
-        when(userRepository.getReferenceById(userOne.getId())).thenReturn(userOne);
+        when(userRepository.findById(1L)).thenReturn(Optional.of(userOne));
         //When
         List<MountainDto> mountainList = userService.getUserMountains(userOne.getId());
         //Then

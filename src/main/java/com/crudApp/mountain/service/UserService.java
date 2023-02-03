@@ -3,6 +3,7 @@ package com.crudApp.mountain.service;
 import com.crudApp.mountain.domain.MountainDto;
 import com.crudApp.mountain.domain.User;
 import com.crudApp.mountain.domain.UserDto;
+import com.crudApp.mountain.exception.UserNotFoundException;
 import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.mapper.UserMapper;
 import com.crudApp.mountain.repository.UserRepository;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 @Data
@@ -19,8 +19,6 @@ public class UserService {
 
     private UserRepository userRepository;
     private UserMapper userMapper;
-
-    private User user;
     private MountainMapper mountainMapper;
 
     @Autowired
@@ -58,7 +56,7 @@ public class UserService {
     }
 
     public List<MountainDto> getUserMountains(Long userId){
-        User user = userRepository.getReferenceById(userId);
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         return mountainMapper.mapToMountainDtoList(user.getMountains());
     }
 }

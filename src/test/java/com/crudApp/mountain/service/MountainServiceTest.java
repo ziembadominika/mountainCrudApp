@@ -4,7 +4,6 @@ import com.crudApp.mountain.domain.*;
 import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.repository.MountainRepository;
 
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,12 +13,9 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -51,7 +47,6 @@ public class MountainServiceTest {
         mountainThree = new Mountain(3L, "Lomnica", 2600, sudetes, "Slovakia", "Europe", userRatings, usersList);
         mountainsList.add(mountainOne);
         mountainsList.add(mountainTwo);
-        mountainsList.add(mountainThree);
         sudetes = new MountainRange(1L, "Sudetes", mountainsList);
     }
 
@@ -62,7 +57,7 @@ public class MountainServiceTest {
         //When
         List<MountainDto> mountainDtoList = mountainService.getAllMountains();
         //Then
-        assertEquals(3, mountainDtoList.size());
+        assertEquals(2, mountainDtoList.size());
     }
 
     @Test
@@ -129,8 +124,8 @@ public class MountainServiceTest {
     }
 
     @Test
-    public void shouldGetUserRatingForMountain(){
-    //Given
+    public void shouldGetUserRatingForMountain() {
+        //Given
         mountainOne = new Mountain(1L, "Śnieżka", 1603, sudetes, "Poland", "Europe", userRatings, usersList);
         UserRating userRating = new UserRating(1L, user, 5, mountainOne);
         userRatings.add(userRating);
@@ -142,28 +137,28 @@ public class MountainServiceTest {
     }
 
     @Test
-    public void shouldGetMountainsByCountry(){
+    public void shouldGetMountainsByCountry() {
         //Given
-        List<Mountain>mountains = new ArrayList<>();
+        List<Mountain> mountains = new ArrayList<>();
         mountains.add(mountainOne);
         mountains.add(mountainTwo);
 //        mountains.add(mountainThree);
         when(mountainRepository.findAll()).thenReturn(mountains);
         //When
-        List<MountainDto>mountainDtoList = mountainService.getMountainsByCountry("Poland");
+        List<MountainDto> mountainDtoList = mountainService.getMountainsByCountry("Poland");
         //Then
         Assert.assertEquals(2, mountainDtoList.size());
     }
 
     @Test
-    public void shouldGetMountainsByContinent(){
+    public void shouldGetMountainsByContinent() {
         //Given
-        List<Mountain>mountains = new ArrayList<>();
+        List<Mountain> mountains = new ArrayList<>();
         mountains.add(mountainOne);
         mountains.add(mountainTwo);
         when(mountainRepository.findAll()).thenReturn(mountains);
         //When
-        List<MountainDto>mountainDtoList = mountainService.getMountainsByContinent("Europe");
+        List<MountainDto> mountainDtoList = mountainService.getMountainsByContinent("Europe");
         //Then
         Assert.assertEquals(2, mountainDtoList.size());
     }

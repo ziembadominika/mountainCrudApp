@@ -14,28 +14,28 @@ public class UserRatingController {
     @Autowired
     private UserRatingService userRatingService;
 
-//    @GetMapping(name = "/getUserRatingList")
-//    public List<UserRatingDto> getUserRatingList(){
-//        return userRatingService.getAllUserRatings();
-//    }
-//
-//    @GetMapping(name = "/getUserRating")
-//    public UserRatingDto getUserRating(@RequestParam Long ratingId){
-//        return userRatingService.getUserRating(ratingId);
-//    }
-//
-//    @PostMapping(name = "/addUserRating")
-//    public void addUserRating(@RequestBody UserRatingDto userRatingDto){
-//        userRatingService.addUserRating(userRatingDto);
-//    }
-//
-//    @PutMapping(name = "/updateUserRating")
-//    public UserRatingDto updateUserRating(@RequestBody UserRatingDto userRatingDto){
-//        return userRatingService.updateUserRating(userRatingDto);
-//    }
-//
-//    @DeleteMapping(name = "/deleteUserRating")
-//    public void deleteUserRating(@RequestParam Long ratingId){
-//        userRatingService.deleteUserRating(ratingId);
-//    }
+    @GetMapping(value = "/getUserRatingsList")
+    public List<UserRatingDto> getUserRatingList(){
+        return userRatingService.getAllUserRatings();
+    }
+
+    @GetMapping(value = "/getUserRatings")
+    public UserRatingDto getUserRatings(@RequestParam Long ratingId){
+        return userRatingService.getUserRating(ratingId);
+    }
+
+    @PostMapping(value = "/addUserRating")
+    public void addUserRating(@RequestBody UserRatingDto userRatingDto){
+        userRatingService.addUserRating(userRatingDto);
+    }
+
+    @PutMapping(value = "/updateUserRating")
+    public UserRatingDto updateUserRating(@RequestBody UserRatingDto userRatingDto){
+        return userRatingService.updateUserRating(userRatingDto);
+    }
+
+    @DeleteMapping(value= "/deleteUserRating")
+    public void deleteUserRating(@RequestParam Long ratingId){
+        userRatingService.deleteUserRating(ratingId);
+    }
 }

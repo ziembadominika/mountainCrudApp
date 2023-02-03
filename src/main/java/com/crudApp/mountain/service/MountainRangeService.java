@@ -19,7 +19,6 @@ import java.util.List;
 @Data
 public class MountainRangeService {
 
-
     private MountainMapper mountainMapper;
     private MountainRangeRepository mountainRangeRepository;
     private MountainRangeMapper mountainRangeMapper;
@@ -29,8 +28,6 @@ public class MountainRangeService {
         this.mountainRangeMapper = mountainRangeMapper;
         this.mountainMapper = mountainMapper;
     }
-
-    private MountainRange mountainRange;
 
     public List<MountainRangeDto> getAllMountainRanges() {
         return mountainRangeMapper.mapToMountainRangeDtoList(mountainRangeRepository.findAll());

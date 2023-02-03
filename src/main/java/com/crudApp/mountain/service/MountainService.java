@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 
@@ -20,8 +19,6 @@ public class MountainService {
 
     private MountainRepository mountainRepository;
     private MountainMapper mountainMapper;
-
-    private Mountain mountain;
 
     @Autowired
     public MountainService(MountainRepository mountainRepository, MountainMapper mountainMapper) {
@@ -34,13 +31,6 @@ public class MountainService {
     }
 
     public MountainDto getMountain(Long id) {
-//        try {
-//            Mountain mountain = mountainRepository.getReferenceById(id);
-//        } catch (NumberFormatException e) {
-//            System.out.println("This is not a number");
-//        }
-//        return mountainMapper.mapToMountainDto(mountain);
-
         return mountainMapper.mapToMountainDto(mountainRepository.getReferenceById(id));
     }
 

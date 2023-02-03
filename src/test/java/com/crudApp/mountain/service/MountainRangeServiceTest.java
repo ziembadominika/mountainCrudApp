@@ -25,13 +25,10 @@ import static org.mockito.Mockito.*;
 public class MountainRangeServiceTest {
 
     private MountainRangeService mountainRangeService;
-
     @Mock
     private MountainRangeRepository mountainRangeRepository;
-
     @InjectMocks
     private MountainRangeMapper mountainRangeMapper;
-
     @InjectMocks
     private MountainMapper mountainMapper;
 
@@ -61,7 +58,6 @@ public class MountainRangeServiceTest {
 
         polishMountains.add(tatraMountains);
         polishMountains.add(theSudetes);
-
     }
 
     @Test
@@ -90,7 +86,6 @@ public class MountainRangeServiceTest {
         //Given
         List<MountainRange> mountainRangeDtoList = new ArrayList<>();
         mountainRangeDtoList.add(tatraMountains);
-        when(mountainRangeRepository.findByRangeNameLike("tat")).thenReturn(mountainRangeDtoList);
         //When
         mountainRangeService.findMountainRangeByNameLike("tat");
         //Then
@@ -111,17 +106,17 @@ public class MountainRangeServiceTest {
     @Test
     public void shouldUpdateMountainRange() {
         //Given
-        MountainRangeDto mountainRangeDto = new MountainRangeDto(3L, "Tatra Mountains", tatry);
+        MountainRangeDto mountainRangeDto = new MountainRangeDto(1L, "the Tatras", tatry);
         //When
         mountainRangeService.updateMountainRange(mountainRangeDto);
         //Then
-        Assert.assertEquals(Optional.of(3L), mountainRangeDto.getId());
+        Assert.assertEquals("the Tatras", mountainRangeDto.getRangeName());
     }
 
     @Test
     public void shouldDeleteMountainRange() {
         //Given
-        MountainRangeDto mountainRangeDto = new MountainRangeDto(3L, "Tatra Mountains", tatry);
+        MountainRangeDto mountainRangeDto = new MountainRangeDto(1L, "Tatra Mountains", tatry);
         Long mountainRangeId = mountainRangeDto.getId();
         //When
         mountainRangeService.deleteMountainRange(mountainRangeId);
