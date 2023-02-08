@@ -51,7 +51,7 @@ public class MountainService {
     }
 
     public void deleteMountain(Long id) {
-        mountainRepository.deleteById(id);
+            mountainRepository.deleteById(id);
     }
 
     public List<MountainDto> getMountainByHeight(int height) {
@@ -66,11 +66,10 @@ public class MountainService {
     }
 
     public List<MountainDto> getMountainsByCountry(String countryName) {
-        List<Mountain> mountains = mountainRepository.findAll();
-        mountains.stream()
+        List<MountainDto> mountains = mountainMapper.mapToMountainDtoList(mountainRepository.findAll());
+        return mountains.stream()
                 .filter(m -> m.getCountry().equals(countryName))
                 .collect(Collectors.toList());
-        return mountainMapper.mapToMountainDtoList(mountains);
     }
 
     public List<MountainDto> getMountainsByContinent(String continentName) {

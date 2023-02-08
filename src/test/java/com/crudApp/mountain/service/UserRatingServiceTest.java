@@ -49,7 +49,7 @@ public class UserRatingServiceTest {
     }
 
     @Test
-    public void getAllUserRatings() {
+    public void shouldGetAllUserRatings() {
         //Given
         when(userRatingRepository.findAll()).thenReturn(userRatings);
         //When
@@ -59,7 +59,7 @@ public class UserRatingServiceTest {
     }
 
     @Test
-    public void getUserRating() {
+    public void shouldGetUserRating() {
         //Given
         when(userRatingRepository.getReferenceById(1L)).thenReturn(userRatingOne);
         //When
@@ -69,7 +69,7 @@ public class UserRatingServiceTest {
     }
 
     @Test
-    public void addUserRating() {
+    public void shouldAddUserRating() {
         //Given
         UserRatingDto userRatingDto = new UserRatingDto(1L, userOne, 5, mountain);
         //When
@@ -79,7 +79,7 @@ public class UserRatingServiceTest {
     }
 
     @Test
-    public void updateUserRating() {
+    public void shouldUpdateUserRating() {
         //Given
         UserRatingDto userRatingDto = new UserRatingDto(1L, userOne, 4, mountain);
         //When
@@ -89,7 +89,7 @@ public class UserRatingServiceTest {
     }
 
     @Test
-    public void deleteUserRating() {
+    public void shouldDeleteUserRating() {
         //Given
         UserRatingDto userRatingDto = new UserRatingDto(1L, userOne, 4, mountain);
         //When

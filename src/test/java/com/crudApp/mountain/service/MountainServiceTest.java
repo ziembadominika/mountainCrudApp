@@ -142,7 +142,7 @@ public class MountainServiceTest {
         List<Mountain> mountains = new ArrayList<>();
         mountains.add(mountainOne);
         mountains.add(mountainTwo);
-//        mountains.add(mountainThree);
+        mountains.add(mountainThree);
         when(mountainRepository.findAll()).thenReturn(mountains);
         //When
         List<MountainDto> mountainDtoList = mountainService.getMountainsByCountry("Poland");
