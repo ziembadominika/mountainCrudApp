@@ -1,9 +1,6 @@
 package com.crudApp.mountain.service;
 
-import com.crudApp.mountain.domain.Mountain;
-import com.crudApp.mountain.domain.User;
-import com.crudApp.mountain.domain.UserRating;
-import com.crudApp.mountain.domain.UserRatingDto;
+import com.crudApp.mountain.domain.*;
 import com.crudApp.mountain.mapper.UserRatingMapper;
 import com.crudApp.mountain.repository.UserRatingRepository;
 import org.junit.Assert;
@@ -14,8 +11,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -37,10 +36,11 @@ public class UserRatingServiceTest {
     private List<UserRating> userOneRatings;
     private List<Mountain> userOneMountains;
     private Mountain mountain;
+    private Collection<GrantedAuthority> userOneRoles;
 
     @Before
     public void setUp() {
-        userOne = new User(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 01, 11, userOneRatings, userOneMountains);
+        userOne = new User(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 01, 11, userOneRatings, userOneMountains, "password", userOneRoles);
         userRatingService = new UserRatingService(userRatingMapper, userRatingRepository);
         userRatingOne = new UserRating(1L, userOne, 5, mountain);
         userRatingTwo = new UserRating(2L, userOne, 4, mountain);

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -54,9 +55,17 @@ public class User {
     @JsonIgnore
     private List<Mountain> mountains = new ArrayList<>();
 
+    private String password;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "users_roles",
+               joinColumns=@JoinColumn(name = "user_id", referencedColumnName = "id"),
+                inverseJoinColumns = @JoinColumn(name="role_id", referencedColumnName = "id"))
+    private List<Role>roles = new ArrayList<>();
+
     public User(long id, String userName, String firstName, String lastName, int yearOfBirth, int monthOfBirth,
                 int dayOfBirth, String email, int yearOfRegistration, int monthOfRegistration, int dayOfRegistration,
-                List<UserRating> userRatings, List<Mountain> userMountains) {
+                List<UserRating> userRatings, List<Mountain> userMountains, String password, Collection<GrantedAuthority> roles) {
         this.id = id;
         this.userName = userName;
         this.firstName = firstName;
@@ -66,6 +75,8 @@ public class User {
         this.dateOfRegistration = LocalDate.of(yearOfRegistration, monthOfRegistration, dayOfRegistration);
         this.userRatings = userRatings;
         this.mountains = userMountains;
+        this.password = password;
+        this.roles = roles;
     }
 }
 

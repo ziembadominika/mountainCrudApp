@@ -12,8 +12,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,12 +42,14 @@ public class UserServiceTest {
     private List<Mountain> userTwoMountains;
     private MountainRange tatraMountains;
     private List<UserRating> userRatings;
+    private Collection<GrantedAuthority> userOneRoles;
+    private Collection<GrantedAuthority> userTwoRoles;
 
     @Before
     public void setUp() {
         userService = new UserService(userRepository, userMapper, mountainMapper);
-        userOne = new User(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains);
-        userTwo = new User(2L, "mountain_addict", "Thomas", "Evans", 1980, 5, 27, "evanst@gmail.com", 2023, 1, 11, userTwoRatings, userTwoMountains);
+        userOne = new User(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains, "password", userOneRoles);
+        userTwo = new User(2L, "mountain_addict", "Thomas", "Evans", 1980, 5, 27, "evanst@gmail.com", 2023, 1, 11, userTwoRatings, userTwoMountains, "password1", userTwoRoles);
         usersList.add(userOne);
         usersList.add(userTwo);
     }
@@ -74,9 +78,9 @@ public class UserServiceTest {
     public void shouldFindUseByUserNameContaining() {
         //Given
         List<User> usersList = new ArrayList<>();
-        userOne = new User(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains);
+        userOne = new User(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains, "password", userOneRoles);
         usersList.add(userOne);
-        when(userRepository.findByUserNameContaining("Su")).thenReturn(usersList);
+        when(userRepository.findByUserName("Su")).thenReturn(usersList);
         //When
         userService.findUserByUserNameContaining("Su");
         //Then
@@ -96,7 +100,7 @@ public class UserServiceTest {
     @Test
     public void shouldUpdateUser() {
         //Given
-        User userOne = new User(1L, "Susan97", "Susan", "Jones", 1998, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains);
+        User userOne = new User(1L, "Susan97", "Susan", "Jones", 1998, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains, "password", userOneRoles);
         UserDto userDto = userMapper.mapToUserDto(userOne);
 
         //When
@@ -120,7 +124,7 @@ public class UserServiceTest {
     public void shouldGetUsersMountains() {
         //Given
         List<Mountain> userOneMountains = new ArrayList<>();
-        userOne = new User(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains);
+        userOne = new User(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains, "password", userOneRoles);
         Mountain rysy = new Mountain(1L, "Rysy", 2499, tatraMountains, "Poland", "Europe", userRatings, usersList);
         Mountain łomnica = new Mountain(2L, "Łomnica", 2634, tatraMountains, "Slovakia", "Europe", userRatings, usersList);
         userOneMountains.add(rysy);

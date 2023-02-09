@@ -24,7 +24,9 @@ public class UserMapper {
                 user.getDateOfRegistration().getMonthValue(),
                 user.getDateOfRegistration().getDayOfMonth(),
                 user.getUserRatings(),
-                user.getMountains());
+                user.getMountains(),
+                user.getPassword(),
+                user.getRoles());
     }
 
     public User mapToUser(UserDto userDto){
@@ -41,14 +43,16 @@ public class UserMapper {
                 userDto.getDateOfRegistration().getMonthValue(),
                 userDto.getDateOfRegistration().getDayOfMonth(),
                 userDto.getUserRatings(),
-                userDto.getMountains());
+                userDto.getMountains(),
+                userDto.getPassword(),
+                userDto.getRoles());
     }
 
     public List<UserDto>mapToUserDtoList(List<User>userList){
         return userList.stream()
                 .map(u->new UserDto(u.getId(), u.getUserName(), u.getFirstName(), u.getLastName(), u.getBirthDate().getDayOfYear(), u.getBirthDate().getMonthValue(),
                         u.getBirthDate().getDayOfMonth(), u.getEmail(), u.getDateOfRegistration().getYear(), u.getDateOfRegistration().getMonthValue(),
-                        u.getDateOfRegistration().getDayOfMonth(),u.getUserRatings(), u.getMountains()))
+                        u.getDateOfRegistration().getDayOfMonth(),u.getUserRatings(), u.getMountains(), u.getPassword(), u.getRoles()))
                 .collect(Collectors.toList());
     }
 }
