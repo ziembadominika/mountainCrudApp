@@ -36,8 +36,8 @@ public class MountainServiceTest {
     private MountainRange sudetes;
     private List<Mountain> mountainsList = new ArrayList<>();
     private List<UserRating> userRatings = new ArrayList<>();
-    private User user;
-    private List<User> usersList;
+    private UserEntity userEntity;
+    private List<UserEntity> usersList;
 
     @Before
     public void setUp() {
@@ -127,7 +127,7 @@ public class MountainServiceTest {
     public void shouldGetUserRatingForMountain() {
         //Given
         mountainOne = new Mountain(1L, "Śnieżka", 1603, sudetes, "Poland", "Europe", userRatings, usersList);
-        UserRating userRating = new UserRating(1L, user, 5, mountainOne);
+        UserRating userRating = new UserRating(1L, userEntity, 5, mountainOne);
         userRatings.add(userRating);
         when(mountainRepository.findById(1L)).thenReturn(Optional.of(mountainOne));
         //When

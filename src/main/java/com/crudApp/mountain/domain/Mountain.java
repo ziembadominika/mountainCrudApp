@@ -50,7 +50,7 @@ public class Mountain {
             joinColumns = @JoinColumn(name = "MOUNTAIN_ID"),
             inverseJoinColumns = @JoinColumn(name = "USER_ID"))
     @JsonIgnore
-    private List<User> users = new ArrayList<>();
+    private List<UserEntity> userEntities = new ArrayList<>();
 
     public double userRatingAverage() {
         return userRatings.stream()

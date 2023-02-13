@@ -1,7 +1,6 @@
 package com.crudApp.mountain.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -19,6 +18,6 @@ public class MountainDto {
     private String continent;
     private List<UserRating> userRatings;
     @JsonIgnore
-    private List<User> users= new ArrayList<>();
+    private List<UserEntity> userEntities = new ArrayList<>();
 }
 

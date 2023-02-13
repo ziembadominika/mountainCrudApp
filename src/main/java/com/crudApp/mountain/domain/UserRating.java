@@ -21,7 +21,7 @@ public class UserRating {
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     @JsonIgnore
-    private User user;
+    private UserEntity userEntity;
 
     @Column
     private int rate;

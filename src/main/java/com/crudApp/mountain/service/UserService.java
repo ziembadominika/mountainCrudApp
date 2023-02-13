@@ -1,7 +1,7 @@
 package com.crudApp.mountain.service;
 
 import com.crudApp.mountain.domain.MountainDto;
-import com.crudApp.mountain.domain.User;
+import com.crudApp.mountain.domain.UserEntity;
 import com.crudApp.mountain.domain.UserDto;
 import com.crudApp.mountain.exception.UserNotFoundByGivenIdException;
 import com.crudApp.mountain.mapper.MountainMapper;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Data
@@ -42,14 +41,14 @@ public class UserService {
     }
 
     public void createUser(UserDto userDto) {
-        User user = userMapper.mapToUser(userDto);
-        userRepository.save(user);
+        UserEntity userEntity = userMapper.mapToUser(userDto);
+        userRepository.save(userEntity);
     }
 
     public UserDto updateUser(UserDto userDto){
-        User user = userMapper.mapToUser(userDto);
-        userRepository.save(user);
-        return userMapper.mapToUserDto(user);
+        UserEntity userEntity = userMapper.mapToUser(userDto);
+        userRepository.save(userEntity);
+        return userMapper.mapToUserDto(userEntity);
     }
 
     public void deleteUser(final Long id){
@@ -57,7 +56,7 @@ public class UserService {
     }
 
     public List<MountainDto> getUserMountains(Long userId){
-        User user = userRepository.findById(userId).orElseThrow(UserNotFoundByGivenIdException::new);
-        return mountainMapper.mapToMountainDtoList(user.getMountains());
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(UserNotFoundByGivenIdException::new);
+        return mountainMapper.mapToMountainDtoList(userEntity.getMountains());
     }
 }

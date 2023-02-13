@@ -15,7 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,25 +32,25 @@ public class UserServiceTest {
     @InjectMocks
     private MountainMapper mountainMapper;
     private UserService userService;
-    private User userOne;
-    private User userTwo;
-    private List<User> usersList = new ArrayList<>();
+    private UserEntity userEntityOne;
+    private UserEntity userEntityTwo;
+    private List<UserEntity> usersList = new ArrayList<>();
     private List<UserRating> userOneRatings;
     private List<Mountain> userOneMountains = new ArrayList<>();
     private List<UserRating> userTwoRatings;
     private List<Mountain> userTwoMountains;
     private MountainRange tatraMountains;
     private List<UserRating> userRatings;
-    private Collection<GrantedAuthority> userOneRoles;
-    private Collection<GrantedAuthority> userTwoRoles;
+    private List<GrantedAuthority> userOneRoles;
+    private List<GrantedAuthority> userTwoRoles;
 
     @Before
     public void setUp() {
         userService = new UserService(userRepository, userMapper, mountainMapper);
-        userOne = new User(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains, "password", userOneRoles);
-        userTwo = new User(2L, "mountain_addict", "Thomas", "Evans", 1980, 5, 27, "evanst@gmail.com", 2023, 1, 11, userTwoRatings, userTwoMountains, "password1", userTwoRoles);
-        usersList.add(userOne);
-        usersList.add(userTwo);
+        userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains, "password", userOneRoles);
+        userEntityTwo = new UserEntity(2L, "mountain_addict", "Thomas", "Evans", 1980, 5, 27, "evanst@gmail.com", 2023, 1, 11, userTwoRatings, userTwoMountains, "password1", userTwoRoles);
+        usersList.add(userEntityOne);
+        usersList.add(userEntityTwo);
     }
 
     @Test
@@ -67,7 +66,7 @@ public class UserServiceTest {
     @Test
     public void shouldGetUser() {
         //Given
-        when(userRepository.getReferenceById(1L)).thenReturn(userOne);
+        when(userRepository.getReferenceById(1L)).thenReturn(userEntityOne);
         //When
         UserDto userDto = userService.getUser(1L);
         //Then
@@ -77,10 +76,10 @@ public class UserServiceTest {
     @Test
     public void shouldFindUseByUserNameContaining() {
         //Given
-        List<User> usersList = new ArrayList<>();
-        userOne = new User(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains, "password", userOneRoles);
-        usersList.add(userOne);
-        when(userRepository.findByUserName("Su")).thenReturn(usersList);
+        List<UserEntity> usersList = new ArrayList<>();
+        userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains, "password", userOneRoles);
+        usersList.add(userEntityOne);
+        when(userRepository.findByUserName("Su")).thenReturn(userEntityOne);
         //When
         userService.findUserByUserNameContaining("Su");
         //Then
@@ -90,18 +89,18 @@ public class UserServiceTest {
     @Test
     public void shouldCreateUser() {
         //Given
-        UserDto userDto = userMapper.mapToUserDto(userOne);
+        UserDto userDto = userMapper.mapToUserDto(userEntityOne);
         //When
         userService.createUser(userDto);
         //Then
-        verify(userRepository, times(1)).save(any(User.class));
+        verify(userRepository, times(1)).save(any(UserEntity.class));
     }
 
     @Test
     public void shouldUpdateUser() {
         //Given
-        User userOne = new User(1L, "Susan97", "Susan", "Jones", 1998, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains, "password", userOneRoles);
-        UserDto userDto = userMapper.mapToUserDto(userOne);
+        UserEntity userEntityOne = new UserEntity(1L, "Susan97", "Susan", "Jones", 1998, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains, "password", userOneRoles);
+        UserDto userDto = userMapper.mapToUserDto(userEntityOne);
 
         //When
         UserDto updatedUser = userService.updateUser(userDto);
@@ -113,7 +112,7 @@ public class UserServiceTest {
     @Test
     public void shouldDeleteUser() {
         //Given
-        Long userId = userOne.getId();
+        Long userId = userEntityOne.getId();
         //When
         userService.deleteUser(userId);
         //Then
@@ -124,14 +123,14 @@ public class UserServiceTest {
     public void shouldGetUsersMountains() {
         //Given
         List<Mountain> userOneMountains = new ArrayList<>();
-        userOne = new User(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains, "password", userOneRoles);
+        userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains, "password", userOneRoles);
         Mountain rysy = new Mountain(1L, "Rysy", 2499, tatraMountains, "Poland", "Europe", userRatings, usersList);
         Mountain łomnica = new Mountain(2L, "Łomnica", 2634, tatraMountains, "Slovakia", "Europe", userRatings, usersList);
         userOneMountains.add(rysy);
         userOneMountains.add(łomnica);
-        when(userRepository.findById(1L)).thenReturn(Optional.of(userOne));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(userEntityOne));
         //When
-        List<MountainDto> mountainList = userService.getUserMountains(userOne.getId());
+        List<MountainDto> mountainList = userService.getUserMountains(userEntityOne.getId());
         //Then
         Assert.assertEquals(2, mountainList.size());
     }

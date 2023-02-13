@@ -11,12 +11,12 @@ import java.util.stream.Collectors;
 public class UserRatingMapper {
 
     public UserRatingDto mapToUserRatingDto(UserRating userRating){
-        return new UserRatingDto(userRating.getId(), userRating.getUser(), userRating.getRate(),
+        return new UserRatingDto(userRating.getId(), userRating.getUserEntity(), userRating.getRate(),
                 userRating.getMountain());
     }
 
     public UserRating mapToUserRating(UserRatingDto userRatingDto){
-        return new UserRating(userRatingDto.getId(), userRatingDto.getUser(), userRatingDto.getRate(),
+        return new UserRating(userRatingDto.getId(), userRatingDto.getUserEntity(), userRatingDto.getRate(),
                 userRatingDto.getMountain());
     }
 

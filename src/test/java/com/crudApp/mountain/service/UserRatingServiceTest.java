@@ -14,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -32,18 +31,18 @@ public class UserRatingServiceTest {
     private UserRating userRatingOne;
     private UserRating userRatingTwo;
     private List<UserRating> userRatings = new ArrayList<>();
-    private User userOne;
+    private UserEntity userEntityOne;
     private List<UserRating> userOneRatings;
     private List<Mountain> userOneMountains;
     private Mountain mountain;
-    private Collection<GrantedAuthority> userOneRoles;
+    private List<GrantedAuthority> userOneRoles;
 
     @Before
     public void setUp() {
-        userOne = new User(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 01, 11, userOneRatings, userOneMountains, "password", userOneRoles);
+        userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 01, 11, userOneRatings, userOneMountains, "password", userOneRoles);
         userRatingService = new UserRatingService(userRatingMapper, userRatingRepository);
-        userRatingOne = new UserRating(1L, userOne, 5, mountain);
-        userRatingTwo = new UserRating(2L, userOne, 4, mountain);
+        userRatingOne = new UserRating(1L, userEntityOne, 5, mountain);
+        userRatingTwo = new UserRating(2L, userEntityOne, 4, mountain);
         userRatings.add(userRatingOne);
         userRatings.add(userRatingTwo);
     }
@@ -65,13 +64,13 @@ public class UserRatingServiceTest {
         //When
         UserRatingDto userRatingDto = userRatingService.getUserRating(1L);
         //Then
-        Assert.assertEquals(userOne, userRatingDto.getUser());
+        Assert.assertEquals(userEntityOne, userRatingDto.getUserEntity());
     }
 
     @Test
     public void shouldAddUserRating() {
         //Given
-        UserRatingDto userRatingDto = new UserRatingDto(1L, userOne, 5, mountain);
+        UserRatingDto userRatingDto = new UserRatingDto(1L, userEntityOne, 5, mountain);
         //When
         userRatingService.addUserRating(userRatingDto);
         //Then
@@ -81,7 +80,7 @@ public class UserRatingServiceTest {
     @Test
     public void shouldUpdateUserRating() {
         //Given
-        UserRatingDto userRatingDto = new UserRatingDto(1L, userOne, 4, mountain);
+        UserRatingDto userRatingDto = new UserRatingDto(1L, userEntityOne, 4, mountain);
         //When
         userRatingService.updateUserRating(userRatingDto);
         //Then
@@ -91,7 +90,7 @@ public class UserRatingServiceTest {
     @Test
     public void shouldDeleteUserRating() {
         //Given
-        UserRatingDto userRatingDto = new UserRatingDto(1L, userOne, 4, mountain);
+        UserRatingDto userRatingDto = new UserRatingDto(1L, userEntityOne, 4, mountain);
         //When
         Long idToDelete = userRatingDto.getId();
         userRatingService.deleteUserRating(1L);

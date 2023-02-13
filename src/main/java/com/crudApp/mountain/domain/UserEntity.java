@@ -16,13 +16,13 @@ import java.util.*;
 @Table(name = "USERS")
 @NoArgsConstructor
 @Data
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "USER_NAME")
+    @Column(name = "USER_NAME", nullable = false, unique = true)
     private String userName;
 
     @Column(name = "FIRST_NAME")
@@ -51,21 +51,21 @@ public class User {
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
-                    CascadeType.MERGE}, mappedBy = "users")
+                    CascadeType.MERGE}, mappedBy = "userEntities")
     @JsonIgnore
     private List<Mountain> mountains = new ArrayList<>();
 
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
                joinColumns=@JoinColumn(name = "user_id", referencedColumnName = "id"),
                 inverseJoinColumns = @JoinColumn(name="role_id", referencedColumnName = "id"))
     private List<Role>roles = new ArrayList<>();
 
-    public User(long id, String userName, String firstName, String lastName, int yearOfBirth, int monthOfBirth,
-                int dayOfBirth, String email, int yearOfRegistration, int monthOfRegistration, int dayOfRegistration,
-                List<UserRating> userRatings, List<Mountain> userMountains, String password, Collection<GrantedAuthority> roles) {
+    public UserEntity(long id, String userName, String firstName, String lastName, int yearOfBirth, int monthOfBirth,
+                      int dayOfBirth, String email, int yearOfRegistration, int monthOfRegistration, int dayOfRegistration,
+                      List<UserRating> userRatings, List<Mountain> userMountains, String password, List<GrantedAuthority> roles) {
         this.id = id;
         this.userName = userName;
         this.firstName = firstName;

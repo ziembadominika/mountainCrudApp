@@ -38,7 +38,7 @@ public class MountainRangeServiceTest {
     private List<Mountain> tatry = new ArrayList<>();
     private List<UserRating> userRatings = new ArrayList<>();
     private List<Mountain> sudetes = new ArrayList<>();
-    private List<User> usersList;
+    private List<UserEntity> usersList;
 
     @Before
     public void setUp() {
