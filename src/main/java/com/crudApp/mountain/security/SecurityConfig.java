@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/mountainApp/auth/**").permitAll()
+                .antMatchers("/mountainApp/auth**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();

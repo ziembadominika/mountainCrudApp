@@ -11,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +34,7 @@ public class UserRatingServiceTest {
     private List<UserRating> userOneRatings;
     private List<Mountain> userOneMountains;
     private Mountain mountain;
-    private List<GrantedAuthority> userOneRoles;
+    private List<Role> userOneRoles;
 
     @Before
     public void setUp() {
