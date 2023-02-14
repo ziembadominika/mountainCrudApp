@@ -21,5 +21,3 @@ An application that combines my two passions: coding and mountains. Still workin
 * Gradle
 * MySQL
 * Mockito 
-
-
