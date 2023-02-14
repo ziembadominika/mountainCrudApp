@@ -2,7 +2,7 @@ package com.crudApp.mountain.service;
 
 import com.crudApp.mountain.domain.MountainDto;
 import com.crudApp.mountain.domain.UserEntity;
-import com.crudApp.mountain.domain.UserDto;
+import com.crudApp.mountain.domain.UserEntityDto;
 import com.crudApp.mountain.exception.UserNotFoundByGivenIdException;
 import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.mapper.UserMapper;
@@ -28,25 +28,25 @@ public class UserService {
         this.mountainMapper = mountainMapper;
     }
 
-    public List<UserDto> getAllUsers(){
+    public List<UserEntityDto> getAllUsers(){
         return userMapper.mapToUserDtoList(userRepository.findAll());
     }
 
-    public UserDto getUser(final Long id){
+    public UserEntityDto getUser(final Long id){
         return userMapper.mapToUserDto(userRepository.getReferenceById(id));
     }
 
-    public UserDto findUserByUserNameContaining(String name){
+    public UserEntityDto findUserByUserNameContaining(String name){
         return userMapper.mapToUserDto(userRepository.findByUserName(name));
     }
 
-    public void createUser(UserDto userDto) {
-        UserEntity userEntity = userMapper.mapToUser(userDto);
+    public void createUser(UserEntityDto userEntityDto) {
+        UserEntity userEntity = userMapper.mapToUser(userEntityDto);
         userRepository.save(userEntity);
     }
 
-    public UserDto updateUser(UserDto userDto){
-        UserEntity userEntity = userMapper.mapToUser(userDto);
+    public UserEntityDto updateUser(UserEntityDto userEntityDto){
+        UserEntity userEntity = userMapper.mapToUser(userEntityDto);
         userRepository.save(userEntity);
         return userMapper.mapToUserDto(userEntity);
     }

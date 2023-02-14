@@ -58,7 +58,7 @@ public class UserServiceTest {
         //Given
         when(userRepository.findAll()).thenReturn(usersList);
         //When
-        List<UserDto> resultList = userService.getAllUsers();
+        List<UserEntityDto> resultList = userService.getAllUsers();
         //Then
         Assert.assertEquals(2, resultList.size());
     }
@@ -68,9 +68,9 @@ public class UserServiceTest {
         //Given
         when(userRepository.getReferenceById(1L)).thenReturn(userEntityOne);
         //When
-        UserDto userDto = userService.getUser(1L);
+        UserEntityDto userEntityDto = userService.getUser(1L);
         //Then
-        Assert.assertEquals("user97", userDto.getUserName());
+        Assert.assertEquals("user97", userEntityDto.getUserName());
     }
 
     @Test
@@ -89,9 +89,9 @@ public class UserServiceTest {
     @Test
     public void shouldCreateUser() {
         //Given
-        UserDto userDto = userMapper.mapToUserDto(userEntityOne);
+        UserEntityDto userEntityDto = userMapper.mapToUserDto(userEntityOne);
         //When
-        userService.createUser(userDto);
+        userService.createUser(userEntityDto);
         //Then
         verify(userRepository, times(1)).save(any(UserEntity.class));
     }
@@ -100,10 +100,10 @@ public class UserServiceTest {
     public void shouldUpdateUser() {
         //Given
         UserEntity userEntityOne = new UserEntity(1L, "Susan97", "Susan", "Jones", 1998, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains, "password", userOneRoles);
-        UserDto userDto = userMapper.mapToUserDto(userEntityOne);
+        UserEntityDto userEntityDto = userMapper.mapToUserDto(userEntityOne);
 
         //When
-        UserDto updatedUser = userService.updateUser(userDto);
+        UserEntityDto updatedUser = userService.updateUser(userEntityDto);
 
         //Then
         Assert.assertEquals("Susan97", updatedUser.getUserName());

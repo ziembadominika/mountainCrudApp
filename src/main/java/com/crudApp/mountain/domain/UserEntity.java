@@ -65,7 +65,7 @@ public class UserEntity {
 
     public UserEntity(long id, String userName, String firstName, String lastName, int yearOfBirth, int monthOfBirth,
                       int dayOfBirth, String email, int yearOfRegistration, int monthOfRegistration, int dayOfRegistration,
-                      List<UserRating> userRatings, List<Mountain> userMountains, String password, List<GrantedAuthority> roles) {
+                      List<UserRating> userRatings, List<Mountain> userMountains, String password, List<Role> roles) {
         this.id = id;
         this.userName = userName;
         this.firstName = firstName;

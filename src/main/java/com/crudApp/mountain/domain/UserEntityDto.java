@@ -4,10 +4,9 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 @Data
-public class UserDto {
+public class UserEntityDto {
     private Long id;
     private String userName;
     private String firstName;
@@ -20,9 +19,9 @@ public class UserDto {
     private String password;
     private List<Role>roles;
 
-    public UserDto(Long id, String userName, String firstName, String lastName, int yearOfBirth, int monthOfBirth,
-                   int dayOfBirth, String email, int yearOfRegistration, int monthOfRegistration, int dayOfRegistration,
-                   List<UserRating> userRatings, List<Mountain> mountains, String password, List<Role>roles) {
+    public UserEntityDto(Long id, String userName, String firstName, String lastName, int yearOfBirth, int monthOfBirth,
+                         int dayOfBirth, String email, int yearOfRegistration, int monthOfRegistration, int dayOfRegistration,
+                         List<UserRating> userRatings, List<Mountain> mountains, String password, List<Role>roles) {
         this.id = id;
         this.userName = userName;
         this.firstName = firstName;
@@ -35,6 +34,4 @@ public class UserDto {
         this.password = password;
         this.roles = roles;
     }
-
-
 }

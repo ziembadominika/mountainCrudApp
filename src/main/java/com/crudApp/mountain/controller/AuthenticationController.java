@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -40,7 +41,7 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<AuthenticationResponseDto> login(@RequestBody LoginDto loginDto){
+    public ResponseEntity<AuthenticationResponseDto> login(@RequestBody LoginDto loginDto) {
         Authentication authentication = authenticationManager.authenticate((new UsernamePasswordAuthenticationToken
                 (loginDto.getUserName(), loginDto.getPassword())));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -49,16 +50,16 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<String>register(@RequestBody RegisterDto registerDto){
-        if(userRepository.existsByUserName(registerDto.getUserName())){
+    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
+        if (userRepository.existsByUserName(registerDto.getUserName())) {
             return new ResponseEntity<>("Username is already taken", HttpStatus.BAD_REQUEST);
         }
         UserEntity userEntity = new UserEntity();
         userEntity.setUserName(registerDto.getUserName());
         userEntity.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
-        Role role = roleRepository.findByName("USER").get();
-        userEntity.setRoles((List<Role>) role);
+        Role roles = roleRepository.findByName("USER").get();
+        userEntity.setRoles(Collections.singletonList(roles));
 
         userRepository.save(userEntity);
 
