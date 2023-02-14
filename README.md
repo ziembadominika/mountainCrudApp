@@ -22,4 +22,4 @@ An application that combines my two passions: coding and mountains. Still workin
 * MySQL
 * Mockito 
 
-![image](https://user-images.githubusercontent.com/115692643/218786115-e219677a-8bd3-4745-aae0-d7cc5216eef3.png)
+
