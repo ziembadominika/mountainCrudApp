@@ -12,7 +12,6 @@ An application that combines my two passions: coding and mountains. Still workin
 
 ## Technologies
 
-* Technologies
 * Java8
 * Spring Boot
 * Hibernate
