@@ -12,26 +12,26 @@ import java.util.Date;
 @Component
 public class JwtGenerator {
 
-    public static final long JWT_EXPIRATION = 70000;
-    public static final String JWT_SECRET = "secret";
+    public JwtGenerator() {
+    }
 
     public String generateToken(Authentication authentication) {
-        String userName = authentication.getName();
-        Date currentDate = new Date();
-        Date expireDate = new Date(currentDate.getTime() + JWT_EXPIRATION);
+            String userName = authentication.getName();
+            Date currentDate = new Date();
+            Date expireDate = new Date(currentDate.getTime() + JwtConstants.JWT_EXPIRATION);
 
         String token = Jwts.builder()
                 .setSubject(userName)
                 .setIssuedAt(new Date())
                 .setExpiration(expireDate)
-                .signWith(SignatureAlgorithm.ES512, JWT_SECRET)
+                .signWith(SignatureAlgorithm.HS512, JwtConstants.JWT_SECRET)
                 .compact();
         return token;
     }
 
     public String getUserNameFromJwt(String token) {
         Claims claims = Jwts.parser()
-                .setSigningKey(JWT_SECRET)
+                .setSigningKey(JwtConstants.JWT_SECRET)
                 .parseClaimsJws(token)
                 .getBody();
         return claims.getSubject();
@@ -39,7 +39,7 @@ public class JwtGenerator {
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
+            Jwts.parser().setSigningKey(JwtConstants.JWT_SECRET).parseClaimsJws(token);
             return true;
         } catch (Exception e) {
             throw new AuthenticationCredentialsNotFoundException("Token is expired or incorrect");

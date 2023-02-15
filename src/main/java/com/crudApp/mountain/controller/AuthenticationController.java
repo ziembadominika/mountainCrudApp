@@ -17,6 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Collection;
+import java.util.Collections;
+
 
 @RestController
 @RequestMapping("/mountainApp/auth")
@@ -55,6 +61,9 @@ public class AuthenticationController {
         UserEntity userEntity = new UserEntity();
         userEntity.setUserName(registerDto.getUserName());
         userEntity.setPassword(passwordEncoder.encode(registerDto.getPassword()));
+
+        Role roles = roleRepository.findByName("User").get();
+        userEntity.setRoles(Collections.singletonList(roles));
         userRepository.save(userEntity);
 
         return new ResponseEntity<>("registration is successful", HttpStatus.OK);
