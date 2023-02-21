@@ -17,7 +17,5 @@ public class MountainDto {
     private String country;
     private String continent;
     private List<UserRating> userRatings;
-    @JsonIgnore
-    private List<UserEntity> userEntities = new ArrayList<>();
 }
 

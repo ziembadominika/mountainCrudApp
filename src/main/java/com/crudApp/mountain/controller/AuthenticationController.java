@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.Collection;
+import java.time.LocalDate;
 import java.util.Collections;
 
 
@@ -61,11 +58,16 @@ public class AuthenticationController {
         UserEntity userEntity = new UserEntity();
         userEntity.setUserName(registerDto.getUserName());
         userEntity.setPassword(passwordEncoder.encode(registerDto.getPassword()));
+        userEntity.setFirstName(registerDto.getFirstName());
+        userEntity.setLastName(registerDto.getLastName());
+        userEntity.setBirthDate(registerDto.getBirthDate());
+        userEntity.setEmail(registerDto.getEmail());
+        userEntity.setDateOfRegistration(LocalDate.now());
 
         Role roles = roleRepository.findByName("User").get();
         userEntity.setRoles(Collections.singletonList(roles));
         userRepository.save(userEntity);
 
-        return new ResponseEntity<>("registration is successful", HttpStatus.OK);
+        return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
     }
 }

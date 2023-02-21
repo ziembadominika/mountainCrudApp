@@ -46,8 +46,10 @@ public class UserServiceTest {
     @Before
     public void setUp() {
         userService = new UserService(userRepository, userMapper, mountainMapper);
-        userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains, "password", userOneRoles);
-        userEntityTwo = new UserEntity(2L, "mountain_addict", "Thomas", "Evans", 1980, 5, 27, "evanst@gmail.com", 2023, 1, 11, userTwoRatings, userTwoMountains, "password1", userTwoRoles);
+        userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 1, 11,
+                userOneRatings, userOneMountains, "password", userOneRoles);
+        userEntityTwo = new UserEntity(2L, "mountain_addict", "Thomas", "Evans", 1980, 5, 27, "evanst@gmail.com",
+                2023, 1, 11, userTwoRatings, userTwoMountains, "password1", userTwoRoles);
         usersList.add(userEntityOne);
         usersList.add(userEntityTwo);
     }
@@ -76,7 +78,8 @@ public class UserServiceTest {
     public void shouldFindUseByUserNameContaining() {
         //Given
         List<UserEntity> usersList = new ArrayList<>();
-        userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains, "password", userOneRoles);
+        userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 1, 11,
+                userOneRatings, userOneMountains, "password", userOneRoles);
         usersList.add(userEntityOne);
         when(userRepository.findByUserName("Su")).thenReturn(userEntityOne);
         //When
@@ -98,7 +101,8 @@ public class UserServiceTest {
     @Test
     public void shouldUpdateUser() {
         //Given
-        UserEntity userEntityOne = new UserEntity(1L, "Susan97", "Susan", "Jones", 1998, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains, "password", userOneRoles);
+        UserEntity userEntityOne = new UserEntity(1L, "Susan97", "Susan", "Jones", 1998, 10, 12, "susan97@gmail.com",
+                2023, 1, 11, userOneRatings, userOneMountains, "password", userOneRoles);
         UserEntityDto userEntityDto = userMapper.mapToUserDto(userEntityOne);
 
         //When
@@ -122,9 +126,10 @@ public class UserServiceTest {
     public void shouldGetUsersMountains() {
         //Given
         List<Mountain> userOneMountains = new ArrayList<>();
-        userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 1, 11, userOneRatings, userOneMountains, "password", userOneRoles);
-        Mountain rysy = new Mountain(1L, "Rysy", 2499, tatraMountains, "Poland", "Europe", userRatings, usersList);
-        Mountain łomnica = new Mountain(2L, "Łomnica", 2634, tatraMountains, "Slovakia", "Europe", userRatings, usersList);
+        userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 1, 11,
+                userOneRatings, userOneMountains, "password", userOneRoles);
+        Mountain rysy = new Mountain(1L, "Rysy", 2499, tatraMountains, "Poland", "Europe", userRatings);
+        Mountain łomnica = new Mountain(2L, "Łomnica", 2634, tatraMountains, "Slovakia", "Europe", userRatings);
         userOneMountains.add(rysy);
         userOneMountains.add(łomnica);
         when(userRepository.findById(1L)).thenReturn(Optional.of(userEntityOne));

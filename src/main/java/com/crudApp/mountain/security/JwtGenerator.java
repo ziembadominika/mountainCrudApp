@@ -1,8 +1,8 @@
 package com.crudApp.mountain.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -12,8 +12,7 @@ import java.util.Date;
 @Component
 public class JwtGenerator {
 
-    public JwtGenerator() {
-    }
+    private static final Logger logger = LoggerFactory.getLogger(JwtAuthFilter.class);
 
     public String generateToken(Authentication authentication) {
             String userName = authentication.getName();
@@ -41,8 +40,13 @@ public class JwtGenerator {
         try {
             Jwts.parser().setSigningKey(JwtConstants.JWT_SECRET).parseClaimsJws(token);
             return true;
-        } catch (Exception e) {
-            throw new AuthenticationCredentialsNotFoundException("Token is expired or incorrect");
+        } catch (MalformedJwtException e) {
+            logger.error("Invalid token" + e.getMessage());
+        }catch (ExpiredJwtException e){
+            logger.error("Token is expired" + e.getMessage());
+        }catch (IllegalArgumentException e){
+            logger.error("Token is invalid" + e.getMessage());
         }
+        return false;
     }
 }

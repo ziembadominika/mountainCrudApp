@@ -38,18 +38,18 @@ public class MountainRangeServiceTest {
     private List<Mountain> tatry = new ArrayList<>();
     private List<UserRating> userRatings = new ArrayList<>();
     private List<Mountain> sudetes = new ArrayList<>();
-    private List<UserEntity> usersList;
+
 
     @Before
     public void setUp() {
         mountainRangeService = new MountainRangeService(mountainRangeRepository, mountainRangeMapper, mountainMapper);
-        Mountain rysy = new Mountain(1L, "Rysy", 2499, tatraMountains, "Poland", "Europe", userRatings, usersList);
-        Mountain łomnica = new Mountain(2L, "Łomnica", 2634, tatraMountains, "Slovakia", "Europe", userRatings, usersList);
+        Mountain rysy = new Mountain(1L, "Rysy", 2499, tatraMountains, "Poland", "Europe", userRatings);
+        Mountain łomnica = new Mountain(2L, "Łomnica", 2634, tatraMountains, "Slovakia", "Europe", userRatings);
         tatry.add(rysy);
         tatry.add(łomnica);
 
-        Mountain śnieżnik = new Mountain(3L, "Śnieżnik", 1423, theSudetes, "Poland", "Europe", userRatings, usersList);
-        Mountain śnieżka = new Mountain(4L, "Śnieżka", 1603, theSudetes, "Poland", "Europe", userRatings, usersList);
+        Mountain śnieżnik = new Mountain(3L, "Śnieżnik", 1423, theSudetes, "Poland", "Europe", userRatings);
+        Mountain śnieżka = new Mountain(4L, "Śnieżka", 1603, theSudetes, "Poland", "Europe", userRatings);
         sudetes.add(śnieżnik);
         sudetes.add(śnieżka);
 

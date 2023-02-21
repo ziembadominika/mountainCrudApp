@@ -37,14 +37,13 @@ public class MountainServiceTest {
     private List<Mountain> mountainsList = new ArrayList<>();
     private List<UserRating> userRatings = new ArrayList<>();
     private UserEntity userEntity;
-    private List<UserEntity> usersList;
 
     @Before
     public void setUp() {
         mountainService = new MountainService(mountainRepository, mountainMapper);
-        mountainOne = new Mountain(1L, "Śnieżka", 1603, sudetes, "Poland", "Europe", userRatings, usersList);
-        mountainTwo = new Mountain(2L, "Śnieżnik", 1423, sudetes, "Poland", "Europe", userRatings, usersList);
-        mountainThree = new Mountain(3L, "Lomnica", 2600, sudetes, "Slovakia", "Europe", userRatings, usersList);
+        mountainOne = new Mountain(1L, "Śnieżka", 1603, sudetes, "Poland", "Europe", userRatings);
+        mountainTwo = new Mountain(2L, "Śnieżnik", 1423, sudetes, "Poland", "Europe", userRatings);
+        mountainThree = new Mountain(3L, "Lomnica", 2600, sudetes, "Slovakia", "Europe", userRatings);
         mountainsList.add(mountainOne);
         mountainsList.add(mountainTwo);
         sudetes = new MountainRange(1L, "Sudetes", mountainsList);
@@ -94,7 +93,7 @@ public class MountainServiceTest {
     @Test
     public void shouldUpdateMountain() {
         //Given
-        Mountain mountainOne = new Mountain(1L, "Śnieżka", 1610, sudetes, "Poland", "Europe", userRatings, usersList);
+        Mountain mountainOne = new Mountain(1L, "Śnieżka", 1610, sudetes, "Poland", "Europe", userRatings);
         MountainDto mountainDto = mountainMapper.mapToMountainDto(mountainOne);
         //When
         MountainDto updatedMountain = mountainService.updateMountain(mountainDto);
@@ -126,7 +125,7 @@ public class MountainServiceTest {
     @Test
     public void shouldGetUserRatingForMountain() {
         //Given
-        mountainOne = new Mountain(1L, "Śnieżka", 1603, sudetes, "Poland", "Europe", userRatings, usersList);
+        mountainOne = new Mountain(1L, "Śnieżka", 1603, sudetes, "Poland", "Europe", userRatings);
         UserRating userRating = new UserRating(1L, userEntity, 5, mountainOne);
         userRatings.add(userRating);
         when(mountainRepository.findById(1L)).thenReturn(Optional.of(mountainOne));

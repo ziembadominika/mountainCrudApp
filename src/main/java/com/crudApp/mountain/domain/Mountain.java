@@ -41,16 +41,6 @@ public class Mountain {
     @JsonIgnore
     private List<UserRating> userRatings;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE})
-    @JoinTable(
-            name = "MOUNTAINS_USERS",
-            joinColumns = @JoinColumn(name = "MOUNTAIN_ID"),
-            inverseJoinColumns = @JoinColumn(name = "USER_ID"))
-    @JsonIgnore
-    private List<UserEntity> userEntities = new ArrayList<>();
 
     public double userRatingAverage() {
         return userRatings.stream()

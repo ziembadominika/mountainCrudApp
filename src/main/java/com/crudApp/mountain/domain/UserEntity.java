@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -45,14 +44,13 @@ public class UserEntity {
 
     @OneToMany
     @JoinColumn(name = "USER_ID")
-    @JsonIgnore
     private List<UserRating> userRatings;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE}, mappedBy = "userEntities")
-    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "MOUNTAINS_USERS",
+            joinColumns = @JoinColumn(name = "USER_ID"),
+            inverseJoinColumns = @JoinColumn(name = "MOUNTAIN_ID"))
     private List<Mountain> mountains = new ArrayList<>();
 
     private String password;
