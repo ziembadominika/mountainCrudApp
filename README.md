@@ -39,7 +39,7 @@ http://localhost:8080/mountainApp/auth/register
     "fork": false,
     "forks_count": 0,
     "created_at": "2023-01-09T18:23:21Z"
-}
+}]
 ````
 * Succes Response: Code 200
 
