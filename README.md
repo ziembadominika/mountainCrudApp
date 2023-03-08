@@ -55,7 +55,7 @@ http://localhost:8080/mountainApp/auth/login
 ````
 ** Example JSON Body:
 ````	
-![4](https://user-images.githubusercontent.com/115692643/223805782-5c8f7ff4-05a7-4e3a-b1ce-b7cb2578e618.png)
+![image](https://user-images.githubusercontent.com/115692643/223812880-dad34fb8-bca3-429f-bc70-2d267b5ebbd4.png)
 
 ````
 * Succes Response: Code 200
