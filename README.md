@@ -31,49 +31,42 @@ ________________________________________________________________________________
 http://localhost:8080/mountainApp/auth/register
 ````           
 * Example JSON Body:
-````	
-{
-    "full_name": "bednarekdomi/mountainCrudApp",
-    "description": null,
-    "clone_url": "https://github.com/bednarekdomi/mountainCrudApp.git",
-    "fork": false,
-    "forks_count": 0,
-    "created_at": "2023-01-09T18:23:21Z"
-}]
-````
+
+![postman](https://user-images.githubusercontent.com/115692643/223817725-b48257a5-4019-4d7b-b4f4-29c3d1994ccc.PNG)
+
+
+If the username is taken, the registration will not be successful:
+
+![2](https://user-images.githubusercontent.com/115692643/223805685-bed74601-7613-4127-a979-fded67a482b5.png)
+
+After successful registration user data is collected, default role is assigned and password is encoded:
+
+![3](https://user-images.githubusercontent.com/115692643/223806594-e7f6cfe2-61db-461c-a527-8728f309ee2b.png)
+
+
+
 * Succes Response: Code 200
 
 #### Login
-##### After successful registration, a user can log in and receives a token
+##### After successful registration, a user can log in using user name and password and receives a token
 * POST
 * Example Request
-````
+
 http://localhost:8080/mountainApp/auth/login
-````
+
 ** Example JSON Body:
-````	
-[
-    {
-        "full_name": "bednarekdomi/mountainCrudApp",
-        "description": null,
-        "clone_url": "https://github.com/bednarekdomi/mountainCrudApp.git",
-        "fork": false,
-        "forks_count": 0,
-        "created_at": "2023-01-09T18:23:21Z"
-    },
-    {
-        "full_name": "bednarekdomi/WindsurfersForecast",
-        "description": "Worldwide weather forecast Service for windsurfer's ",
-        "clone_url": "https://github.com/bednarekdomi/WindsurfersForecast.git",
-        "fork": false,
-        "forks_count": 0,
-        "created_at": "2023-02-21T09:27:01Z"
-    }
-]
-````
+	
+![image](https://user-images.githubusercontent.com/115692643/223812880-dad34fb8-bca3-429f-bc70-2d267b5ebbd4.png)
+
 * Succes Response: Code 200
 
 After successful authorization with the token, the user has access to information:
+
+
+![image](https://user-images.githubusercontent.com/115692643/223805913-4d3461a1-15f2-4dc3-b580-ca80f76386d1.png)
+
+
+
 
 ___________________________________________________________________________________________________________________________________________
 
