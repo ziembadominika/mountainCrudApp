@@ -32,7 +32,7 @@ http://localhost:8080/mountainApp/auth/register
 ````           
 * Example JSON Body:
 ````	
-![image](https://user-images.githubusercontent.com/115692643/223813907-dc6ae63a-04ae-4e22-906c-5fbc42efd629.png)
+![postman](https://user-images.githubusercontent.com/115692643/223817725-b48257a5-4019-4d7b-b4f4-29c3d1994ccc.PNG)
 
 
 If the username is taken, the registration will not be successful:
