@@ -32,15 +32,15 @@ http://localhost:8080/mountainApp/auth/register
 ````           
 * Example JSON Body:
 ````	
-![register](https://user-images.githubusercontent.com/115692643/223806166-5122e86e-3704-45ac-b921-bb786234524f.PNG)
+![1](https://user-images.githubusercontent.com/115692643/223806166-5122e86e-3704-45ac-b921-bb786234524f.PNG)
 
 If the username is taken, the registration will not be successful:
 
-![image](https://user-images.githubusercontent.com/115692643/223805685-bed74601-7613-4127-a979-fded67a482b5.png)
+![2](https://user-images.githubusercontent.com/115692643/223805685-bed74601-7613-4127-a979-fded67a482b5.png)
 
 After successful registration user data is collected, default role is assigned and password is encoded:
 
-![image](https://user-images.githubusercontent.com/115692643/223806594-e7f6cfe2-61db-461c-a527-8728f309ee2b.png)
+![3](https://user-images.githubusercontent.com/115692643/223806594-e7f6cfe2-61db-461c-a527-8728f309ee2b.png)
 
 ````
 * Succes Response: Code 200
@@ -54,7 +54,7 @@ http://localhost:8080/mountainApp/auth/login
 ````
 ** Example JSON Body:
 ````	
-![image](https://user-images.githubusercontent.com/115692643/223805782-5c8f7ff4-05a7-4e3a-b1ce-b7cb2578e618.png)
+![4](https://user-images.githubusercontent.com/115692643/223805782-5c8f7ff4-05a7-4e3a-b1ce-b7cb2578e618.png)
 
 ````
 * Succes Response: Code 200
