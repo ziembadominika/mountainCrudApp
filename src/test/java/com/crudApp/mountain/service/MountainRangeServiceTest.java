@@ -32,17 +32,16 @@ public class MountainRangeServiceTest {
     @InjectMocks
     private MountainMapper mountainMapper;
 
-    private List<MountainRange> polishMountains = new ArrayList<>();
+    private final List<MountainRange> polishMountains = new ArrayList<>();
     private MountainRange tatraMountains;
     private MountainRange theSudetes;
-    private List<Mountain> tatry = new ArrayList<>();
-    private List<UserRating> userRatings = new ArrayList<>();
-    private List<Mountain> sudetes = new ArrayList<>();
-
+    private final List<Mountain> tatry = new ArrayList<>();
+    private final List<UserRating> userRatings = new ArrayList<>();
+    private final List<Mountain> sudetes = new ArrayList<>();
 
     @Before
     public void setUp() {
-        mountainRangeService = new MountainRangeService(mountainRangeRepository, mountainRangeMapper, mountainMapper);
+        mountainRangeService = new MountainRangeService(mountainMapper, mountainRangeRepository, mountainRangeMapper);
         Mountain rysy = new Mountain(1L, "Rysy", 2499, tatraMountains, "Poland", "Europe", userRatings);
         Mountain łomnica = new Mountain(2L, "Łomnica", 2634, tatraMountains, "Slovakia", "Europe", userRatings);
         tatry.add(rysy);

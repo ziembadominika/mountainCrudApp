@@ -10,6 +10,5 @@ public class RegisterDto {
     private String password;
     private String firstName;
     private String lastName;
-    private LocalDate birthDate;
     private String email;
 }

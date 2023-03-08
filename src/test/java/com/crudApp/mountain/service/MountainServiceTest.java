@@ -34,8 +34,8 @@ public class MountainServiceTest {
     private Mountain mountainTwo;
     private Mountain mountainThree;
     private MountainRange sudetes;
-    private List<Mountain> mountainsList = new ArrayList<>();
-    private List<UserRating> userRatings = new ArrayList<>();
+    private final List<Mountain> mountainsList = new ArrayList<>();
+    private final List<UserRating> userRatings = new ArrayList<>();
     private UserEntity userEntity;
 
     @Before

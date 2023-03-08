@@ -3,14 +3,11 @@ package com.crudApp.mountain.service;
 import com.crudApp.mountain.domain.MountainDto;
 import com.crudApp.mountain.domain.MountainRange;
 import com.crudApp.mountain.domain.MountainRangeDto;
-import com.crudApp.mountain.exception.MountainNotFoundException;
 import com.crudApp.mountain.exception.MountainRangeNotFoundException;
 import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.mapper.MountainRangeMapper;
 import com.crudApp.mountain.repository.MountainRangeRepository;
-import com.crudApp.mountain.repository.MountainRepository;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,15 +16,9 @@ import java.util.List;
 @Data
 public class MountainRangeService {
 
-    private MountainMapper mountainMapper;
-    private MountainRangeRepository mountainRangeRepository;
-    private MountainRangeMapper mountainRangeMapper;
-    @Autowired
-    public MountainRangeService(MountainRangeRepository mountainRangeRepository, MountainRangeMapper mountainRangeMapper, MountainMapper mountainMapper) {
-        this.mountainRangeRepository = mountainRangeRepository;
-        this.mountainRangeMapper = mountainRangeMapper;
-        this.mountainMapper = mountainMapper;
-    }
+    private final MountainMapper mountainMapper;
+    private final MountainRangeRepository mountainRangeRepository;
+    private final MountainRangeMapper mountainRangeMapper;
 
     public List<MountainRangeDto> getAllMountainRanges() {
         return mountainRangeMapper.mapToMountainRangeDtoList(mountainRangeRepository.findAll());

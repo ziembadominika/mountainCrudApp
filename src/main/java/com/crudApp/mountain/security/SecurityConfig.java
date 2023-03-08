@@ -17,46 +17,46 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-//    private UserDetailsImpl userDetailsImpl;
-//    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-//
-//    @Autowired
-//    public SecurityConfig(UserDetailsImpl userDetailsImpl, JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
-//        this.userDetailsImpl = userDetailsImpl;
-//        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
-//    }
-//
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-//        http
-//                .csrf().disable()
-//                .exceptionHandling()
-//                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-//                .and()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .authorizeRequests()
-//                .antMatchers("/mountainApp/**").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .httpBasic();
-//        http.addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
-//        return http.build();
-//    }
-//
-//    @Bean
-//    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
-//        return authenticationConfiguration.getAuthenticationManager();
-//    }
-//
-//    @Bean
-//    PasswordEncoder passwordEncoder(){
-//        return new BCryptPasswordEncoder();
-//    }
-//
-//    @Bean
-//    public JwtAuthFilter jwtAuthFilter(){
-//        return new JwtAuthFilter();
-//    }
+    private UserDetailsImpl userDetailsImpl;
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+    @Autowired
+    public SecurityConfig(UserDetailsImpl userDetailsImpl, JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
+        this.userDetailsImpl = userDetailsImpl;
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+        http
+                .csrf().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                .antMatchers("/mountainApp/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .httpBasic();
+        http.addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
+        return http.build();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public JwtAuthFilter jwtAuthFilter(){
+        return new JwtAuthFilter();
+    }
 }

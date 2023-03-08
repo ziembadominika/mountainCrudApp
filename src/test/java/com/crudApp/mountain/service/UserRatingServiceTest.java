@@ -28,8 +28,7 @@ public class UserRatingServiceTest {
     private UserRatingRepository userRatingRepository;
     private UserRatingService userRatingService;
     private UserRating userRatingOne;
-    private UserRating userRatingTwo;
-    private List<UserRating> userRatings = new ArrayList<>();
+    private final List<UserRating> userRatings = new ArrayList<>();
     private UserEntity userEntityOne;
     private List<UserRating> userOneRatings;
     private List<Mountain> userOneMountains;
@@ -38,10 +37,11 @@ public class UserRatingServiceTest {
 
     @Before
     public void setUp() {
-        userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", 1997, 10, 12, "susan97@gmail.com", 2023, 01, 11, userOneRatings, userOneMountains, "password", userOneRoles);
+        userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", "susan97@gmail.com", userOneRatings, userOneMountains,
+                "password", userOneRoles);
         userRatingService = new UserRatingService(userRatingMapper, userRatingRepository);
         userRatingOne = new UserRating(1L, userEntityOne, 5, mountain);
-        userRatingTwo = new UserRating(2L, userEntityOne, 4, mountain);
+        UserRating userRatingTwo = new UserRating(2L, userEntityOne, 4, mountain);
         userRatings.add(userRatingOne);
         userRatings.add(userRatingTwo);
     }
