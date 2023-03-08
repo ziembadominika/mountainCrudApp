@@ -33,7 +33,7 @@ http://localhost:8080/mountainApp/auth/register
 * Example JSON Body:
 ````	
 ![postman](https://user-images.githubusercontent.com/115692643/223817725-b48257a5-4019-4d7b-b4f4-29c3d1994ccc.PNG)
-
+````
 
 If the username is taken, the registration will not be successful:
 
@@ -61,10 +61,10 @@ http://localhost:8080/mountainApp/auth/login
 * Succes Response: Code 200
 
 After successful authorization with the token, the user has access to information:
+````
 
 ![image](https://user-images.githubusercontent.com/115692643/223805913-4d3461a1-15f2-4dc3-b580-ca80f76386d1.png)
 
-![postman](https://user-images.githubusercontent.com/115692643/223817725-b48257a5-4019-4d7b-b4f4-29c3d1994ccc.PNG)
 
 
 
