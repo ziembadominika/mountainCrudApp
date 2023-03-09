@@ -6,7 +6,7 @@ import com.crudApp.mountain.exception.MountainNotFoundException;
 import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.repository.MountainRepository;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,16 +15,11 @@ import java.util.stream.Collectors;
 
 @Service
 @Data
+@RequiredArgsConstructor
 public class MountainService {
 
-    private MountainRepository mountainRepository;
-    private MountainMapper mountainMapper;
-
-    @Autowired
-    public MountainService(MountainRepository mountainRepository, MountainMapper mountainMapper) {
-        this.mountainRepository = mountainRepository;
-        this.mountainMapper = mountainMapper;
-    }
+    private final MountainRepository mountainRepository;
+    private final MountainMapper mountainMapper;
 
     public List<MountainDto> getAllMountains() {
         return mountainMapper.mapToMountainDtoList(mountainRepository.findAll());
@@ -51,7 +46,7 @@ public class MountainService {
     }
 
     public void deleteMountain(Long id) {
-            mountainRepository.deleteById(id);
+        mountainRepository.deleteById(id);
     }
 
     public List<MountainDto> getMountainByHeight(int height) {
@@ -73,8 +68,8 @@ public class MountainService {
     }
 
     public List<MountainDto> getMountainsByContinent(String continentName) {
-        List<MountainDto>mountainDtoList = mountainMapper.mapToMountainDtoList(mountainRepository.findAll());
-        return  mountainDtoList.stream()
+        List<MountainDto> mountainDtoList = mountainMapper.mapToMountainDtoList(mountainRepository.findAll());
+        return mountainDtoList.stream()
                 .filter(m -> m.getContinent().equals(continentName))
                 .collect(Collectors.toList());
 

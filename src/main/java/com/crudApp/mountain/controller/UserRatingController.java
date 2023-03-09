@@ -2,40 +2,41 @@ package com.crudApp.mountain.controller;
 
 import com.crudApp.mountain.domain.UserRatingDto;
 import com.crudApp.mountain.service.UserRatingService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/mountainApp")
 public class UserRatingController {
 
-    @Autowired
-    private UserRatingService userRatingService;
+    private final UserRatingService userRatingService;
 
     @GetMapping(value = "/getUserRatingsList")
-    public List<UserRatingDto> getUserRatingList(){
+    public List<UserRatingDto> getUserRatingList() {
         return userRatingService.getAllUserRatings();
     }
 
     @GetMapping(value = "/getUserRatings")
-    public UserRatingDto getUserRatings(@RequestParam Long ratingId){
+    public UserRatingDto getUserRatings(@RequestParam Long ratingId) {
         return userRatingService.getUserRating(ratingId);
     }
 
     @PostMapping(value = "/addUserRating")
-    public void addUserRating(@RequestBody UserRatingDto userRatingDto){
+    public void addUserRating(@RequestBody UserRatingDto userRatingDto) {
         userRatingService.addUserRating(userRatingDto);
     }
 
     @PutMapping(value = "/updateUserRating")
-    public UserRatingDto updateUserRating(@RequestBody UserRatingDto userRatingDto){
+    public UserRatingDto updateUserRating(@RequestBody UserRatingDto userRatingDto) {
         return userRatingService.updateUserRating(userRatingDto);
     }
 
-    @DeleteMapping(value= "/deleteUserRating")
-    public void deleteUserRating(@RequestParam Long ratingId){
+    @DeleteMapping(value = "/deleteUserRating")
+    public void deleteUserRating(@RequestParam Long ratingId) {
         userRatingService.deleteUserRating(ratingId);
     }
 }

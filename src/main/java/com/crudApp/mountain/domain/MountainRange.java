@@ -7,13 +7,12 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Getter
 @Setter
-@Entity
-@Table(name = "MOUNTAIN_RANGE")
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "MOUNTAIN_RANGE")
 public class MountainRange {
 
     @Id

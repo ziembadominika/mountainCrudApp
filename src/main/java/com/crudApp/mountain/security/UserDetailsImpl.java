@@ -1,13 +1,10 @@
 package com.crudApp.mountain.security;
 
-import com.crudApp.mountain.domain.Mountain;
 import com.crudApp.mountain.domain.Role;
 import com.crudApp.mountain.domain.UserEntity;
-import com.crudApp.mountain.domain.UserRating;
 import com.crudApp.mountain.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

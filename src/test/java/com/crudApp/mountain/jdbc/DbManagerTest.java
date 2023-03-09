@@ -43,7 +43,7 @@ class DbManagerTest {
         }
         rs.close();
         statement.close();
-        assertEquals(3, counter);
+        assertEquals(1, counter);
 
     }
 

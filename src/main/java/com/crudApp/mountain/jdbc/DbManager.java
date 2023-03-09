@@ -7,15 +7,13 @@ import java.util.Properties;
 
 public class DbManager {
 
-    private Connection conn;
-
-    //Singleton
+    private final Connection conn;
     private static DbManager dbManagerInstance;
 
     private DbManager() throws SQLException {
         Properties connectionProps = new Properties();
-        connectionProps.put("user", "dominika_user");
-        connectionProps.put("password", "dominika_password");
+        connectionProps.put("user", "mountain_user");
+        connectionProps.put("password", "mountain_password");
         conn = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/dominika_learning?serverTimezone=Europe/Warsaw" +
                         "&allowPublicKeyRetrieval=true" +

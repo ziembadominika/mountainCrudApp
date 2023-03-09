@@ -9,7 +9,6 @@ import java.util.List;
 
 @AllArgsConstructor
 @Getter
-@Setter
 public class MountainRangeDto {
 
     private Long id;

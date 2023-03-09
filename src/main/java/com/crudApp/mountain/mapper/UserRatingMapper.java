@@ -22,7 +22,7 @@ public class UserRatingMapper {
 
     public List<UserRatingDto>mapToUserRatingDtoList(List<UserRating>userRatings){
         return userRatings.stream()
-                .map(u->mapToUserRatingDto(u))
+                .map(this::mapToUserRatingDto)
                 .collect(Collectors.toList());
     }
 }

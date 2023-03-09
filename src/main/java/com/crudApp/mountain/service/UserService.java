@@ -8,25 +8,19 @@ import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.mapper.UserMapper;
 import com.crudApp.mountain.repository.UserRepository;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @Data
+@RequiredArgsConstructor
 public class UserService {
 
-    private UserRepository userRepository;
-    private UserMapper userMapper;
-    private MountainMapper mountainMapper;
-
-    @Autowired
-    public UserService(UserRepository userRepository, UserMapper userMapper, MountainMapper mountainMapper) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-        this.mountainMapper = mountainMapper;
-    }
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+    private final MountainMapper mountainMapper;
 
     public List<UserEntityDto> getAllUsers(){
         return userMapper.mapToUserDtoList(userRepository.findAll());

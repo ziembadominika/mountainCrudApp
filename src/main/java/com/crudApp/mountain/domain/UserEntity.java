@@ -6,10 +6,13 @@ import javax.persistence.*;
 import java.util.*;
 
 
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "USERS")
-@NoArgsConstructor
-@Data
 public class UserEntity {
 
     @Id
@@ -35,22 +38,9 @@ public class UserEntity {
     private String password;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
-               joinColumns=@JoinColumn(name = "user_id", referencedColumnName = "id"),
-                inverseJoinColumns = @JoinColumn(name="role_id", referencedColumnName = "id"))
-    private List<Role>roles = new ArrayList<>();
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private List<Role> roles = new ArrayList<>();
 
-    public UserEntity(long id, String userName, String firstName, String lastName, String email,
-                      List<UserRating> userRatings, List<Mountain> userMountains,
-                      String password, List<Role> roles) {
-        this.id = id;
-        this.userName = userName;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.userRatings = userRatings;
-        this.mountains = userMountains;
-        this.password = password;
-        this.roles = roles;
-    }
 }
 

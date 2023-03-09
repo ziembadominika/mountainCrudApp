@@ -16,6 +16,6 @@ public class MountainDto {
     private MountainRange mountainRange;
     private String country;
     private String continent;
-    private List<UserRating> userRatings;
+    private List<UserRating> usersRatings;
 }
 

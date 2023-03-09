@@ -3,17 +3,17 @@ package com.crudApp.mountain.controller;
 import com.crudApp.mountain.domain.MountainDto;
 import com.crudApp.mountain.exception.MountainNotFoundException;
 import com.crudApp.mountain.service.MountainService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/mountainApp")
 public class MountainController {
 
-    @Autowired
-    private MountainService mountainService;
+    private final MountainService mountainService;
 
     @GetMapping(value = "/getAllMountains")
     public List<MountainDto> getMountains() {

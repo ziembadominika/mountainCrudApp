@@ -45,7 +45,7 @@ public class AuthenticationService {
         userEntity.setLastName(registerDto.getLastName());
         userEntity.setEmail(registerDto.getEmail());
 
-        Role roles = roleRepository.findByName("User").get();
+        Role roles = roleRepository.findByName("User");
         userEntity.setRoles(Collections.singletonList(roles));
         userRepository.save(userEntity);
 

@@ -5,6 +5,7 @@ import com.crudApp.mountain.domain.UserRatingDto;
 import com.crudApp.mountain.mapper.UserRatingMapper;
 import com.crudApp.mountain.repository.UserRatingRepository;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,16 +13,11 @@ import java.util.List;
 
 @Service
 @Data
+@RequiredArgsConstructor
 public class UserRatingService {
 
-    private UserRatingMapper userRatingMapper;
-    private UserRatingRepository userRatingRepository;
-
-    @Autowired
-    public UserRatingService(UserRatingMapper userRatingMapper, UserRatingRepository userRatingRepository) {
-        this.userRatingMapper = userRatingMapper;
-        this.userRatingRepository = userRatingRepository;
-    }
+    private final UserRatingMapper userRatingMapper;
+    private final UserRatingRepository userRatingRepository;
 
     public List<UserRatingDto> getAllUserRatings() {
         return userRatingMapper.mapToUserRatingDtoList(userRatingRepository.findAll());

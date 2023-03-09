@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 @Component
 public class UserMapper {
 
-    public UserEntityDto mapToUserDto(UserEntity userEntity){
+    public UserEntityDto mapToUserDto(UserEntity userEntity) {
         return new UserEntityDto(
                 userEntity.getId(),
                 userEntity.getUserName(),
@@ -23,7 +23,7 @@ public class UserMapper {
                 userEntity.getRoles());
     }
 
-    public UserEntity mapToUser(UserEntityDto userEntityDto){
+    public UserEntity mapToUser(UserEntityDto userEntityDto) {
         return new UserEntity(
                 userEntityDto.getId(),
                 userEntityDto.getUserName(),
@@ -36,9 +36,9 @@ public class UserMapper {
                 userEntityDto.getRoles());
     }
 
-    public List<UserEntityDto>mapToUserDtoList(List<UserEntity> userEntityList){
+    public List<UserEntityDto> mapToUserDtoList(List<UserEntity> userEntityList) {
         return userEntityList.stream()
-                .map(u->new UserEntityDto(u.getId(), u.getUserName(), u.getFirstName(), u.getLastName(), u.getEmail(),
+                .map(u -> new UserEntityDto(u.getId(), u.getUserName(), u.getFirstName(), u.getLastName(), u.getEmail(),
                         u.getUserRatings(), u.getMountains(), u.getPassword(), u.getRoles()))
                 .collect(Collectors.toList());
     }

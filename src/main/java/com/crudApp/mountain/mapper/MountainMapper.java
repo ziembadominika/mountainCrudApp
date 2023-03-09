@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
 @Component
 public class MountainMapper {
 
@@ -20,7 +19,7 @@ public class MountainMapper {
                 mountainDto.getMountainRange(),
                 mountainDto.getCountry(),
                 mountainDto.getContinent(),
-                mountainDto.getUserRatings());
+                mountainDto.getUsersRatings());
     }
 
     public MountainDto mapToMountainDto(final Mountain mountain) {
@@ -31,18 +30,18 @@ public class MountainMapper {
                 mountain.getMountainRange(),
                 mountain.getCountry(),
                 mountain.getContinent(),
-                mountain.getUserRatings());
+                mountain.getUsersRatings());
     }
 
     public List<MountainDto> mapToMountainDtoList(final List<Mountain> mountainList) {
         return mountainList.stream()
                 .map(m -> new MountainDto(m.getId(), m.getName(), m.getHeight(), m.getMountainRange(), m.getCountry(), m.getContinent(),
-                        m.getUserRatings()))
+                        m.getUsersRatings()))
                 .collect(Collectors.toList());
     }
 
-    public Set<MountainDto>mapToMountainDtoSet(final Set<Mountain>mountains){
-        return mountains.stream().map(m->mapToMountainDto(m))
+    public Set<MountainDto> mapToMountainDtoSet(final Set<Mountain> mountains) {
+        return mountains.stream().map(this::mapToMountainDto)
                 .collect(Collectors.toSet());
     }
 }
