@@ -26,7 +26,7 @@ public class UserService {
         return userMapper.mapToUserDtoList(userRepository.findAll());
     }
 
-    public UserEntityDto getUser(final Long id){
+    public UserEntityDto getUser(Long id){
         return userMapper.mapToUserDto(userRepository.getReferenceById(id));
     }
 

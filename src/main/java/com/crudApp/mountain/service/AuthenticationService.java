@@ -26,14 +26,6 @@ public class AuthenticationService {
     private final JwtGenerator jwtGenerator;
     private final AuthenticationManager authenticationManager;
 
-    public ResponseEntity<AuthenticationResponseDto> login(LoginDto loginDto) {
-        Authentication authentication = authenticationManager.authenticate((new UsernamePasswordAuthenticationToken
-                (loginDto.getUserName(), loginDto.getPassword())));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtGenerator.generateToken(authentication);
-        return new ResponseEntity<>(new AuthenticationResponseDto(token), HttpStatus.OK);
-    }
-
     public ResponseEntity<String> register(RegisterDto registerDto) {
         if (userRepository.existsByUserName(registerDto.getUserName())) {
             return new ResponseEntity<>("Username is already taken", HttpStatus.BAD_REQUEST);
@@ -50,5 +42,13 @@ public class AuthenticationService {
         userRepository.save(userEntity);
 
         return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
+    }
+
+    public ResponseEntity<AuthenticationResponseDto> login(LoginDto loginDto) {
+        Authentication authentication = authenticationManager.authenticate((new UsernamePasswordAuthenticationToken
+                (loginDto.getUserName(), loginDto.getPassword())));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtGenerator.generateToken(authentication);
+        return new ResponseEntity<>(new AuthenticationResponseDto(token), HttpStatus.OK);
     }
 }
