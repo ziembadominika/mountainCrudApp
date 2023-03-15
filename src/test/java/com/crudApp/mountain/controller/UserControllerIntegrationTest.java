@@ -2,13 +2,12 @@ package com.crudApp.mountain.controller;
 
 import com.crudApp.mountain.domain.UserEntityDto;
 import com.crudApp.mountain.service.UserService;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.*;
@@ -22,13 +21,14 @@ public class UserControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @InjectMocks
     private UserService userService;
 
-    private UserEntityDto userOne;
+    private static UserEntityDto userOne;
+
 
     @BeforeAll
-    public void setUp() {
+    public static void setUp() {
         userOne = new UserEntityDto();
         userOne.setId(1L);
         userOne.setUserName("UserOne");
@@ -37,12 +37,11 @@ public class UserControllerIntegrationTest {
         userOne.setEmail("userOne@email.com");
     }
 
-    @Ignore
     @Test
     public void testGetRepositoryByRepositoryName() throws Exception {
 
-        when(userService.getUser(anyLong())).thenReturn(userOne);
-        mockMvc.perform(get("/mountainApp/getUser").queryParam(String.valueOf(1L)))
+        when(userService.getUser(1L)).thenReturn(userOne);
+        mockMvc.perform(get("/mountainApp/getUser?id=1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.Id", is(1L)))
                 .andExpect(jsonPath("$.userName", is("UserOne")))
