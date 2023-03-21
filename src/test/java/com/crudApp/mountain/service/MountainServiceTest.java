@@ -72,7 +72,7 @@ public class MountainServiceTest {
     @Test
     public void shouldFindMountainByName() {
         //Given
-        when(mountainRepository.findByNameLike("Śnie%")).thenReturn(mountainsList);
+        when(mountainRepository.findByName("Śnie%", MountainService.firstPage)).thenReturn(mountainsList);
         //When
         List<MountainDto> mountainDtos = mountainService.findMountainByNameLike("Śnie");
         mountainDtos.size();
