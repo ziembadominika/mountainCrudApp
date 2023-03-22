@@ -5,10 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.*;
 
-
-
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -42,5 +39,14 @@ public class UserEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles = new ArrayList<>();
 
+    public UserEntity(Long id, String userName, String firstName, String lastName, String email, List<UserRating> userRatings, List<Mountain> mountains) {
+        this.id = id;
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.userRatings = userRatings;
+        this.mountains = mountains;
+    }
 }
 

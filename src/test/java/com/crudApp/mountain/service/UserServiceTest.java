@@ -46,9 +46,9 @@ public class UserServiceTest {
     public void setUp() {
         userService = new UserService(userRepository, userMapper, mountainMapper);
         userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", "susan97@gmail.com", userOneRatings,
-                userOneMountains, "password", userOneRoles);
+                userOneMountains);
         UserEntity userEntityTwo = new UserEntity(2L, "mountain_addict", "Thomas", "Evans", "evanst@gmail.com", userTwoRatings,
-                userTwoMountains, "password1", userTwoRoles);
+                userTwoMountains);
         usersList.add(userEntityOne);
         usersList.add(userEntityTwo);
     }
@@ -78,7 +78,7 @@ public class UserServiceTest {
         //Given
         List<UserEntity> usersList = new ArrayList<>();
         userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", "susan97@gmail.com", userOneRatings,
-                userOneMountains, "password", userOneRoles);
+                userOneMountains);
         usersList.add(userEntityOne);
         when(userRepository.findByUserName("Su")).thenReturn(userEntityOne);
         //When
@@ -101,7 +101,7 @@ public class UserServiceTest {
     public void shouldUpdateUser() {
         //Given
         UserEntity userEntityOne = new UserEntity(1L, "Susan97", "Susan", "Jones", "susan97@gmail.com", userOneRatings,
-                userOneMountains, "password", userOneRoles);
+                userOneMountains);
         UserEntityDto userEntityDto = userMapper.mapToUserDto(userEntityOne);
 
         //When
@@ -126,7 +126,7 @@ public class UserServiceTest {
         //Given
         List<Mountain> userOneMountains = new ArrayList<>();
         userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", "susan97@gmail.com", userOneRatings,
-                userOneMountains, "password", userOneRoles);
+                userOneMountains);
         Mountain rysy = new Mountain(1L, "Rysy", 2499, tatraMountains, "Poland", "Europe", userRatings);
         Mountain łomnica = new Mountain(2L, "Łomnica", 2634, tatraMountains, "Slovakia", "Europe", userRatings);
         userOneMountains.add(rysy);

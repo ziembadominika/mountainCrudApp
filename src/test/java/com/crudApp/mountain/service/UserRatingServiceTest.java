@@ -37,8 +37,7 @@ public class UserRatingServiceTest {
 
     @Before
     public void setUp() {
-        userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", "susan97@gmail.com", userOneRatings, userOneMountains,
-                "password", userOneRoles);
+        userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", "susan97@gmail.com", userOneRatings, userOneMountains);
         userRatingService = new UserRatingService(userRatingMapper, userRatingRepository);
         userRatingOne = new UserRating(1L, userEntityOne, 5, mountain);
         UserRating userRatingTwo = new UserRating(2L, userEntityOne, 4, mountain);

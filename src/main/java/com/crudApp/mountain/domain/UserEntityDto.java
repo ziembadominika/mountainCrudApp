@@ -20,4 +20,13 @@ public class UserEntityDto {
     private String password;
     private List<Role>roles;
 
+    public UserEntityDto(Long id, String userName, String firstName, String lastName, String email, List<UserRating> userRatings, List<Mountain> mountains) {
+        this.id = id;
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.userRatings = userRatings;
+        this.mountains = mountains;
+    }
 }

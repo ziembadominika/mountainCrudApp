@@ -18,9 +18,7 @@ public class UserMapper {
                 userEntity.getLastName(),
                 userEntity.getEmail(),
                 userEntity.getUserRatings(),
-                userEntity.getMountains(),
-                userEntity.getPassword(),
-                userEntity.getRoles());
+                userEntity.getMountains());
     }
 
     public UserEntity mapToUser(UserEntityDto userEntityDto) {
@@ -31,15 +29,12 @@ public class UserMapper {
                 userEntityDto.getLastName(),
                 userEntityDto.getEmail(),
                 userEntityDto.getUserRatings(),
-                userEntityDto.getMountains(),
-                userEntityDto.getPassword(),
-                userEntityDto.getRoles());
+                userEntityDto.getMountains());
     }
 
     public List<UserEntityDto> mapToUserDtoList(List<UserEntity> userEntityList) {
         return userEntityList.stream()
                 .map(u -> new UserEntityDto(u.getId(), u.getUserName(), u.getFirstName(), u.getLastName(), u.getEmail(),
-                        u.getUserRatings(), u.getMountains(), u.getPassword(), u.getRoles()))
-                .collect(Collectors.toList());
+                        u.getUserRatings(), u.getMountains())).collect(Collectors.toList());
     }
 }
