@@ -2,27 +2,23 @@ package com.crudApp.mountain.mapper;
 
 import com.crudApp.mountain.domain.UserRating;
 import com.crudApp.mountain.domain.UserRatingDto;
-import org.springframework.stereotype.Component;
+import org.mapstruct.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Component
-public class UserRatingMapper {
+@Mapper(uses = {MountainMapper.class, UserMapper.class}, componentModel = "spring")
+public interface UserRatingMapper {
 
-    public UserRatingDto mapToUserRatingDto(UserRating userRating){
-        return new UserRatingDto(userRating.getId(), userRating.getUserEntity(), userRating.getRate(),
-                userRating.getMountain());
-    }
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "userEntity", target = "userEntity")
+    @Mapping(source = "rate", target = "rate")
+    @Mapping(source = "mountain", target = "mountain")
+    UserRatingDto mapToUserRatingDto(UserRating userRating);
 
-    public UserRating mapToUserRating(UserRatingDto userRatingDto){
-        return new UserRating(userRatingDto.getId(), userRatingDto.getUserEntity(), userRatingDto.getRate(),
-                userRatingDto.getMountain());
-    }
+    @InheritInverseConfiguration(name = "mapToUserRatingDto")
+    UserRating mapToUserRating(UserRatingDto userRatingDto);
 
-    public List<UserRatingDto>mapToUserRatingDtoList(List<UserRating>userRatings){
-        return userRatings.stream()
-                .map(this::mapToUserRatingDto)
-                .collect(Collectors.toList());
-    }
+    @IterableMapping(elementTargetType = UserRatingDto.class)
+    List<UserRatingDto>mapToUserRatingDtoList(List<UserRating>userRatings);
+
 }

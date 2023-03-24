@@ -26,9 +26,9 @@ public class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
-    @InjectMocks
-    private UserMapper userMapper = new UserMapper();
-    @InjectMocks
+    @Mock
+    private UserMapper userMapper;
+    @Mock
     private MountainMapper mountainMapper;
     private UserService userService;
     private UserEntity userEntityOne;

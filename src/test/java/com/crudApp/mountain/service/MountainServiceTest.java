@@ -24,35 +24,36 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class MountainServiceTest {
 
-    private MountainService mountainService;
     @InjectMocks
-    private MountainMapper mountainMapper = new MountainMapper();
+    private MountainService mountainService;
+    @Mock
+    private MountainMapper mountainMapper;
     @Mock
     private MountainRepository mountainRepository;
 
-    private Mountain mountainOne;
-    private Mountain mountainTwo;
-    private Mountain mountainThree;
+    private MountainDto mountainOne;
+    private MountainDto mountainTwo;
+    private MountainDto mountainThree;
     private MountainRange sudetes;
-    private final List<Mountain> mountainsList = new ArrayList<>();
+    private final List<MountainDto> mountainDtoList = new ArrayList<>();
     private final List<UserRating> userRatings = new ArrayList<>();
     private UserEntity userEntity;
 
     @Before
     public void setUp() {
-        mountainService = new MountainService(mountainRepository, mountainMapper);
-        mountainOne = new Mountain(1L, "Śnieżka", 1603, sudetes, "Poland", "Europe", userRatings);
-        mountainTwo = new Mountain(2L, "Śnieżnik", 1423, sudetes, "Poland", "Europe", userRatings);
-        mountainThree = new Mountain(3L, "Lomnica", 2600, sudetes, "Slovakia", "Europe", userRatings);
-        mountainsList.add(mountainOne);
-        mountainsList.add(mountainTwo);
-        sudetes = new MountainRange(1L, "Sudetes", mountainsList);
+        mountainOne = new MountainDto(1L, "Śnieżka", 1603, sudetes, "Poland", "Europe", userRatings);
+        mountainTwo = new MountainDto(2L, "Śnieżnik", 1423, sudetes, "Poland", "Europe", userRatings);
+        mountainThree = new MountainDto(3L, "Lomnica", 2600, sudetes, "Slovakia", "Europe", userRatings);
+        mountainDtoList.add(mountainOne);
+        mountainDtoList.add(mountainTwo);
+        sudetes = new MountainRange(1L, "Sudetes", mountainDtoList);
     }
 
     @Test
     public void shouldGetAllMountains() {
         //Given
-        when(mountainRepository.findAll()).thenReturn(mountainsList);
+        when(mountainRepository.findAll()).thenReturn(mountainDtoList);
+        when(mountainMapper.mapToMountainDtoList(anyList())).thenReturn()
         //When
         List<MountainDto> mountainDtoList = mountainService.getAllMountains();
         //Then
@@ -66,7 +67,7 @@ public class MountainServiceTest {
         //When
         MountainDto mountainDto = mountainService.getMountain(1L);
         //Then
-        assertEquals("Śnieżka", mountainDto.getName());
+        assertEquals("Śnieżka", mountainDto.getMountainName());
     }
 
     @Test

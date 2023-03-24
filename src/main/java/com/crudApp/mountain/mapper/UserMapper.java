@@ -2,39 +2,25 @@ package com.crudApp.mountain.mapper;
 
 import com.crudApp.mountain.domain.UserEntity;
 import com.crudApp.mountain.domain.UserEntityDto;
-import org.springframework.stereotype.Component;
+import org.mapstruct.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Component
-public class UserMapper {
+@Mapper(uses = {MountainMapper.class, UserRatingMapper.class}, componentModel = "spring")
+public interface UserMapper {
 
-    public UserEntityDto mapToUserDto(UserEntity userEntity) {
-        return new UserEntityDto(
-                userEntity.getId(),
-                userEntity.getUserName(),
-                userEntity.getFirstName(),
-                userEntity.getLastName(),
-                userEntity.getEmail(),
-                userEntity.getUserRatings(),
-                userEntity.getMountains());
-    }
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "userName", target = "userName")
+    @Mapping(source = "firstName", target = "firstName")
+    @Mapping(source = "lastName", target = "lastName")
+    @Mapping(source = "email", target = "email")
+    @Mapping(source = "userRatings", target = "userRatings")
+    @Mapping(source = "mountains", target = "mountains")
+    UserEntityDto mapToUserDto(UserEntity userEntity);
 
-    public UserEntity mapToUser(UserEntityDto userEntityDto) {
-        return new UserEntity(
-                userEntityDto.getId(),
-                userEntityDto.getUserName(),
-                userEntityDto.getFirstName(),
-                userEntityDto.getLastName(),
-                userEntityDto.getEmail(),
-                userEntityDto.getUserRatings(),
-                userEntityDto.getMountains());
-    }
+    @InheritInverseConfiguration(name = "mapToUserDto")
+    UserEntity mapToUser(UserEntityDto userEntityDto);
 
-    public List<UserEntityDto> mapToUserDtoList(List<UserEntity> userEntityList) {
-        return userEntityList.stream()
-                .map(u -> new UserEntityDto(u.getId(), u.getUserName(), u.getFirstName(), u.getLastName(), u.getEmail(),
-                        u.getUserRatings(), u.getMountains())).collect(Collectors.toList());
-    }
+    @IterableMapping(elementTargetType = UserEntityDto.class)
+    List<UserEntityDto> mapToUserDtoList(List<UserEntity> userEntityList);
 }
