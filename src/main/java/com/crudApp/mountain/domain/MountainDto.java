@@ -11,9 +11,9 @@ public class MountainDto {
     private Long id;
     private String mountainName;
     private int height;
-    private MountainRange mountainRange;
+    private MountainRangeDto mountainRange;
     private String country;
     private String continent;
-    private List<UserRating> usersRatings;
+    private List<UserRatingDto> usersRatings;
 }
 

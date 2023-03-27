@@ -10,9 +10,9 @@ import java.util.List;
 public interface UserRatingMapper {
 
     @Mapping(source = "id", target = "id")
-    @Mapping(source = "userEntity", target = "userEntity")
+    @Mapping(source = "userEntity", target = "userEntityDto")
     @Mapping(source = "rate", target = "rate")
-    @Mapping(source = "mountain", target = "mountain")
+    @Mapping(source = "mountain", target = "mountainDto")
     UserRatingDto mapToUserRatingDto(UserRating userRating);
 
     @InheritInverseConfiguration(name = "mapToUserRatingDto")

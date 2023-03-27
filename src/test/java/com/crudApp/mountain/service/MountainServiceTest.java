@@ -31,39 +31,49 @@ public class MountainServiceTest {
     @Mock
     private MountainRepository mountainRepository;
 
-    private MountainDto mountainOne;
-    private MountainDto mountainTwo;
-    private MountainDto mountainThree;
+    private Mountain mountainOne;
     private MountainRange sudetes;
-    private final List<MountainDto> mountainDtoList = new ArrayList<>();
+    private final List<Mountain> mountainList = new ArrayList<>();
     private final List<UserRating> userRatings = new ArrayList<>();
     private UserEntity userEntity;
+    private MountainDto mountainOneDto;
+    private MountainRangeDto sudetesDto;
+    private List<UserRatingDto> userRatingsDto;
+    private final List<MountainDto> mountainDtoList = new ArrayList<>();
 
     @Before
     public void setUp() {
-        mountainOne = new MountainDto(1L, "Śnieżka", 1603, sudetes, "Poland", "Europe", userRatings);
-        mountainTwo = new MountainDto(2L, "Śnieżnik", 1423, sudetes, "Poland", "Europe", userRatings);
-        mountainThree = new MountainDto(3L, "Lomnica", 2600, sudetes, "Slovakia", "Europe", userRatings);
-        mountainDtoList.add(mountainOne);
-        mountainDtoList.add(mountainTwo);
-        sudetes = new MountainRange(1L, "Sudetes", mountainDtoList);
+        mountainOne = new Mountain(1L, "Śnieżka", 1603, sudetes, "Poland", "Europe", userRatings);
+        Mountain mountainTwo = new Mountain(2L, "Śnieżnik", 1423, sudetes, "Poland", "Europe", userRatings);
+        Mountain mountainThree = new Mountain(3L, "Ślęża", 718, sudetes, "Poland", "Europe", userRatings);
+        mountainList.add(mountainOne);
+        mountainList.add(mountainTwo);
+        mountainList.add(mountainThree);
+        sudetes = new MountainRange(1L, "Sudetes", mountainList);
+        mountainOneDto = new MountainDto(1L, "Śnieżka", 1603, sudetesDto, "Poland", "Europe", userRatingsDto);
+        MountainDto mountainTwoDto = new MountainDto(2L, "Śnieżnik", 1423, sudetesDto, "Poland", "Europe", userRatingsDto);
+        MountainDto mountainThreeDto = new MountainDto(3L, "Ślęża", 718, sudetesDto, "Poland", "Europe", userRatingsDto);
+        mountainDtoList.add(mountainOneDto);
+        mountainDtoList.add(mountainTwoDto);
+        mountainDtoList.add(mountainThreeDto);
     }
 
     @Test
     public void shouldGetAllMountains() {
         //Given
-        when(mountainRepository.findAll()).thenReturn(mountainDtoList);
-        when(mountainMapper.mapToMountainDtoList(anyList())).thenReturn()
+        when(mountainRepository.findAll()).thenReturn(mountainList);
+        when(mountainMapper.mapToMountainDtoList(mountainList)).thenReturn(mountainDtoList);
         //When
         List<MountainDto> mountainDtoList = mountainService.getAllMountains();
         //Then
-        assertEquals(2, mountainDtoList.size());
+        assertEquals(3, mountainDtoList.size());
     }
 
     @Test
     public void shouldGetMountain() {
         //Given
         when(mountainRepository.getReferenceById(1L)).thenReturn(mountainOne);
+        when(mountainMapper.mapToMountainDto(mountainOne)).thenReturn(mountainOneDto);
         //When
         MountainDto mountainDto = mountainService.getMountain(1L);
         //Then
@@ -73,18 +83,18 @@ public class MountainServiceTest {
     @Test
     public void shouldFindMountainByName() {
         //Given
-        when(mountainRepository.findByName("Śnie%", MountainService.firstPage)).thenReturn(mountainsList);
+        when(mountainRepository.findAllByName("Ś", MountainService.firstPage)).thenReturn(mountainList);
+        when(mountainMapper.mapToMountainDtoList(mountainList)).thenReturn(mountainDtoList);
         //When
-        List<MountainDto> mountainDtos = mountainService.findMountainByNameLike("Śnie");
-        mountainDtos.size();
+        List<MountainDto> mountainDtos = mountainService.findMountainByNameLike("Ś");
         //Then
-        Assert.assertEquals(2, mountainDtos.size());
+        Assert.assertEquals(3, mountainDtos.size());
     }
 
     @Test
     public void shouldSaveMountain() {
         //Given
-        MountainDto mountainOneDto = mountainMapper.mapToMountainDto(mountainOne);
+        when(mountainMapper.mapToMountain(mountainOneDto)).thenReturn(mountainOne);
         //When
         mountainService.createMountain(mountainOneDto);
         //Then
@@ -94,10 +104,12 @@ public class MountainServiceTest {
     @Test
     public void shouldUpdateMountain() {
         //Given
-        Mountain mountainOne = new Mountain(1L, "Śnieżka", 1610, sudetes, "Poland", "Europe", userRatings);
-        MountainDto mountainDto = mountainMapper.mapToMountainDto(mountainOne);
+        mountainOne = new Mountain(1L, "Śnieżka", 1610, sudetes, "Poland", "Europe", userRatings);
+        mountainOneDto = new MountainDto(1L, "Śnieżka", 1610, sudetesDto, "Poland", "Europe", userRatingsDto);
+        when(mountainMapper.mapToMountain(mountainOneDto)).thenReturn(mountainOne);
+        when(mountainMapper.mapToMountainDto(mountainOne)).thenReturn(mountainOneDto);
         //When
-        MountainDto updatedMountain = mountainService.updateMountain(mountainDto);
+        MountainDto updatedMountain = mountainService.updateMountain(mountainOneDto);
         //Then
         Assert.assertEquals(updatedMountain.getHeight(), 1610);
     }
@@ -116,7 +128,8 @@ public class MountainServiceTest {
     public void shouldReturnAllMountainsAboveGivenHeight() {
         //Given
         int height = 1400;
-        when(mountainRepository.findAll()).thenReturn(mountainsList);
+        when(mountainRepository.findAll()).thenReturn(mountainList);
+        when(mountainMapper.mapToMountainDtoList(mountainList)).thenReturn(mountainDtoList);
         //When
         List<MountainDto> mountainDtoList = mountainService.getMountainByHeight(height);
         //Then
@@ -139,27 +152,22 @@ public class MountainServiceTest {
     @Test
     public void shouldGetMountainsByCountry() {
         //Given
-        List<Mountain> mountains = new ArrayList<>();
-        mountains.add(mountainOne);
-        mountains.add(mountainTwo);
-        mountains.add(mountainThree);
-        when(mountainRepository.findAll()).thenReturn(mountains);
+        when(mountainRepository.findAll()).thenReturn(mountainList);
+        when(mountainMapper.mapToMountainDtoList(mountainList)).thenReturn(mountainDtoList);
         //When
         List<MountainDto> mountainDtoList = mountainService.getMountainsByCountry("Poland");
         //Then
-        Assert.assertEquals(2, mountainDtoList.size());
+        Assert.assertEquals(3, mountainDtoList.size());
     }
 
     @Test
     public void shouldGetMountainsByContinent() {
         //Given
-        List<Mountain> mountains = new ArrayList<>();
-        mountains.add(mountainOne);
-        mountains.add(mountainTwo);
-        when(mountainRepository.findAll()).thenReturn(mountains);
+        when(mountainRepository.findAll()).thenReturn(mountainList);
+        when(mountainMapper.mapToMountainDtoList(mountainList)).thenReturn(mountainDtoList);
         //When
         List<MountainDto> mountainDtoList = mountainService.getMountainsByContinent("Europe");
         //Then
-        Assert.assertEquals(2, mountainDtoList.size());
+        Assert.assertEquals(3, mountainDtoList.size());
     }
 }

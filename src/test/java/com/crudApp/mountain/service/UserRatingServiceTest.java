@@ -1,9 +1,10 @@
 package com.crudApp.mountain.service;
 
 import com.crudApp.mountain.domain.*;
+import com.crudApp.mountain.mapper.MountainMapper;
+import com.crudApp.mountain.mapper.UserMapper;
 import com.crudApp.mountain.mapper.UserRatingMapper;
 import com.crudApp.mountain.repository.UserRatingRepository;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -26,6 +28,8 @@ public class UserRatingServiceTest {
     private UserRatingMapper userRatingMapper;
     @Mock
     private UserRatingRepository userRatingRepository;
+    private UserMapper userMapper;
+    private MountainMapper mountainMapper;
     private UserRatingService userRatingService;
     private UserRating userRatingOne;
     private final List<UserRating> userRatings = new ArrayList<>();
@@ -52,7 +56,7 @@ public class UserRatingServiceTest {
         //When
         List<UserRatingDto> userRatingList = userRatingService.getAllUserRatings();
         //Then
-        Assert.assertEquals(2, userRatingList.size());
+        assertEquals(2, userRatingList.size());
     }
 
     @Test
@@ -62,13 +66,13 @@ public class UserRatingServiceTest {
         //When
         UserRatingDto userRatingDto = userRatingService.getUserRating(1L);
         //Then
-        Assert.assertEquals(userEntityOne, userRatingDto.getUserEntity());
+        assertEquals(userEntityOne, userRatingDto.getUserEntityDto());
     }
 
     @Test
     public void shouldAddUserRating() {
         //Given
-        UserRatingDto userRatingDto = new UserRatingDto(1L, userEntityOne, 5, mountain);
+        UserRatingDto userRatingDto = new UserRatingDto(1L, userMapper.mapToUserDto(userEntityOne), 5, mountainMapper.mapToMountainDto(mountain));
         //When
         userRatingService.addUserRating(userRatingDto);
         //Then
@@ -78,17 +82,17 @@ public class UserRatingServiceTest {
     @Test
     public void shouldUpdateUserRating() {
         //Given
-        UserRatingDto userRatingDto = new UserRatingDto(1L, userEntityOne, 4, mountain);
+        UserRatingDto userRatingDto = new UserRatingDto(1L, userMapper.mapToUserDto(userEntityOne), 4, mountainMapper.mapToMountainDto(mountain));
         //When
         userRatingService.updateUserRating(userRatingDto);
         //Then
-        Assert.assertEquals(4, userRatingDto.getRate());
+        assertEquals(4, userRatingDto.getRate());
     }
 
     @Test
     public void shouldDeleteUserRating() {
         //Given
-        UserRatingDto userRatingDto = new UserRatingDto(1L, userEntityOne, 4, mountain);
+        UserRatingDto userRatingDto = new UserRatingDto(1L,userMapper.mapToUserDto(userEntityOne), 4, mountainMapper.mapToMountainDto(mountain));
         //When
         Long idToDelete = userRatingDto.getId();
         userRatingService.deleteUserRating(1L);

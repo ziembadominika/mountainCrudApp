@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 
 
 @Service
-@Data
 @RequiredArgsConstructor
 public class MountainService {
 
@@ -34,7 +33,7 @@ public class MountainService {
     }
 
     public List<MountainDto> findMountainByNameLike(String name) {
-        List<Mountain> mountains = mountainRepository.findByName(name, firstPage);
+        List<Mountain> mountains = mountainRepository.findAllByName(name, firstPage);
         return mountainMapper.mapToMountainDtoList(mountains);
     }
 

@@ -8,7 +8,7 @@ import lombok.Data;
 public class UserRatingDto {
 
     private Long id;
-    private UserEntity userEntity;
+    private UserEntityDto userEntityDto;
     private int rate;
-    private Mountain mountain;
+    private MountainDto mountainDto;
 }

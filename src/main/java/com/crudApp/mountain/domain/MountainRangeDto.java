@@ -13,6 +13,6 @@ public class MountainRangeDto {
 
     private Long id;
     private String rangeName;
-    private List<Mountain> mountains;
+    private List<MountainDto> mountains;
     
 }

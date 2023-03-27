@@ -3,14 +3,11 @@ package com.crudApp.mountain.mapper;
 import com.crudApp.mountain.domain.Mountain;
 import com.crudApp.mountain.domain.MountainDto;
 import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
 @Mapper(uses = {MountainRangeMapper.class, UserRatingMapper.class}, componentModel = "spring")
 public interface MountainMapper {
-
-    MountainMapper INSTANCE = Mappers.getMapper(MountainMapper.class);
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "mountainName", target = "name")

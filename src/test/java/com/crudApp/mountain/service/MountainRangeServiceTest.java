@@ -38,6 +38,7 @@ public class MountainRangeServiceTest {
     private final List<Mountain> tatry = new ArrayList<>();
     private final List<UserRating> userRatings = new ArrayList<>();
     private final List<Mountain> sudetes = new ArrayList<>();
+    private List<MountainDto> tatryDto = new ArrayList<>();
 
     @Before
     public void setUp() {
@@ -105,7 +106,7 @@ public class MountainRangeServiceTest {
     @Test
     public void shouldUpdateMountainRange() {
         //Given
-        MountainRangeDto mountainRangeDto = new MountainRangeDto(1L, "the Tatras", tatry);
+        MountainRangeDto mountainRangeDto = new MountainRangeDto(1L, "the Tatras", tatryDto);
         //When
         mountainRangeService.updateMountainRange(mountainRangeDto);
         //Then
@@ -115,8 +116,8 @@ public class MountainRangeServiceTest {
     @Test
     public void shouldDeleteMountainRange() {
         //Given
-        MountainRangeDto mountainRangeDto = new MountainRangeDto(1L, "Tatra Mountains", tatry);
-        Long mountainRangeId = mountainRangeDto.getId();
+        MountainRange mountainRange = new MountainRange(1L, "Tatra Mountains", tatry);
+        Long mountainRangeId = mountainRange.getId();
         //When
         mountainRangeService.deleteMountainRange(mountainRangeId);
         //Then
