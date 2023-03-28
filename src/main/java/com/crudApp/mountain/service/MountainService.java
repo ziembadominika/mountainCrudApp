@@ -5,7 +5,6 @@ import com.crudApp.mountain.domain.MountainDto;
 import com.crudApp.mountain.exception.MountainNotFoundException;
 import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.repository.MountainRepository;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

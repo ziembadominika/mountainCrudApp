@@ -6,15 +6,16 @@ import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(uses = {MountainMapper.class},componentModel = "spring")
+@Mapper(componentModel = "spring")
 public interface MountainRangeMapper {
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "rangeName", target = "rangeName")
-    @Mapping(source = "mountains", target = "mountains")
+    @Mapping(ignore = true, target = "mountains")
     MountainRange mapToMountainRange(MountainRangeDto mountainRangeDto);
 
-    @InheritInverseConfiguration(name = "mapToMountainRange")
+    @InheritInverseConfiguration
+    @Mapping(ignore = true, target = "mountains")
     MountainRangeDto mapToMountainRangeDto(MountainRange mountainRange);
 
     @IterableMapping(elementTargetType = MountainRangeDto.class)

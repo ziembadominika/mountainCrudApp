@@ -10,11 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping(value = "/mountainApp")
 public class MountainRangeController {
 
-    private final MountainRangeService mountainRangeService;
+    private MountainRangeService mountainRangeService;
 
     @GetMapping(value = "/getAllMountainRanges")
     private List<MountainRangeDto> getAllMountainRanges() {

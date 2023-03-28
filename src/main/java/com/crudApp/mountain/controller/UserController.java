@@ -10,11 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/mountainApp")
 public class UserController {
 
-    private final UserService userService;
+    private UserService userService;
 
     @GetMapping(value = "/getAllUsers")
     public List<UserEntityDto> getAllUsers() {

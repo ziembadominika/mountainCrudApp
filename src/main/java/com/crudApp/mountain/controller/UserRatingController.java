@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/mountainApp")
 public class UserRatingController {
 
-    private final UserRatingService userRatingService;
+    private UserRatingService userRatingService;
 
     @GetMapping(value = "/getUserRatingsList")
     public List<UserRatingDto> getUserRatingList() {

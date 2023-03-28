@@ -6,7 +6,7 @@ import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(uses = {MountainMapper.class, UserRatingMapper.class}, componentModel = "spring")
+@Mapper(componentModel = "spring")
 public interface UserMapper {
 
     @Mapping(source = "id", target = "id")
@@ -14,8 +14,8 @@ public interface UserMapper {
     @Mapping(source = "firstName", target = "firstName")
     @Mapping(source = "lastName", target = "lastName")
     @Mapping(source = "email", target = "email")
-    @Mapping(source = "userRatings", target = "userRatings")
-    @Mapping(source = "mountains", target = "mountains")
+    @Mapping(ignore = true, target = "userRatings")
+    @Mapping(ignore = true, target = "mountains")
     UserEntityDto mapToUserDto(UserEntity userEntity);
 
     @InheritInverseConfiguration(name = "mapToUserDto")

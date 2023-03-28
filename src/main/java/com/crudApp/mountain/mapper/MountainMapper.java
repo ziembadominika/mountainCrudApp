@@ -6,7 +6,7 @@ import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(uses = {MountainRangeMapper.class, UserRatingMapper.class}, componentModel = "spring")
+@Mapper(uses = {MountainRangeMapper.class}, componentModel = "spring")
 public interface MountainMapper {
 
     @Mapping(source = "id", target = "id")
@@ -19,7 +19,8 @@ public interface MountainMapper {
     Mountain mapToMountain(MountainDto mountainDto);
 
 
-    @InheritInverseConfiguration(name = "mapToMountain")
+    @InheritInverseConfiguration
+    @Mapping(ignore = true, target = "usersRatings")
     MountainDto mapToMountainDto(final Mountain mountain);
     @IterableMapping(elementTargetType = MountainDto.class)
     List<MountainDto> mapToMountainDtoList(List<Mountain> mountainList);
