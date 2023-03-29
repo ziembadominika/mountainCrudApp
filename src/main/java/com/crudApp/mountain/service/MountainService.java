@@ -14,14 +14,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Service
 @RequiredArgsConstructor
 public class MountainService {
 
     private final MountainRepository mountainRepository;
     private final MountainMapper mountainMapper;
-    public static Pageable firstPage = PageRequest.of(1, 5, Sort.by("name"));
+    public static Pageable firstPage = PageRequest.of(1, 1, Sort.by("name"));
 
     public List<MountainDto> getAllMountains() {
         return mountainMapper.mapToMountainDtoList(mountainRepository.findAll());
@@ -32,7 +31,7 @@ public class MountainService {
     }
 
     public List<MountainDto> findMountainByNameLike(String name) {
-        List<Mountain> mountains = mountainRepository.findAllByName(name, firstPage);
+        List<Mountain> mountains = mountainRepository.searchByName(name, firstPage);
         return mountainMapper.mapToMountainDtoList(mountains);
     }
 

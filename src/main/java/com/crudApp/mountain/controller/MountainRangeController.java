@@ -3,8 +3,6 @@ package com.crudApp.mountain.controller;
 import com.crudApp.mountain.domain.MountainDto;
 import com.crudApp.mountain.domain.MountainRangeDto;
 import com.crudApp.mountain.service.MountainRangeService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +21,11 @@ public class MountainRangeController {
     @GetMapping(value = "/getMountainRange")
     private MountainRangeDto getMountainRange(@RequestParam Long id) {
         return mountainRangeService.getMountainRange(id);
+    }
+
+    @GetMapping(value = "/getRangeByName")
+    private List<MountainRangeDto> findRangesByName(@RequestParam String name) {
+        return mountainRangeService.findMountainRangeByNameLike(name);
     }
 
     @PostMapping(value = "/createMountainRange")

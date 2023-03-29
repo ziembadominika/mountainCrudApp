@@ -6,7 +6,6 @@ import com.crudApp.mountain.mapper.UserRatingMapper;
 import com.crudApp.mountain.repository.UserRatingRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

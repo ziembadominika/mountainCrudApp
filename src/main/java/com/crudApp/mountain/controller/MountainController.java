@@ -40,7 +40,7 @@ public class MountainController {
         mountainService.createMountain(mountainDto);
     }
 
-    @GetMapping(value = "getMountainByName")
+    @GetMapping(value = "/getMountainByName")
     public List<MountainDto> getMountainByName(@RequestParam String name) {
         return mountainService.findMountainByNameLike(name);
     }
