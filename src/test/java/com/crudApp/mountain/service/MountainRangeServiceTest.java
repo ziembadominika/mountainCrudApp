@@ -90,7 +90,6 @@ public class MountainRangeServiceTest {
         mountainRangeService.findMountainRangeByNameLike("tat");
         //Then
         Assert.assertEquals(1, mountainRangeDtoList.size());
-
     }
 
     @Test
