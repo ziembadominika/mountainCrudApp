@@ -21,4 +21,7 @@ public interface UserRatingMapper {
     @IterableMapping(elementTargetType = UserRatingDto.class)
     List<UserRatingDto>mapToUserRatingDtoList(List<UserRating>userRatings);
 
+    @IterableMapping(elementTargetType = UserRating.class)
+    List<UserRating>mapToUserRatingList(List<UserRatingDto>userRatings);
+
 }

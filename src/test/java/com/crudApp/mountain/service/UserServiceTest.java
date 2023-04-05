@@ -30,17 +30,24 @@ public class UserServiceTest {
     private UserMapper userMapper;
     @Mock
     private MountainMapper mountainMapper;
+    @InjectMocks
     private UserService userService;
     private UserEntity userEntityOne;
+    private UserEntityDto userEntityOneDto;
     private final List<UserEntity> usersList = new ArrayList<>();
-    private List<UserRating> userOneRatings;
-    private final List<Mountain> userOneMountains = new ArrayList<>();
-    private List<UserRating> userTwoRatings;
-    private List<Mountain> userTwoMountains;
+    private final List<UserEntityDto> usersListDto = new ArrayList<>();
     private MountainRange tatraMountains;
+    private MountainRangeDto tatraMountainsDto;
     private List<UserRating> userRatings;
-    private List<Role> userOneRoles;
-    private List<Role> userTwoRoles;
+    private List<UserRatingDto> userRatingsDto;
+    private List<UserRating> userOneRatings;
+    private List<UserRatingDto> userOneRatingsDto;
+    private List<UserRating> userTwoRatings;
+    private List<UserRatingDto> userTwoRatingsDto;
+    private final List<Mountain> userOneMountains = new ArrayList<>();
+    private final List<MountainDto> userOneMountainsDto = new ArrayList<>();
+    private List<Mountain> userTwoMountains;
+    private List<MountainDto> userTwoMountainsDto;
 
     @Before
     public void setUp() {
@@ -49,14 +56,23 @@ public class UserServiceTest {
                 userOneMountains);
         UserEntity userEntityTwo = new UserEntity(2L, "mountain_addict", "Thomas", "Evans", "evanst@gmail.com", userTwoRatings,
                 userTwoMountains);
+
         usersList.add(userEntityOne);
         usersList.add(userEntityTwo);
+        userEntityOneDto = new UserEntityDto(1L, "user97", "Susan", "Jones", "susan97@gmail.com", userOneRatingsDto,
+                userOneMountainsDto);
+        UserEntityDto userEntityTwoDto = new UserEntityDto(2L, "mountain_addict", "Thomas", "Evans", "evanst@gmail.com",
+                userTwoRatingsDto, userTwoMountainsDto);
+        usersListDto.add(userEntityOneDto);
+        usersListDto.add(userEntityTwoDto);
+
     }
 
     @Test
     public void shouldGetAllUsers() {
         //Given
         when(userRepository.findAll()).thenReturn(usersList);
+        when(userMapper.mapToUserDtoList(usersList)).thenReturn(usersListDto);
         //When
         List<UserEntityDto> resultList = userService.getAllUsers();
         //Then
@@ -67,6 +83,7 @@ public class UserServiceTest {
     public void shouldGetUser() {
         //Given
         when(userRepository.getReferenceById(1L)).thenReturn(userEntityOne);
+        when(userMapper.mapToUserDto(userEntityOne)).thenReturn(userEntityOneDto);
         //When
         UserEntityDto userEntityDto = userService.getUser(1L);
         //Then
@@ -77,10 +94,9 @@ public class UserServiceTest {
     public void shouldFindUseByUserNameContaining() {
         //Given
         List<UserEntity> usersList = new ArrayList<>();
-        userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", "susan97@gmail.com", userOneRatings,
-                userOneMountains);
         usersList.add(userEntityOne);
         when(userRepository.findByUserName("Su")).thenReturn(userEntityOne);
+        when(userMapper.mapToUserDto(userEntityOne)).thenReturn(userEntityOneDto);
         //When
         userService.findUserByUserNameContaining("Su");
         //Then
@@ -90,9 +106,9 @@ public class UserServiceTest {
     @Test
     public void shouldCreateUser() {
         //Given
-        UserEntityDto userEntityDto = userMapper.mapToUserDto(userEntityOne);
+        when(userMapper.mapToUser(userEntityOneDto)).thenReturn(userEntityOne);
         //When
-        userService.createUser(userEntityDto);
+        userService.createUser(userEntityOneDto);
         //Then
         verify(userRepository, times(1)).save(any(UserEntity.class));
     }
@@ -102,11 +118,12 @@ public class UserServiceTest {
         //Given
         UserEntity userEntityOne = new UserEntity(1L, "Susan97", "Susan", "Jones", "susan97@gmail.com", userOneRatings,
                 userOneMountains);
-        UserEntityDto userEntityDto = userMapper.mapToUserDto(userEntityOne);
-
+        userEntityOneDto = new UserEntityDto(1L, "Susan97", "Susan", "Jones", "susan97@gmail.com", userOneRatingsDto,
+                userOneMountainsDto);
+        when(userMapper.mapToUserDto(userEntityOne)).thenReturn(userEntityOneDto);
+        when(userMapper.mapToUser(userEntityOneDto)).thenReturn(userEntityOne);
         //When
-        UserEntityDto updatedUser = userService.updateUser(userEntityDto);
-
+        UserEntityDto updatedUser = userService.updateUser(userEntityOneDto);
         //Then
         Assert.assertEquals("Susan97", updatedUser.getUserName());
     }
@@ -124,14 +141,18 @@ public class UserServiceTest {
     @Test
     public void shouldGetUsersMountains() {
         //Given
-        List<Mountain> userOneMountains = new ArrayList<>();
-        userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", "susan97@gmail.com", userOneRatings,
-                userOneMountains);
         Mountain rysy = new Mountain(1L, "Rysy", 2499, tatraMountains, "Poland", "Europe", userRatings);
         Mountain łomnica = new Mountain(2L, "Łomnica", 2634, tatraMountains, "Slovakia", "Europe", userRatings);
+        userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", "susan97@gmail.com", userOneRatings,
+                userOneMountains);
         userOneMountains.add(rysy);
         userOneMountains.add(łomnica);
+        MountainDto rysyDto = new MountainDto(1L, "Rysy", 2499, tatraMountainsDto, "Poland", "Europe", userRatingsDto);
+        MountainDto łomnicaDto = new MountainDto(2L, "Łomnica", 2634, tatraMountainsDto, "Slovakia", "Europe", userRatingsDto);
+        userOneMountainsDto.add(rysyDto);
+        userOneMountainsDto.add(łomnicaDto);
         when(userRepository.findById(1L)).thenReturn(Optional.of(userEntityOne));
+        when(mountainMapper.mapToMountainDtoList(userOneMountains)).thenReturn(userOneMountainsDto);
         //When
         List<MountainDto> mountainList = userService.getUserMountains(userEntityOne.getId());
         //Then

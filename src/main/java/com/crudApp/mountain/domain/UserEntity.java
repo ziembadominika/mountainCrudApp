@@ -5,11 +5,11 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.*;
 
-@NoArgsConstructor
+@Entity
 @Getter
 @Setter
-@Entity
 @Table(name = "USERS")
+@NoArgsConstructor
 public class UserEntity {
 
     @Id
@@ -48,5 +48,6 @@ public class UserEntity {
         this.userRatings = userRatings;
         this.mountains = mountains;
     }
+
 }
 

@@ -1,12 +1,11 @@
 package com.crudApp.mountain.mapper;
 
-import com.crudApp.mountain.domain.UserEntity;
-import com.crudApp.mountain.domain.UserEntityDto;
+import com.crudApp.mountain.domain.*;
 import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(uses = {UserRatingMapper.class, MountainMapper.class}, componentModel = "spring")
 public interface UserMapper {
 
     @Mapping(source = "id", target = "id")
@@ -15,7 +14,8 @@ public interface UserMapper {
     @Mapping(source = "lastName", target = "lastName")
     @Mapping(source = "email", target = "email")
     @Mapping(ignore = true, target = "userRatings")
-    @Mapping(ignore = true, target = "mountains")
+    @Mapping(source = "mountains", target = "mountains")
+    @Mapping(source = "roles", target = "roles")
     UserEntityDto mapToUserDto(UserEntity userEntity);
 
     @InheritInverseConfiguration(name = "mapToUserDto")
