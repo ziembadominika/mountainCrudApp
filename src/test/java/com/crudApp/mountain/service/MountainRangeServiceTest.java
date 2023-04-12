@@ -6,7 +6,6 @@ import com.crudApp.mountain.mapper.MountainRangeMapper;
 import com.crudApp.mountain.repository.MountainRangeRepository;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -76,7 +75,6 @@ public class MountainRangeServiceTest {
         polishMountainsDto.add(theSudetesDto);
     }
 
-    @Ignore
     @Test
     public void shouldGetAllMountainRanges() {
         //Given
@@ -87,48 +85,52 @@ public class MountainRangeServiceTest {
         //Then
         Assert.assertEquals(2, allRanges.size());
     }
-    @Ignore
     @Test
     public void shouldGetMountainRange() {
         //Given
         when(mountainRangeRepository.getReferenceById(1L)).thenReturn(tatraMountains);
+        when(mountainRangeMapper.mapToMountainRangeDto(tatraMountains)).thenReturn(tatraMountainsDto);
         //When
         MountainRangeDto tatra = mountainRangeService.getMountainRange(1L);
         //Then
         Assert.assertEquals("Tatra Mountains", tatra.getRangeName());
     }
-    @Ignore
+
     @Test
     public void shouldFindMountainRangeByNameLike() {
         //Given
-        List<MountainRange> mountainRangeDtoList = new ArrayList<>();
-        mountainRangeDtoList.add(tatraMountains);
+        List<MountainRange> mountainRangeList = new ArrayList<>();
+        mountainRangeList.add(tatraMountains);
+        List<MountainRangeDto> mountainRangeDtos = new ArrayList<>();
+        mountainRangeDtos.add(tatraMountainsDto);
+        when(mountainRangeRepository.findAllByRangeName("Tat")).thenReturn(mountainRangeList);
+        when(mountainRangeMapper.mapToMountainRangeDtoList(mountainRangeList)).thenReturn(mountainRangeDtos);
         //When
-        mountainRangeService.findMountainRangeByNameLike("tat");
+        List<MountainRangeDto> mountainRangeDtoList = mountainRangeService.findMountainRangeByNameLike("Tat");
         //Then
         Assert.assertEquals(1, mountainRangeDtoList.size());
     }
-    @Ignore
+
     @Test
     public void shouldCreateMountainRange() {
         //Given
-        MountainRangeDto mountainRangeDto = mountainRangeMapper.mapToMountainRangeDto(tatraMountains);
+        when(mountainRangeMapper.mapToMountainRange(tatraMountainsDto)).thenReturn(tatraMountains);
         //When
-        mountainRangeService.createMountainRange(mountainRangeDto);
+        mountainRangeService.createMountainRange(tatraMountainsDto);
         //Then
         verify(mountainRangeRepository, times(1)).save(any(MountainRange.class));
     }
-    @Ignore
+
     @Test
     public void shouldUpdateMountainRange() {
         //Given
-        MountainRangeDto mountainRangeDto = new MountainRangeDto(1L, "the Tatras", tatryDto);
+        MountainRangeDto tatraMountainsDto = new MountainRangeDto(1L, "the Tatras", tatryDto);
         //When
-        mountainRangeService.updateMountainRange(mountainRangeDto);
+        mountainRangeService.updateMountainRange(tatraMountainsDto);
         //Then
-        Assert.assertEquals("the Tatras", mountainRangeDto.getRangeName());
+        Assert.assertEquals("the Tatras", tatraMountainsDto.getRangeName());
     }
-    @Ignore
+
     @Test
     public void shouldDeleteMountainRange() {
         //Given
@@ -139,13 +141,13 @@ public class MountainRangeServiceTest {
         //Then
         verify(mountainRangeRepository, times(1)).deleteById(mountainRangeId);
     }
-    @Ignore
+
     @Test
     public void shouldGetMountainsFromRange() {
         //Given
-        tatraMountains = new MountainRange(1L, "Tatra Mountains", tatry);
         Long rangeId = tatraMountains.getId();
         when(mountainRangeRepository.findById(rangeId)).thenReturn(Optional.ofNullable(tatraMountains));
+        when(mountainMapper.mapToMountainDtoList(tatraMountains.getMountains())).thenReturn(tatraMountainsDto.getMountains());
         //When
         List<MountainDto> mountainsFromRange = mountainRangeService.getMountainsFromRange(rangeId);
         //Then
