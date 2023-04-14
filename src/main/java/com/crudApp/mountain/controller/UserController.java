@@ -3,15 +3,18 @@ package com.crudApp.mountain.controller;
 import com.crudApp.mountain.domain.MountainDto;
 import com.crudApp.mountain.domain.UserEntityDto;
 import com.crudApp.mountain.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/mountainApp")
 public class UserController {
 
-    private UserService userService;
+
+    private final UserService userService;
 
     @GetMapping(value = "/getAllUsers")
     public List<UserEntityDto> getAllUsers() {

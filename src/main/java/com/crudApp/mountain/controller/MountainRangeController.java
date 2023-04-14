@@ -3,15 +3,17 @@ package com.crudApp.mountain.controller;
 import com.crudApp.mountain.domain.MountainDto;
 import com.crudApp.mountain.domain.MountainRangeDto;
 import com.crudApp.mountain.service.MountainRangeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(value = "/mountainApp")
 public class MountainRangeController {
 
-    private MountainRangeService mountainRangeService;
+    private final MountainRangeService mountainRangeService;
 
     @GetMapping(value = "/getAllMountainRanges")
     private List<MountainRangeDto> getAllMountainRanges() {

@@ -15,7 +15,7 @@ public interface UserRatingMapper {
     @Mapping(source = "mountain", target = "mountainDto")
     UserRatingDto mapToUserRatingDto(UserRating userRating);
 
-    @InheritInverseConfiguration(name = "mapToUserRatingDto")
+    @InheritInverseConfiguration
     UserRating mapToUserRating(UserRatingDto userRatingDto);
 
     @IterableMapping(elementTargetType = UserRatingDto.class)

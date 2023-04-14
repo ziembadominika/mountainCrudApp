@@ -2,15 +2,17 @@ package com.crudApp.mountain.controller;
 
 import com.crudApp.mountain.domain.UserRatingDto;
 import com.crudApp.mountain.service.UserRatingService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/mountainApp")
 public class UserRatingController {
 
-    private UserRatingService userRatingService;
+    private final UserRatingService userRatingService;
 
     @GetMapping(value = "/getUserRatingsList")
     public List<UserRatingDto> getUserRatingList() {
