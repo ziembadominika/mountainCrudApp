@@ -2,7 +2,7 @@
 
 # About
 
-##### Backend and REST application uses Database(MySQL) and Spring Boot. An application that combines my two passions: coding and mountains. Still working on it.
+##### Backend and REST application uses Database(MySQL) and Spring Boot. The application that combines my two passions: coding and mountains. Still working on it.
 
 * search for mountains by name, height, country or continent
 * mountains rating

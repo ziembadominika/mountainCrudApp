@@ -31,7 +31,7 @@ public class MountainRangeService {
     }
 
     public List<MountainRangeDto> findMountainRangeByNameLike(String name) {
-        List<MountainRange> mountainRanges = mountainRangeRepository.findAllByRangeName(name);
+        List<MountainRange> mountainRanges = mountainRangeRepository.findByRangeNameContainingIgnoreCase(name);
         return mountainRangeMapper.mapToMountainRangeDtoList(mountainRanges);
     }
 

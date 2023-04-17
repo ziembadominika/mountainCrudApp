@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface MountainRangeRepository extends JpaRepository<MountainRange, Long> {
 
-    List<MountainRange> findAllByRangeName(String mountainRangeName);
+    List<MountainRange> findByRangeNameContainingIgnoreCase(String rangeName);
 }

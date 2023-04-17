@@ -103,7 +103,7 @@ public class MountainRangeServiceTest {
         mountainRangeList.add(tatraMountains);
         List<MountainRangeDto> mountainRangeDtos = new ArrayList<>();
         mountainRangeDtos.add(tatraMountainsDto);
-        when(mountainRangeRepository.findAllByRangeName("Tat")).thenReturn(mountainRangeList);
+        when(mountainRangeRepository.findByRangeNameContainingIgnoreCase("Tat")).thenReturn(mountainRangeList);
         when(mountainRangeMapper.mapToMountainRangeDtoList(mountainRangeList)).thenReturn(mountainRangeDtos);
         //When
         List<MountainRangeDto> mountainRangeDtoList = mountainRangeService.findMountainRangeByNameLike("Tat");
