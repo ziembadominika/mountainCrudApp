@@ -30,8 +30,8 @@ public class UserService {
         return userMapper.mapToUserDto(userRepository.getReferenceById(id));
     }
 
-    public UserEntityDto findUserByUserNameContaining(String name){
-        return userMapper.mapToUserDto(userRepository.findByUserName(name));
+    public List<UserEntityDto> findUserByUserNameContaining(String name){
+        return userMapper.mapToUserDtoList(userRepository.findByUserNameContainingIgnoreCase(name));
     }
 
     public void createUser(UserEntityDto userEntityDto) {
