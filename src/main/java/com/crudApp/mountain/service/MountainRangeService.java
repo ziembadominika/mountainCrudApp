@@ -9,6 +9,9 @@ import com.crudApp.mountain.mapper.MountainRangeMapper;
 import com.crudApp.mountain.repository.MountainRangeRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +25,8 @@ public class MountainRangeService {
     private final MountainRangeRepository mountainRangeRepository;
     private final MountainRangeMapper mountainRangeMapper;
 
+    public static Pageable firstPage = PageRequest.of(1, 5, Sort.by("name"));
+
     public List<MountainRangeDto> getAllMountainRanges() {
         return mountainRangeMapper.mapToMountainRangeDtoList(mountainRangeRepository.findAll());
     }
@@ -31,7 +36,7 @@ public class MountainRangeService {
     }
 
     public List<MountainRangeDto> findMountainRangeByNameLike(String name) {
-        List<MountainRange> mountainRanges = mountainRangeRepository.findByRangeNameContainingIgnoreCase(name);
+        List<MountainRange> mountainRanges = mountainRangeRepository.findByRangeNameContainingIgnoreCase(name, firstPage);
         return mountainRangeMapper.mapToMountainRangeDtoList(mountainRanges);
     }
 

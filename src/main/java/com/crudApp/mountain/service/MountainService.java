@@ -20,7 +20,7 @@ public class MountainService {
 
     private final MountainRepository mountainRepository;
     private final MountainMapper mountainMapper;
-    public static Pageable firstPage = PageRequest.of(1, 1, Sort.by("name"));
+    public static Pageable firstPage = PageRequest.of(1, 5, Sort.by("name"));
 
     public List<MountainDto> getAllMountains() {
         return mountainMapper.mapToMountainDtoList(mountainRepository.findAll());

@@ -12,6 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.mockito.Mock;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +48,7 @@ public class MountainRangeServiceTest {
     private final List<UserRatingDto> userRatingsDto = new ArrayList<>();
     private final List<Mountain> sudetes = new ArrayList<>();
     private final List<MountainDto> sudetesDto = new ArrayList<>();
+    public static Pageable firstPage = PageRequest.of(1, 5, Sort.by("name"));
 
     @Before
     public void setUp() {
@@ -103,7 +107,7 @@ public class MountainRangeServiceTest {
         mountainRangeList.add(tatraMountains);
         List<MountainRangeDto> mountainRangeDtos = new ArrayList<>();
         mountainRangeDtos.add(tatraMountainsDto);
-        when(mountainRangeRepository.findByRangeNameContainingIgnoreCase("Tat")).thenReturn(mountainRangeList);
+        when(mountainRangeRepository.findByRangeNameContainingIgnoreCase("Tat", firstPage)).thenReturn(mountainRangeList);
         when(mountainRangeMapper.mapToMountainRangeDtoList(mountainRangeList)).thenReturn(mountainRangeDtos);
         //When
         List<MountainRangeDto> mountainRangeDtoList = mountainRangeService.findMountainRangeByNameLike("Tat");
