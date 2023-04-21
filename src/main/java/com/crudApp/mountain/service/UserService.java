@@ -9,6 +9,9 @@ import com.crudApp.mountain.mapper.UserMapper;
 import com.crudApp.mountain.repository.UserRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +24,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final MountainMapper mountainMapper;
+    public static Pageable firstPage = PageRequest.of(1, 5, Sort.by("name"));
 
     public List<UserEntityDto> getAllUsers(){
         return userMapper.mapToUserDtoList(userRepository.findAll());
@@ -31,7 +35,7 @@ public class UserService {
     }
 
     public List<UserEntityDto> findUserByUserNameContaining(String name){
-        return userMapper.mapToUserDtoList(userRepository.findByUserNameContainingIgnoreCase(name));
+        return userMapper.mapToUserDtoList(userRepository.findByUserNameContainingIgnoreCase(name, firstPage));
     }
 
     public void createUser(UserEntityDto userEntityDto) {

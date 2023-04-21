@@ -12,6 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +51,7 @@ public class UserServiceTest {
     private final List<MountainDto> userOneMountainsDto = new ArrayList<>();
     private List<Mountain> userTwoMountains;
     private List<MountainDto> userTwoMountainsDto;
+    public static Pageable firstPage = PageRequest.of(1, 5, Sort.by("name"));
 
     @Before
     public void setUp() {
