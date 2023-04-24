@@ -61,13 +61,6 @@ public class MountainRangeServiceTest {
         tatryDto.add(rysyDto);
         tatryDto.add(łomnicaDto);
 
-        Mountain śnieżnik = new Mountain(3L, "Śnieżnik", 1423, theSudetes, "Poland", "Europe", userRatings);
-        Mountain śnieżka = new Mountain(4L, "Śnieżka", 1603, theSudetes, "Poland", "Europe", userRatings);
-        sudetes.add(śnieżnik);
-        sudetes.add(śnieżka);
-        MountainDto śnieżnikDto = new MountainDto(3L, "Śnieżnik", 1423, theSudetesDto, "Poland", "Europe", userRatingsDto);
-        MountainDto śnieżkaDto = new MountainDto(4L, "Śnieżka", 1603, theSudetesDto, "Poland", "Europe", userRatingsDto);
-
         tatraMountains = new MountainRange(1L, "Tatra Mountains", tatry);
         tatraMountainsDto = new MountainRangeDto(1L, "Tatra Mountains", tatryDto);
         theSudetes = new MountainRange(2L, "Sudetes", sudetes);

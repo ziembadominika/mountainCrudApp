@@ -1,11 +1,7 @@
 package com.crudApp.mountain.jdbc;
 
-
-
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
-
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

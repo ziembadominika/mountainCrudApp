@@ -1,10 +1,8 @@
 package com.crudApp.mountain.controller;
 
-import com.crudApp.mountain.domain.AuthenticationResponseDto;
 import com.crudApp.mountain.domain.LoginDto;
 import com.crudApp.mountain.domain.UserEntityDto;
 import com.crudApp.mountain.security.JwtGenerator;
-import com.crudApp.mountain.service.AuthenticationService;
 import com.crudApp.mountain.service.UserService;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
@@ -12,9 +10,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 

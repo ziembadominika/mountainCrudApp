@@ -38,7 +38,7 @@ public class MountainServiceTest {
     private UserEntity userEntity;
     private MountainDto mountainOneDto;
     private MountainRangeDto sudetesDto;
-    private List<UserRatingDto> userRatingsDto;
+    private final List<UserRatingDto> userRatingsDto = new ArrayList<>();
     private final List<MountainDto> mountainDtoList = new ArrayList<>();
 
     @Before
