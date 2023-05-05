@@ -9,6 +9,7 @@
 * adding, removing and updating mountains, users and their ratings
 * calculating average mountain rating
 * Spring Boot Security: register, login, JWT
+* Pagination and sorting
 * application tests
 
 ## Technologies
