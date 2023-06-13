@@ -10,6 +10,7 @@ import java.util.*;
 @Setter
 @Table(name = "USERS")
 @NoArgsConstructor
+@AllArgsConstructor
 public class UserEntity {
 
 
@@ -23,9 +24,11 @@ public class UserEntity {
     @Column(name = "LAST_NAME")
     private String lastName;
     private String email;
+
     @OneToMany
     @JoinColumn(name = "USER_ID")
     private List<UserRating> userRatings;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "MOUNTAINS_USERS",
@@ -99,19 +102,6 @@ public class UserEntity {
         public UserEntity build() {
             return new UserEntity(id, userName, firstName, lastName, email, userRatings, mountains, password, roles);
         }
-    }
-
-    private UserEntity (Long id, String userName, String firstName, String lastName, String email,
-                        List<UserRating> userRatings, List<Mountain> mountains, String password, List<Role> roles) {
-        this.id = id;
-        this.userName = userName;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.userRatings = new ArrayList<>(userRatings);
-        this.mountains = new ArrayList<>(mountains);
-        this.password = password;
-        this.roles = new ArrayList<>(roles);
     }
 
 }

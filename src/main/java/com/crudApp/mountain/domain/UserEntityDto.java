@@ -81,17 +81,4 @@ public class UserEntityDto {
             return new UserEntityDto(id, userName, firstName, lastName, email, userRatings, mountains, password, roles);
         }
     }
-
-    private UserEntityDto (Long id, String userName, String firstName, String lastName, String email,
-                           List<UserRatingDto> userRatings, List<MountainDto> mountains, String password, List<Role> roles) {
-        this.id = id;
-        this.userName = userName;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.userRatings = new ArrayList<>(userRatings);
-        this.mountains = new ArrayList<>(mountains);
-        this.password = password;
-        this.roles = new ArrayList<>(roles);
-    }
 }
