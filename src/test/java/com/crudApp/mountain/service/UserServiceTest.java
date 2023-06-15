@@ -36,6 +36,7 @@ public class UserServiceTest {
     @InjectMocks
     private UserService userService;
     private UserEntity userEntityOne;
+    private UserEntity userEntityTwo;
     private UserEntityDto userEntityOneDto;
     private final List<UserEntity> usersList = new ArrayList<>();
     private final List<UserEntityDto> usersListDto = new ArrayList<>();
@@ -43,30 +44,58 @@ public class UserServiceTest {
     private MountainRangeDto tatraMountainsDto;
     private List<UserRating> userRatings;
     private List<UserRatingDto> userRatingsDto;
-    private List<UserRating> userOneRatings;
-    private List<UserRatingDto> userOneRatingsDto;
-    private List<UserRating> userTwoRatings;
-    private List<UserRatingDto> userTwoRatingsDto;
-    private final List<Mountain> userOneMountains = new ArrayList<>();
-    private final List<MountainDto> userOneMountainsDto = new ArrayList<>();
-    private List<Mountain> userTwoMountains;
-    private List<MountainDto> userTwoMountainsDto;
+    private UserRating userOneRatings;
+    private UserRatingDto userOneRatingsDto;
+    private UserRating userTwoRatings;
+    private UserRatingDto userTwoRatingsDto;
+    private Mountain userOneMountains;
+    private MountainDto userOneMountainsDto;
+    private Mountain userTwoMountains;
+    private MountainDto userTwoMountainsDto;
     public static Pageable firstPage = PageRequest.of(1, 5, Sort.by("name"));
 
     @Before
     public void setUp() {
         userService = new UserService(userRepository, userMapper, mountainMapper);
-        userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", "susan97@gmail.com", userOneRatings,
-                userOneMountains);
-        UserEntity userEntityTwo = new UserEntity(2L, "mountain_addict", "Thomas", "Evans", "evanst@gmail.com", userTwoRatings,
-                userTwoMountains);
+        userEntityOne = new UserEntity.UserEntityBuilder()
+                .id(1L)
+                .userName("user97")
+                .firstName("Susan")
+                .lastName("Jones")
+                .email("susan97@gmail.com")
+                .userRatings(userOneRatings)
+                .mountains(userOneMountains)
+                .build();
+        userEntityTwo = new UserEntity.UserEntityBuilder()
+                .id(2L)
+                .userName("mountain_addict")
+                .firstName("Thomas")
+                .lastName("Evans")
+                .email("evanst@gmail.com")
+                .userRatings(userTwoRatings)
+                .mountains(userTwoMountains)
+                .build();
 
         usersList.add(userEntityOne);
         usersList.add(userEntityTwo);
-        userEntityOneDto = new UserEntityDto(1L, "user97", "Susan", "Jones", "susan97@gmail.com", userOneRatingsDto,
-                userOneMountainsDto);
-        UserEntityDto userEntityTwoDto = new UserEntityDto(2L, "mountain_addict", "Thomas", "Evans", "evanst@gmail.com",
-                userTwoRatingsDto, userTwoMountainsDto);
+        userEntityOneDto = new UserEntityDto.UserEntityDtoBuilder()
+                .id(1L)
+                .userName("user97")
+                .firstName("Susan")
+                .lastName("Jones")
+                .email("susan97@gmail.com")
+                .userRatings(userOneRatingsDto)
+                .mountains(userOneMountainsDto)
+                .build();
+        UserEntityDto userEntityTwoDto = new UserEntityDto.UserEntityDtoBuilder()
+                .id(2L)
+                .userName("mountain_addict")
+                .firstName("Thomas")
+                .lastName("Evans")
+                .email("evanst@gmail.com")
+                .userRatings(userTwoRatingsDto)
+                .mountains(userTwoMountainsDto)
+                .build();
         usersListDto.add(userEntityOneDto);
         usersListDto.add(userEntityTwoDto);
 
@@ -120,10 +149,26 @@ public class UserServiceTest {
     @Test
     public void shouldUpdateUser() {
         //Given
-        UserEntity userEntityOne = new UserEntity(1L, "Susan97", "Susan", "Jones", "susan97@gmail.com", userOneRatings,
-                userOneMountains);
-        userEntityOneDto = new UserEntityDto(1L, "Susan97", "Susan", "Jones", "susan97@gmail.com", userOneRatingsDto,
-                userOneMountainsDto);
+
+        userEntityOne = new UserEntity.UserEntityBuilder()
+                .id(1L)
+                .userName("Susan97")
+                .firstName("Susan")
+                .lastName("Jones")
+                .email("susan97@gmail.com")
+                .userRatings(userOneRatings)
+                .mountains(userOneMountains)
+                .build();
+
+        userEntityOneDto = new UserEntityDto.UserEntityDtoBuilder()
+                .id(1L)
+                .userName("Susan97")
+                .firstName("Susan")
+                .lastName("Jones")
+                .email("susan97@gmail.com")
+                .userRatings(userOneRatingsDto)
+                .mountains(userOneMountainsDto)
+                .build();
         when(userMapper.mapToUserDto(userEntityOne)).thenReturn(userEntityOneDto);
         when(userMapper.mapToUser(userEntityOneDto)).thenReturn(userEntityOne);
         //When
@@ -147,8 +192,15 @@ public class UserServiceTest {
         //Given
         Mountain rysy = new Mountain(1L, "Rysy", 2499, tatraMountains, "Poland", "Europe", userRatings);
         Mountain łomnica = new Mountain(2L, "Łomnica", 2634, tatraMountains, "Slovakia", "Europe", userRatings);
-        userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", "susan97@gmail.com", userOneRatings,
-                userOneMountains);
+        userEntityOne = new UserEntity.UserEntityBuilder()
+                .id(1L)
+                .userName("Susan97")
+                .firstName("Susan")
+                .lastName("Jones")
+                .email("susan97@gmail.com")
+                .userRatings(userOneRatings)
+                .mountains(userOneMountains)
+                .build();
         userOneMountains.add(rysy);
         userOneMountains.add(łomnica);
         MountainDto rysyDto = new MountainDto(1L, "Rysy", 2499, tatraMountainsDto, "Poland", "Europe", userRatingsDto);
