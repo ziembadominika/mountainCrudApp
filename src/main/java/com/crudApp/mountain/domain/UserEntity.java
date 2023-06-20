@@ -49,10 +49,10 @@ public class UserEntity {
         private String firstName;
         private String lastName;
         private String email;
-        private List<UserRating> userRatings;
-        private List<Mountain> mountains;
+        private final List<UserRating> userRatings = new ArrayList<>();
+        private final List<Mountain> mountains = new ArrayList<>();
         private String password;
-        private List<Role> roles;
+        private final List<Role> roles = new ArrayList<>();
 
         public UserEntityBuilder id(Long id) {
             this.id = id;

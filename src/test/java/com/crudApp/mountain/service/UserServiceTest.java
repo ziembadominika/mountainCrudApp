@@ -12,9 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,19 +37,20 @@ public class UserServiceTest {
     private UserEntityDto userEntityOneDto;
     private final List<UserEntity> usersList = new ArrayList<>();
     private final List<UserEntityDto> usersListDto = new ArrayList<>();
-    private MountainRange tatraMountains;
-    private MountainRangeDto tatraMountainsDto;
+    private MountainRange alaska;
+    private List<MountainDto> alaskaDto;
     private List<UserRating> userRatings;
     private List<UserRatingDto> userRatingsDto;
-    private UserRating userOneRatings;
-    private UserRatingDto userOneRatingsDto;
-    private UserRating userTwoRatings;
-    private UserRatingDto userTwoRatingsDto;
-    private Mountain userOneMountains;
-    private MountainDto userOneMountainsDto;
-    private Mountain userTwoMountains;
-    private MountainDto userTwoMountainsDto;
-    public static Pageable firstPage = PageRequest.of(1, 5, Sort.by("name"));
+    private UserRating userOneRatingOne;
+    private UserRating userOneRatingTwo;
+    private UserRatingDto userOneRatingOneDto;
+    private UserRatingDto userOneRatingTwoDto;
+    private UserRating userTwoRatingOne;
+    private UserRatingDto userTwoRatingOneDto;
+    private Mountain denali;
+    private MountainDto denaliDto;
+    private Mountain mountEverest;
+    private MountainDto mountEverestDto;
 
     @Before
     public void setUp() {
@@ -63,8 +61,9 @@ public class UserServiceTest {
                 .firstName("Susan")
                 .lastName("Jones")
                 .email("susan97@gmail.com")
-                .userRatings(userOneRatings)
-                .mountains(userOneMountains)
+                .userRatings(userOneRatingOne)
+                .userRatings(userOneRatingTwo)
+                .mountains(denali)
                 .build();
         userEntityTwo = new UserEntity.UserEntityBuilder()
                 .id(2L)
@@ -72,8 +71,8 @@ public class UserServiceTest {
                 .firstName("Thomas")
                 .lastName("Evans")
                 .email("evanst@gmail.com")
-                .userRatings(userTwoRatings)
-                .mountains(userTwoMountains)
+                .userRatings(userTwoRatingOne)
+                .mountains(mountEverest)
                 .build();
 
         usersList.add(userEntityOne);
@@ -84,8 +83,9 @@ public class UserServiceTest {
                 .firstName("Susan")
                 .lastName("Jones")
                 .email("susan97@gmail.com")
-                .userRatings(userOneRatingsDto)
-                .mountains(userOneMountainsDto)
+                .userRatings(userOneRatingOneDto)
+                .userRatings(userOneRatingTwoDto)
+                .mountains(denaliDto)
                 .build();
         UserEntityDto userEntityTwoDto = new UserEntityDto.UserEntityDtoBuilder()
                 .id(2L)
@@ -93,8 +93,8 @@ public class UserServiceTest {
                 .firstName("Thomas")
                 .lastName("Evans")
                 .email("evanst@gmail.com")
-                .userRatings(userTwoRatingsDto)
-                .mountains(userTwoMountainsDto)
+                .userRatings(userTwoRatingOneDto)
+                .mountains(mountEverestDto)
                 .build();
         usersListDto.add(userEntityOneDto);
         usersListDto.add(userEntityTwoDto);
@@ -156,8 +156,8 @@ public class UserServiceTest {
                 .firstName("Susan")
                 .lastName("Jones")
                 .email("susan97@gmail.com")
-                .userRatings(userOneRatings)
-                .mountains(userOneMountains)
+                .userRatings(userOneRatingOne)
+                .mountains(denali)
                 .build();
 
         userEntityOneDto = new UserEntityDto.UserEntityDtoBuilder()
@@ -166,8 +166,8 @@ public class UserServiceTest {
                 .firstName("Susan")
                 .lastName("Jones")
                 .email("susan97@gmail.com")
-                .userRatings(userOneRatingsDto)
-                .mountains(userOneMountainsDto)
+                .userRatings(userOneRatingOneDto)
+                .mountains(denaliDto)
                 .build();
         when(userMapper.mapToUserDto(userEntityOne)).thenReturn(userEntityOneDto);
         when(userMapper.mapToUser(userEntityOneDto)).thenReturn(userEntityOne);
@@ -190,25 +190,24 @@ public class UserServiceTest {
     @Test
     public void shouldGetUsersMountains() {
         //Given
-        Mountain rysy = new Mountain(1L, "Rysy", 2499, tatraMountains, "Poland", "Europe", userRatings);
-        Mountain łomnica = new Mountain(2L, "Łomnica", 2634, tatraMountains, "Slovakia", "Europe", userRatings);
+        denali = new Mountain(1L, "Denali", 6190, alaska, "USA", "North America", userRatings);
+        Mountain mountGilbert = new Mountain(2L, "Mount Gilbert", 818, alaska, "USA", "North America", userRatings);
         userEntityOne = new UserEntity.UserEntityBuilder()
                 .id(1L)
                 .userName("Susan97")
                 .firstName("Susan")
                 .lastName("Jones")
                 .email("susan97@gmail.com")
-                .userRatings(userOneRatings)
-                .mountains(userOneMountains)
+                .userRatings(userOneRatingOne)
+                .mountains(denali)
+                .mountains(mountGilbert)
                 .build();
-        userOneMountains.add(rysy);
-        userOneMountains.add(łomnica);
-        MountainDto rysyDto = new MountainDto(1L, "Rysy", 2499, tatraMountainsDto, "Poland", "Europe", userRatingsDto);
-        MountainDto łomnicaDto = new MountainDto(2L, "Łomnica", 2634, tatraMountainsDto, "Slovakia", "Europe", userRatingsDto);
-        userOneMountainsDto.add(rysyDto);
-        userOneMountainsDto.add(łomnicaDto);
+        denaliDto = new MountainDto(1L, "Denali", 6190, alaskaDto, "USA", "North America", userRatingsDto);
+        MountainDto mountGilbertDto = new MountainDto(2L, "Mount Gilbert", 818, alaskaDto, "USA", "North America", userRatingsDto);
+        alaskaDto.add(denaliDto);
+        alaskaDto.add(mountGilbertDto);
         when(userRepository.findById(1L)).thenReturn(Optional.of(userEntityOne));
-        when(mountainMapper.mapToMountainDtoList(userOneMountains)).thenReturn(userOneMountainsDto);
+        when(mountainMapper.mapToMountainDtoList(alaska)).thenReturn(alaskaDto);
         //When
         List<MountainDto> mountainList = userService.getUserMountains(userEntityOne.getId());
         //Then

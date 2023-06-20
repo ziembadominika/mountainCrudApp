@@ -27,10 +27,10 @@ public class UserEntityDto {
         private String firstName;
         private String lastName;
         private String email;
-        private List<UserRatingDto> userRatings;
-        private List<MountainDto> mountains;
+        private final List<UserRatingDto> userRatings = new ArrayList<>();
+        private final List<MountainDto> mountains = new ArrayList<>();
         private String password;
-        private List<Role> roles;
+        private final List<Role> roles = new ArrayList<>();
 
         public UserEntityDto.UserEntityDtoBuilder id(Long id) {
             this.id = id;
