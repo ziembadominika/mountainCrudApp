@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Data
@@ -28,7 +29,7 @@ public class MountainRangeService {
     public static Pageable firstPage = PageRequest.of(1, 5, Sort.by("name"));
 
     public List<MountainRangeDto> getAllMountainRanges() {
-        return mountainRangeMapper.mapToMountainRangeDtoList(mountainRangeRepository.findAll());
+        return mountainRangeMapper.mapToMountainRangeDtoList(Optional.of(mountainRangeRepository.findAll()));
     }
 
     public MountainRangeDto getMountainRange(Long id) {
@@ -36,7 +37,7 @@ public class MountainRangeService {
     }
 
     public List<MountainRangeDto> findMountainRangeByNameLike(String name) {
-        List<MountainRange> mountainRanges = mountainRangeRepository.findByRangeNameContainingIgnoreCase(name, firstPage);
+        Optional<List<MountainRange>> mountainRanges = mountainRangeRepository.findByRangeNameContainingIgnoreCase(name, firstPage);
         return mountainRangeMapper.mapToMountainRangeDtoList(mountainRanges);
     }
 

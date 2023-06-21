@@ -6,9 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MountainRangeRepository extends JpaRepository<MountainRange, Long> {
 
-    List<MountainRange> findByRangeNameContainingIgnoreCase(String rangeName, Pageable pageable);
+    Optional<List<MountainRange>> findByRangeNameContainingIgnoreCase(String rangeName, Pageable pageable);
 }

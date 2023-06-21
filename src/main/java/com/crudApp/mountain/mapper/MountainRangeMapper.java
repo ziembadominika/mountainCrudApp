@@ -5,6 +5,7 @@ import com.crudApp.mountain.domain.MountainRangeDto;
 import org.mapstruct.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public interface MountainRangeMapper {
@@ -19,5 +20,5 @@ public interface MountainRangeMapper {
     MountainRangeDto mapToMountainRangeDto(MountainRange mountainRange);
 
     @IterableMapping(elementTargetType = MountainRangeDto.class)
-    List<MountainRangeDto> mapToMountainRangeDtoList(final List<MountainRange> mountainRangesList);
+    List<MountainRangeDto> mapToMountainRangeDtoList(Optional<List<MountainRange>> mountainRangesList);
 }
