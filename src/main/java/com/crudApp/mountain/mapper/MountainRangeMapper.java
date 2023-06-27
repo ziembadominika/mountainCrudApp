@@ -20,5 +20,5 @@ public interface MountainRangeMapper {
     MountainRangeDto mapToMountainRangeDto(MountainRange mountainRange);
 
     @IterableMapping(elementTargetType = MountainRangeDto.class)
-    List<MountainRangeDto> mapToMountainRangeDtoList(Optional<List<MountainRange>> mountainRangesList);
+    Optional<List<MountainRangeDto>> mapToMountainRangeDtoList(Optional<List<MountainRange>> mountainRangesList);
 }

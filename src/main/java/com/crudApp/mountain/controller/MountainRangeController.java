@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,7 +17,7 @@ public class MountainRangeController {
     private final MountainRangeService mountainRangeService;
 
     @GetMapping(value = "/getAllMountainRanges")
-    private List<MountainRangeDto> getAllMountainRanges() {
+    private Optional<List<MountainRangeDto>> getAllMountainRanges() {
         return mountainRangeService.getAllMountainRanges();
     }
 
@@ -26,7 +27,7 @@ public class MountainRangeController {
     }
 
     @GetMapping(value = "/getRangeByName")
-    private List<MountainRangeDto> findRangesByName(@RequestParam String name) {
+    private Optional<List<MountainRangeDto>> findRangesByName(@RequestParam String name) {
         return mountainRangeService.findMountainRangeByNameLike(name);
     }
 

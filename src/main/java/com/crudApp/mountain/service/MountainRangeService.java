@@ -28,7 +28,7 @@ public class MountainRangeService {
 
     public static Pageable firstPage = PageRequest.of(1, 5, Sort.by("name"));
 
-    public List<MountainRangeDto> getAllMountainRanges() {
+    public Optional<List<MountainRangeDto>> getAllMountainRanges() {
         return mountainRangeMapper.mapToMountainRangeDtoList(Optional.of(mountainRangeRepository.findAll()));
     }
 
@@ -36,7 +36,7 @@ public class MountainRangeService {
         return mountainRangeMapper.mapToMountainRangeDto(mountainRangeRepository.getReferenceById(id));
     }
 
-    public List<MountainRangeDto> findMountainRangeByNameLike(String name) {
+    public Optional<List<MountainRangeDto>> findMountainRangeByNameLike(String name) {
         Optional<List<MountainRange>> mountainRanges = mountainRangeRepository.findByRangeNameContainingIgnoreCase(name, firstPage);
         return mountainRangeMapper.mapToMountainRangeDtoList(mountainRanges);
     }

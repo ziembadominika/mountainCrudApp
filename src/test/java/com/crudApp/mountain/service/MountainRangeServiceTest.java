@@ -76,9 +76,9 @@ public class MountainRangeServiceTest {
     public void shouldGetAllMountainRanges() {
         //Given
         when(mountainRangeRepository.findAll()).thenReturn(polishMountains);
-        when(mountainRangeMapper.mapToMountainRangeDtoList(polishMountains)).thenReturn(polishMountainsDto);
+        when(mountainRangeMapper.mapToMountainRangeDtoList(Optional.of(polishMountains))).thenReturn(Optional.of(polishMountainsDto));
         //When
-        List<MountainRangeDto> allRanges = mountainRangeService.getAllMountainRanges();
+        Optional<List<MountainRangeDto>> allRanges = mountainRangeService.getAllMountainRanges();
         //Then
         Assert.assertEquals(2, allRanges.size());
     }
