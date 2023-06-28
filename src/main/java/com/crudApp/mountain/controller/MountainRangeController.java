@@ -17,7 +17,7 @@ public class MountainRangeController {
     private final MountainRangeService mountainRangeService;
 
     @GetMapping(value = "/getAllMountainRanges")
-    private Optional<List<MountainRangeDto>> getAllMountainRanges() {
+    private List<MountainRangeDto> getAllMountainRanges() {
         return mountainRangeService.getAllMountainRanges();
     }
 

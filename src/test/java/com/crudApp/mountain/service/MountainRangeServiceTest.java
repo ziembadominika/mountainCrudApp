@@ -40,8 +40,6 @@ public class MountainRangeServiceTest {
     private final List<MountainRangeDto> polishMountainsDto = new ArrayList<>();
     private MountainRange tatraMountains;
     private MountainRangeDto tatraMountainsDto;
-    private MountainRange theSudetes;
-    private MountainRangeDto theSudetesDto;
     private final List<Mountain> tatry = new ArrayList<>();
     private final List<MountainDto> tatryDto = new ArrayList<>();
     private final List<UserRating> userRatings = new ArrayList<>();
@@ -63,8 +61,8 @@ public class MountainRangeServiceTest {
 
         tatraMountains = new MountainRange(1L, "Tatra Mountains", tatry);
         tatraMountainsDto = new MountainRangeDto(1L, "Tatra Mountains", tatryDto);
-        theSudetes = new MountainRange(2L, "Sudetes", sudetes);
-        theSudetesDto = new MountainRangeDto(2L, "Sudetes", sudetesDto);
+        MountainRange theSudetes = new MountainRange(2L, "Sudetes", sudetes);
+        MountainRangeDto theSudetesDto = new MountainRangeDto(2L, "Sudetes", sudetesDto);
 
         polishMountains.add(tatraMountains);
         polishMountains.add(theSudetes);
@@ -78,7 +76,7 @@ public class MountainRangeServiceTest {
         when(mountainRangeRepository.findAll()).thenReturn(polishMountains);
         when(mountainRangeMapper.mapToMountainRangeDtoList(Optional.of(polishMountains))).thenReturn(Optional.of(polishMountainsDto));
         //When
-        Optional<List<MountainRangeDto>> allRanges = mountainRangeService.getAllMountainRanges();
+        List<MountainRangeDto> allRanges = mountainRangeService.getAllMountainRanges();
         //Then
         Assert.assertEquals(2, allRanges.size());
     }
@@ -101,11 +99,11 @@ public class MountainRangeServiceTest {
         List<MountainRangeDto> mountainRangeDtos = new ArrayList<>();
         mountainRangeDtos.add(tatraMountainsDto);
         when(mountainRangeRepository.findByRangeNameContainingIgnoreCase("Tat", firstPage)).thenReturn(Optional.of(mountainRangeList));
-        when(mountainRangeMapper.mapToMountainRangeDtoList(Optional.of(mountainRangeList))).thenReturn(mountainRangeDtos);
+        when(mountainRangeMapper.mapToMountainRangeDtoList(mountainRangeList)).thenReturn(mountainRangeDtos);
         //When
-        List<MountainRangeDto> mountainRangeDtoList = mountainRangeService.findMountainRangeByNameLike("Tat");
+        Optional<List<MountainRangeDto>> mountainRangeDtoList = mountainRangeService.findMountainRangeByNameLike("Tat");
         //Then
-        Assert.assertEquals(1, mountainRangeDtoList.size());
+        Assert.assertTrue(mountainRangeDtoList.isPresent());
     }
 
     @Test

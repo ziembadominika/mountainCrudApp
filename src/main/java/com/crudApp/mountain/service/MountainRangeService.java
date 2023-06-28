@@ -28,8 +28,8 @@ public class MountainRangeService {
 
     public static Pageable firstPage = PageRequest.of(1, 5, Sort.by("name"));
 
-    public Optional<List<MountainRangeDto>> getAllMountainRanges() {
-        return mountainRangeMapper.mapToMountainRangeDtoList(Optional.of(mountainRangeRepository.findAll()));
+    public List<MountainRangeDto> getAllMountainRanges() {
+        return mountainRangeMapper.mapToMountainRangeDtoList(mountainRangeRepository.findAll());
     }
 
     public MountainRangeDto getMountainRange(Long id) {

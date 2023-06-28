@@ -3,6 +3,7 @@ package com.crudApp.mountain.mapper;
 import com.crudApp.mountain.domain.MountainRange;
 import com.crudApp.mountain.domain.MountainRangeDto;
 import org.mapstruct.*;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,5 +21,9 @@ public interface MountainRangeMapper {
     MountainRangeDto mapToMountainRangeDto(MountainRange mountainRange);
 
     @IterableMapping(elementTargetType = MountainRangeDto.class)
-    Optional<List<MountainRangeDto>> mapToMountainRangeDtoList(Optional<List<MountainRange>> mountainRangesList);
+    List<MountainRangeDto> mapToMountainRangeDtoList(List<MountainRange> mountainRangesList);
+
+    default Optional<List<MountainRangeDto>> mapToMountainRangeDtoList(Optional<List<MountainRange>> mountainRangesList) {
+        return mountainRangesList.map(this::mapToMountainRangeDtoList);
+    }
 }
