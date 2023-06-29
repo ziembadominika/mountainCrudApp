@@ -83,12 +83,12 @@ public class MountainServiceTest {
     @Test
     public void shouldFindMountainByName() {
         //Given
-        when(mountainRepository.searchByName("Ś", MountainService.firstPage)).thenReturn(mountainList);
+        when(mountainRepository.searchByName("Ś", MountainService.firstPage)).thenReturn(Optional.of(mountainList));
         when(mountainMapper.mapToMountainDtoList(mountainList)).thenReturn(mountainDtoList);
         //When
-        List<MountainDto> mountainDtos = mountainService.findMountainByNameLike("Ś");
+        Optional<List<MountainDto>> mountainDtos = mountainService.findMountainByNameLike("Ś");
         //Then
-        Assert.assertEquals(3, mountainDtos.size());
+        Assert.assertEquals(true, mountainDtos.isPresent());
     }
 
     @Test

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,7 +42,7 @@ public class MountainController {
     }
 
     @GetMapping(value = "/getMountainByName")
-    public List<MountainDto> getMountainByName(@RequestParam String name) {
+    public Optional<List<MountainDto>> getMountainByName(@RequestParam String name) {
         return mountainService.findMountainByNameLike(name);
     }
 

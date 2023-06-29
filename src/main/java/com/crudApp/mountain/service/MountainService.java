@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,8 +31,8 @@ public class MountainService {
         return mountainMapper.mapToMountainDto(mountainRepository.getReferenceById(id));
     }
 
-    public List<MountainDto> findMountainByNameLike(String name) {
-        List<Mountain> mountains = mountainRepository.searchByName(name, firstPage);
+    public Optional<List<MountainDto>> findMountainByNameLike(String name) {
+        Optional<List<Mountain>> mountains = mountainRepository.searchByName(name, firstPage);
         return mountainMapper.mapToMountainDtoList(mountains);
     }
 
