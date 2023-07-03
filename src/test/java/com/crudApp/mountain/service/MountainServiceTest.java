@@ -88,7 +88,7 @@ public class MountainServiceTest {
         //When
         Optional<List<MountainDto>> mountainDtos = mountainService.findMountainByNameLike("Ś");
         //Then
-        Assert.assertEquals(true, mountainDtos.isPresent());
+        Assert.assertTrue(mountainDtos.isPresent());
     }
 
     @Test

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/getUsersByUserNameContaining")
-    public List<UserEntityDto> getUsersByUserNameContaining(@RequestParam String name) {
+    public Optional<List<UserEntityDto>> getUsersByUserNameContaining(@RequestParam String name) {
         return userService.findUserByUserNameContaining(name);
     }
 
