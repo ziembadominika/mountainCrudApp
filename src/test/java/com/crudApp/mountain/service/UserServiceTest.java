@@ -38,7 +38,7 @@ public class UserServiceTest {
     private final List<UserEntity> usersList = new ArrayList<>();
     private final List<UserEntityDto> usersListDto = new ArrayList<>();
     private MountainRange alaska;
-    private List<MountainDto> alaskaDto;
+    private MountainRangeDto alaskaDto;
     private List<UserRating> userRatings;
     private List<UserRatingDto> userRatingsDto;
     private UserRating userOneRatingOne;
@@ -149,7 +149,6 @@ public class UserServiceTest {
     @Test
     public void shouldUpdateUser() {
         //Given
-
         userEntityOne = new UserEntity.UserEntityBuilder()
                 .id(1L)
                 .userName("Susan97")
@@ -204,10 +203,11 @@ public class UserServiceTest {
                 .build();
         denaliDto = new MountainDto(1L, "Denali", 6190, alaskaDto, "USA", "North America", userRatingsDto);
         MountainDto mountGilbertDto = new MountainDto(2L, "Mount Gilbert", 818, alaskaDto, "USA", "North America", userRatingsDto);
-        alaskaDto.add(denaliDto);
-        alaskaDto.add(mountGilbertDto);
+        List<MountainDto> mountainsDto = new ArrayList<>();
+        mountainsDto.add(denaliDto);
+        mountainsDto.add(mountGilbertDto);
         when(userRepository.findById(1L)).thenReturn(Optional.of(userEntityOne));
-        when(mountainMapper.mapToMountainDtoList(alaska)).thenReturn(alaskaDto);
+        when(mountainMapper.mapToMountainDtoList(userEntityOne.getMountains())).thenReturn(mountainsDto);
         //When
         List<MountainDto> mountainList = userService.getUserMountains(userEntityOne.getId());
         //Then
