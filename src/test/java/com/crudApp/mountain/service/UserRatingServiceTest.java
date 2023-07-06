@@ -37,32 +37,53 @@ public class UserRatingServiceTest {
     private UserRating userRatingOne;
     private UserRatingDto userRatingOneDto;
     private final List<UserRating> userRatings = new ArrayList<>();
-    private List<UserRatingDto> userRatingDtos = new ArrayList<>();
+    private final List<UserRatingDto> userRatingDtos = new ArrayList<>();
     private UserEntity userEntityOne;
     private List<UserRating> userOneRatings;
     private List<Mountain> userOneMountains;
     private Mountain mountain;
-    private UserRatingDto userOneRatingDto;
     private UserEntityDto userEntityOneDto;
     private List<MountainDto> userOneMountainsDto;
     private MountainDto mountainDto;
     private List<UserRatingDto> userOneRatingsDto;
+    private UserRating userOneRatingOne;
+    private UserRating userOneRatingTwo;
+    private Mountain denali;
+    private UserRatingDto userOneRatingOneDto;
+    private UserRatingDto userOneRatingTwoDto;
+    private MountainDto denaliDto;
 
     @Before
     public void setUp() {
-        userEntityOne = new UserEntity(1L, "user97", "Susan", "Jones", "susan97@gmail.com", userOneRatings,
-                userOneMountains);
+        userEntityOne = new UserEntity.UserEntityBuilder()
+                .id(1L)
+                .userName("user97")
+                .firstName("Susan")
+                .lastName("Jones")
+                .email("susan97@gmail.com")
+                .userRatings(userOneRatingOne)
+                .userRatings(userOneRatingTwo)
+                .mountains(denali)
+                .build();
         userRatingOne = new UserRating(1L, userEntityOne, 5, mountain);
         userRatingOneDto = new UserRatingDto(1L, userEntityOneDto, 5, mountainDto);
         UserRating userRatingTwo = new UserRating(2L, userEntityOne, 4, mountain);
         userRatings.add(userRatingOne);
         userRatings.add(userRatingTwo);
-        userOneRatingDto = new UserRatingDto(1L, userEntityOneDto, 5, mountainDto);
+        UserRatingDto userOneRatingDto = new UserRatingDto(1L, userEntityOneDto, 5, mountainDto);
         UserRatingDto userRatingDtoTwo = new UserRatingDto(2L, userEntityOneDto, 4, mountainDto);
         userRatingDtos.add(userOneRatingDto);
         userRatingDtos.add(userRatingDtoTwo);
-        userEntityOneDto = new UserEntityDto(1L, "user97", "Susan", "Jones", "susan97@gmail.com", userOneRatingsDto,
-                userOneMountainsDto);
+        userEntityOneDto = new UserEntityDto.UserEntityDtoBuilder()
+                .id(1L)
+                .userName("user97")
+                .firstName("Susan")
+                .lastName("Jones")
+                .email("susan97@gmail.com")
+                .userRatings(userOneRatingOneDto)
+                .userRatings(userOneRatingTwoDto)
+                .mountains(denaliDto)
+                .build();
     }
 
     @Test
