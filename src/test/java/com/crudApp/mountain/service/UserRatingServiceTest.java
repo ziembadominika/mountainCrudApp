@@ -39,13 +39,9 @@ public class UserRatingServiceTest {
     private final List<UserRating> userRatings = new ArrayList<>();
     private final List<UserRatingDto> userRatingDtos = new ArrayList<>();
     private UserEntity userEntityOne;
-    private List<UserRating> userOneRatings;
-    private List<Mountain> userOneMountains;
     private Mountain mountain;
     private UserEntityDto userEntityOneDto;
-    private List<MountainDto> userOneMountainsDto;
     private MountainDto mountainDto;
-    private List<UserRatingDto> userOneRatingsDto;
     private UserRating userOneRatingOne;
     private UserRating userOneRatingTwo;
     private Mountain denali;
