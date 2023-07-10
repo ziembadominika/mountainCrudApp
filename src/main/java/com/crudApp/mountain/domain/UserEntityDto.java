@@ -23,7 +23,7 @@ public class UserEntityDto {
 
     public static class UserEntityDtoBuilder {
         private Long id;
-        private String userName;
+        private String username;
         private String firstName;
         private String lastName;
         private String email;
@@ -38,7 +38,7 @@ public class UserEntityDto {
         }
 
         public UserEntityDto.UserEntityDtoBuilder userName(String userName) {
-            this.userName = userName;
+            this.username = userName;
             return this;
         }
 
@@ -78,7 +78,7 @@ public class UserEntityDto {
         }
 
         public UserEntityDto build() {
-            return new UserEntityDto(id, userName, firstName, lastName, email, userRatings, mountains, password, roles);
+            return new UserEntityDto(id, username, firstName, lastName, email, userRatings, mountains, password, roles);
         }
     }
 }

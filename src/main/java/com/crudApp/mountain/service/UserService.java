@@ -25,7 +25,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final MountainMapper mountainMapper;
-    public static Pageable firstPage = PageRequest.of(1, 5, Sort.by("name"));
+    public static Pageable firstPage = PageRequest.of(2, 5, Sort.by("userName"));
 
     public List<UserEntityDto> getAllUsers(){
         return userMapper.mapToUserDtoList(userRepository.findAll());

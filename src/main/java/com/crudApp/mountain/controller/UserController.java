@@ -28,8 +28,8 @@ public class UserController {
     }
 
     @GetMapping(value = "/getUsersByUserNameContaining")
-    public Optional<List<UserEntityDto>> getUsersByUserNameContaining(@RequestParam String name) {
-        return userService.findUserByUserNameContaining(name);
+    public Optional<List<UserEntityDto>> getUsersByUserNameContaining(@RequestParam String username) {
+        return userService.findUserByUserNameContaining(username);
     }
 
     @PostMapping(value = "/createUser")
