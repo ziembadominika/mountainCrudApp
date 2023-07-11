@@ -45,7 +45,7 @@ public class UserEntity {
 
     public static class UserEntityBuilder {
         private Long id;
-        private String username;
+        private String userName;
         private String firstName;
         private String lastName;
         private String email;
@@ -60,7 +60,7 @@ public class UserEntity {
         }
 
         public UserEntityBuilder userName(String userName) {
-            this.username = userName;
+            this.userName = userName;
             return this;
         }
 
@@ -100,7 +100,7 @@ public class UserEntity {
         }
 
         public UserEntity build() {
-            return new UserEntity(id, username, firstName, lastName, email, userRatings, mountains, password, roles);
+            return new UserEntity(id, userName, firstName, lastName, email, userRatings, mountains, password, roles);
         }
     }
 

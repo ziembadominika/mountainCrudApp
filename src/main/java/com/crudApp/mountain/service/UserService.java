@@ -4,6 +4,7 @@ import com.crudApp.mountain.domain.MountainDto;
 import com.crudApp.mountain.domain.UserEntity;
 import com.crudApp.mountain.domain.UserEntityDto;
 import com.crudApp.mountain.exception.UserNotFoundByGivenIdException;
+import com.crudApp.mountain.exception.UserNotFoundByGivenUserName;
 import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.mapper.UserMapper;
 import com.crudApp.mountain.repository.UserRepository;
@@ -27,16 +28,17 @@ public class UserService {
     private final MountainMapper mountainMapper;
     public static Pageable firstPage = PageRequest.of(2, 5, Sort.by("userName"));
 
-    public List<UserEntityDto> getAllUsers(){
+    public List<UserEntityDto> getAllUsers() {
         return userMapper.mapToUserDtoList(userRepository.findAll());
     }
 
-    public UserEntityDto getUser(Long id){
+    public UserEntityDto getUser(Long id) {
         return userMapper.mapToUserDto(userRepository.getReferenceById(id));
     }
 
-    public Optional<List<UserEntityDto>> findUserByUserNameContaining(String name){
-        return userMapper.mapToUserDtoList(userRepository.findByUserNameContainingIgnoreCase(name, firstPage));
+    public Optional<List<UserEntityDto>> findUserByUserNameContaining(String name) {
+        return Optional.ofNullable(userMapper.mapToUserDtoList(userRepository.findByUserNameContaining(name, firstPage))
+                .orElseThrow(UserNotFoundByGivenUserName::new));
     }
 
     public void createUser(UserEntityDto userEntityDto) {
@@ -44,17 +46,17 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
-    public UserEntityDto updateUser(UserEntityDto userEntityDto){
+    public UserEntityDto updateUser(UserEntityDto userEntityDto) {
         UserEntity userEntity = userMapper.mapToUser(userEntityDto);
         userRepository.save(userEntity);
         return userMapper.mapToUserDto(userEntity);
     }
 
-    public void deleteUser(final Long id){
+    public void deleteUser(final Long id) {
         userRepository.deleteById(id);
     }
 
-    public List<MountainDto> getUserMountains(Long userId){
+    public List<MountainDto> getUserMountains(Long userId) {
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(UserNotFoundByGivenIdException::new);
         return mountainMapper.mapToMountainDtoList(userEntity.getMountains());
     }
