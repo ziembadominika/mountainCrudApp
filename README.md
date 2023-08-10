@@ -45,11 +45,11 @@ http://localhost:8080/mountainApp/auth/register
 #### LOGIN
 ##### After successful registration, a user can log in using user name and password and receives a token
 * POST
-* Example Request
-
+* Example Request:
+````
 http://localhost:8080/mountainApp/auth/login
-
-** Example JSON Body:
+````           
+* **Example JSON Body:**
 
 {
 
