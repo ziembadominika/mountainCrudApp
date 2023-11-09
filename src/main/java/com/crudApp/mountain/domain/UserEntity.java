@@ -36,7 +36,7 @@ public class UserEntity {
             inverseJoinColumns = @JoinColumn(name = "MOUNTAIN_ID"))
     private List<Mountain> mountains;
 
-    private String password;
+    private char[] password;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
@@ -51,7 +51,7 @@ public class UserEntity {
         private String email;
         private final List<UserRating> userRatings = new ArrayList<>();
         private final List<Mountain> mountains = new ArrayList<>();
-        private String password;
+        private char[] password;
         private final List<Role> roles = new ArrayList<>();
 
         public UserEntityBuilder id(Long id) {
@@ -89,7 +89,7 @@ public class UserEntity {
             return this;
         }
 
-        public UserEntityBuilder password(String password) {
+        public UserEntityBuilder password(char[] password) {
             this.password = password;
             return this;
         }

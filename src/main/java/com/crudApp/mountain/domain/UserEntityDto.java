@@ -18,7 +18,7 @@ public class UserEntityDto {
     private String email;
     private List<UserRatingDto> userRatings;
     private List<MountainDto> mountains;
-    private String password;
+    private char[] password;
     private List<Role>roles;
 
     public static class UserEntityDtoBuilder {
@@ -29,7 +29,7 @@ public class UserEntityDto {
         private String email;
         private final List<UserRatingDto> userRatings = new ArrayList<>();
         private final List<MountainDto> mountains = new ArrayList<>();
-        private String password;
+        private char[] password;
         private final List<Role> roles = new ArrayList<>();
 
         public UserEntityDto.UserEntityDtoBuilder id(Long id) {
@@ -67,7 +67,7 @@ public class UserEntityDto {
             return this;
         }
 
-        public UserEntityDto.UserEntityDtoBuilder password(String password) {
+        public UserEntityDto.UserEntityDtoBuilder password(char[] password) {
             this.password = password;
             return this;
         }
