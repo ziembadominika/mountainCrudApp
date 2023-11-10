@@ -33,7 +33,7 @@ public class AuthenticationService {
         }
         UserEntity userEntity = new UserEntity();
         userEntity.setUserName(registerDto.getUserName());
-        userEntity.setPassword(passwordEncoder.encode(Arrays.toString(registerDto.getPassword())));
+        userEntity.setPassword(passwordEncoder.encode(Arrays.toString(registerDto.getPassword())).toCharArray());
         userEntity.setFirstName(registerDto.getFirstName());
         userEntity.setLastName(registerDto.getLastName());
         userEntity.setEmail(registerDto.getEmail());
