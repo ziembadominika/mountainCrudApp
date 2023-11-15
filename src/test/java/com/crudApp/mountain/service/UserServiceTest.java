@@ -1,6 +1,7 @@
 package com.crudApp.mountain.service;
 
 import com.crudApp.mountain.domain.*;
+import com.crudApp.mountain.exception.UserNotFoundByGivenUserName;
 import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.mapper.UserMapper;
 import com.crudApp.mountain.repository.UserRepository;
@@ -12,11 +13,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -33,7 +38,6 @@ public class UserServiceTest {
     @InjectMocks
     private UserService userService;
     private UserEntity userEntityOne;
-    private UserEntity userEntityTwo;
     private UserEntityDto userEntityOneDto;
     private final List<UserEntity> usersList = new ArrayList<>();
     private final List<UserEntityDto> usersListDto = new ArrayList<>();
@@ -51,6 +55,7 @@ public class UserServiceTest {
     private MountainDto denaliDto;
     private Mountain mountEverest;
     private MountainDto mountEverestDto;
+    public static Pageable firstPage = PageRequest.of(2, 5, Sort.by("userName"));
 
     @Before
     public void setUp() {
@@ -65,7 +70,7 @@ public class UserServiceTest {
                 .userRatings(userOneRatingTwo)
                 .mountains(denali)
                 .build();
-        userEntityTwo = new UserEntity.UserEntityBuilder()
+        UserEntity userEntityTwo = new UserEntity.UserEntityBuilder()
                 .id(2L)
                 .userName("mountain_addict")
                 .firstName("Thomas")
@@ -128,12 +133,27 @@ public class UserServiceTest {
         //Given
         List<UserEntity> usersList = new ArrayList<>();
         usersList.add(userEntityOne);
-        when(userRepository.findByUserName("Su")).thenReturn(userEntityOne);
+        when(userRepository.findByUserNameContaining("user", firstPage)).thenReturn(userEntityOne);
         when(userMapper.mapToUserDto(userEntityOne)).thenReturn(userEntityOneDto);
         //When
-        userService.findUserByUserNameContaining("Su");
+        userService.findUserByUserNameContaining("user");
         //Then
         Assert.assertEquals(1, usersList.size());
+    }
+
+    @Test
+    public void shouldThrowUserNotFoundByGivenUserNameException(){
+        //Given
+        String userName = "testUserName";
+        when(userRepository.findByUserNameContaining(userName, firstPage)).thenReturn(null);
+        //When
+        Exception exception = assertThrows(UserNotFoundByGivenUserName.class, () -> userService.findUserByUserNameContaining(userName));
+        //Then
+        Assert.assertEquals(exception.getMessage(), "User not found by given username");
+        verify(userRepository, times(1)).findByUserNameContaining(eq(userName), any());
+        verifyNoMoreInteractions(userRepository);
+        verifyNoInteractions(userMapper);
+
     }
 
     @Test

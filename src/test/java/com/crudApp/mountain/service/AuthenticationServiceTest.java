@@ -42,8 +42,8 @@ public class AuthenticationServiceTest {
 
     @Before
     public void setUp(){
-        userOne = new RegisterDto("UserOne", "Password".toCharArray(), "John", "Smith", "jsmith@email.com");
-        userTwo = new RegisterDto("UserOne", "password".toCharArray(), "Taylor", "Jones", "taylor@email.com");
+        userOne = new RegisterDto("UserOne", "Password", "John", "Smith", "jsmith@email.com");
+        userTwo = new RegisterDto("UserOne", "password", "Taylor", "Jones", "taylor@email.com");
         userOneLoginDetails = new LoginDto("UserOne", "Password".toCharArray());
     }
 
