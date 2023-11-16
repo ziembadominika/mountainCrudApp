@@ -36,9 +36,11 @@ public class UserService {
         return userMapper.mapToUserDto(userRepository.getReferenceById(id));
     }
 
-    public Optional<List<UserEntityDto>> findUserByUserNameContaining(String name) {
-        return Optional.ofNullable(userMapper.mapToUserDtoList(userRepository.findByUserNameContaining(name, firstPage))
-                .orElseThrow(UserNotFoundByGivenUserName::new));
+    public List<UserEntityDto> findUserByUserNameContaining(String name) {
+        List<UserEntity> users = userRepository.findByUserNameContaining(name, firstPage)
+                .orElseThrow(UserNotFoundByGivenUserName::new);
+
+        return userMapper.mapToUserDtoList(users);
     }
 
     public void createUser(UserEntityDto userEntityDto) {

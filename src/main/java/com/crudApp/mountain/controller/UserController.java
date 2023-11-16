@@ -28,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/getUsersByUserNameContaining")
-    public Optional<List<UserEntityDto>> getUsersByUserNameContaining(@RequestParam String username) {
+    public List<UserEntityDto> getUsersByUserNameContaining(@RequestParam String username) {
         return userService.findUserByUserNameContaining(username);
     }
 

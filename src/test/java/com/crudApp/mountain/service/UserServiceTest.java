@@ -133,8 +133,10 @@ public class UserServiceTest {
         //Given
         List<UserEntity> usersList = new ArrayList<>();
         usersList.add(userEntityOne);
-        when(userRepository.findByUserNameContaining("user", firstPage)).thenReturn(userEntityOne);
-        when(userMapper.mapToUserDto(userEntityOne)).thenReturn(userEntityOneDto);
+        List<UserEntityDto> usersDtoList = new ArrayList<>();
+        usersDtoList.add(userEntityOneDto);
+        when(userRepository.findByUserNameContaining("user", firstPage)).thenReturn(Optional.of(usersList));
+        when(userMapper.mapToUserDtoList(usersList)).thenReturn(usersDtoList);
         //When
         userService.findUserByUserNameContaining("user");
         //Then
