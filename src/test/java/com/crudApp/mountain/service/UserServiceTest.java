@@ -147,7 +147,7 @@ public class UserServiceTest {
     public void shouldThrowUserNotFoundByGivenUserNameException(){
         //Given
         String userName = "testUserName";
-        when(userRepository.findByUserNameContaining(userName, firstPage)).thenReturn(null);
+        when(userRepository.findByUserNameContaining(userName, firstPage)).thenReturn(Optional.empty());
         //When
         Exception exception = assertThrows(UserNotFoundByGivenUserName.class, () -> userService.findUserByUserNameContaining(userName));
         //Then
