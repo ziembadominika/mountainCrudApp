@@ -1,6 +1,7 @@
 package com.crudApp.mountain.service;
 
 import com.crudApp.mountain.domain.*;
+import com.crudApp.mountain.exception.UserNotFoundByGivenIdException;
 import com.crudApp.mountain.exception.UserNotFoundByGivenUserName;
 import com.crudApp.mountain.mapper.MountainMapper;
 import com.crudApp.mountain.mapper.UserMapper;
@@ -60,47 +61,13 @@ public class UserServiceTest {
     @Before
     public void setUp() {
         userService = new UserService(userRepository, userMapper, mountainMapper);
-        userEntityOne = new UserEntity.UserEntityBuilder()
-                .id(1L)
-                .userName("user97")
-                .firstName("Susan")
-                .lastName("Jones")
-                .email("susan97@gmail.com")
-                .userRatings(userOneRatingOne)
-                .userRatings(userOneRatingTwo)
-                .mountains(denali)
-                .build();
-        UserEntity userEntityTwo = new UserEntity.UserEntityBuilder()
-                .id(2L)
-                .userName("mountain_addict")
-                .firstName("Thomas")
-                .lastName("Evans")
-                .email("evanst@gmail.com")
-                .userRatings(userTwoRatingOne)
-                .mountains(mountEverest)
-                .build();
+        userEntityOne = new UserEntity.UserEntityBuilder().id(1L).userName("user97").firstName("Susan").lastName("Jones").email("susan97@gmail.com").userRatings(userOneRatingOne).userRatings(userOneRatingTwo).mountains(denali).build();
+        UserEntity userEntityTwo = new UserEntity.UserEntityBuilder().id(2L).userName("mountain_addict").firstName("Thomas").lastName("Evans").email("evanst@gmail.com").userRatings(userTwoRatingOne).mountains(mountEverest).build();
 
         usersList.add(userEntityOne);
         usersList.add(userEntityTwo);
-        userEntityOneDto = new UserEntityDto.UserEntityDtoBuilder()
-                .id(1L)
-                .userName("user97")
-                .firstName("Susan")
-                .lastName("Jones")
-                .email("susan97@gmail.com")
-                .userRatings(userOneRatingOneDto)
-                .userRatings(userOneRatingTwoDto)
-                .mountains(denaliDto)
-                .build();
-        UserEntityDto userEntityTwoDto = new UserEntityDto.UserEntityDtoBuilder()
-                .id(2L)
-                .userName("mountain_addict")
-                .firstName("Thomas")
-                .lastName("Evans")
-                .email("evanst@gmail.com")
-                .userRatings(userTwoRatingOneDto)
-                .mountains(mountEverestDto)
-                .build();
+        userEntityOneDto = new UserEntityDto.UserEntityDtoBuilder().id(1L).userName("user97").firstName("Susan").lastName("Jones").email("susan97@gmail.com").userRatings(userOneRatingOneDto).userRatings(userOneRatingTwoDto).mountains(denaliDto).build();
+        UserEntityDto userEntityTwoDto = new UserEntityDto.UserEntityDtoBuilder().id(2L).userName("mountain_addict").firstName("Thomas").lastName("Evans").email("evanst@gmail.com").userRatings(userTwoRatingOneDto).mountains(mountEverestDto).build();
         usersListDto.add(userEntityOneDto);
         usersListDto.add(userEntityTwoDto);
 
@@ -120,13 +87,25 @@ public class UserServiceTest {
     @Test
     public void shouldGetUser() {
         //Given
-        when(userRepository.getReferenceById(1L)).thenReturn(userEntityOne);
+        when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(userEntityOne));
         when(userMapper.mapToUserDto(userEntityOne)).thenReturn(userEntityOneDto);
         //When
         UserEntityDto userEntityDto = userService.getUser(1L);
         //Then
         Assert.assertEquals("user97", userEntityDto.getUserName());
     }
+
+    @Test
+    public void shouldThrowUserNotFoundByGivenIdException() {
+        //Given
+        when(userRepository.findById(3L)).thenReturn(Optional.empty());
+        //When
+        Exception exception = assertThrows(UserNotFoundByGivenIdException.class,() -> userService.getUser(3L));
+        //Then
+        Assert.assertEquals(exception.getMessage(), "User not found by given id");
+        verifyNoInteractions(userMapper);
+    }
+
 
     @Test
     public void shouldFindUseByUserNameContaining() {
@@ -144,7 +123,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldThrowUserNotFoundByGivenUserNameException(){
+    public void shouldThrowUserNotFoundByGivenUserNameException() {
         //Given
         String userName = "testUserName";
         when(userRepository.findByUserNameContaining(userName, firstPage)).thenReturn(Optional.empty());
@@ -171,25 +150,9 @@ public class UserServiceTest {
     @Test
     public void shouldUpdateUser() {
         //Given
-        userEntityOne = new UserEntity.UserEntityBuilder()
-                .id(1L)
-                .userName("Susan97")
-                .firstName("Susan")
-                .lastName("Jones")
-                .email("susan97@gmail.com")
-                .userRatings(userOneRatingOne)
-                .mountains(denali)
-                .build();
+        userEntityOne = new UserEntity.UserEntityBuilder().id(1L).userName("Susan97").firstName("Susan").lastName("Jones").email("susan97@gmail.com").userRatings(userOneRatingOne).mountains(denali).build();
 
-        userEntityOneDto = new UserEntityDto.UserEntityDtoBuilder()
-                .id(1L)
-                .userName("Susan97")
-                .firstName("Susan")
-                .lastName("Jones")
-                .email("susan97@gmail.com")
-                .userRatings(userOneRatingOneDto)
-                .mountains(denaliDto)
-                .build();
+        userEntityOneDto = new UserEntityDto.UserEntityDtoBuilder().id(1L).userName("Susan97").firstName("Susan").lastName("Jones").email("susan97@gmail.com").userRatings(userOneRatingOneDto).mountains(denaliDto).build();
         when(userMapper.mapToUserDto(userEntityOne)).thenReturn(userEntityOneDto);
         when(userMapper.mapToUser(userEntityOneDto)).thenReturn(userEntityOne);
         //When
@@ -213,16 +176,7 @@ public class UserServiceTest {
         //Given
         denali = new Mountain(1L, "Denali", 6190, alaska, "USA", "North America", userRatings);
         Mountain mountGilbert = new Mountain(2L, "Mount Gilbert", 818, alaska, "USA", "North America", userRatings);
-        userEntityOne = new UserEntity.UserEntityBuilder()
-                .id(1L)
-                .userName("Susan97")
-                .firstName("Susan")
-                .lastName("Jones")
-                .email("susan97@gmail.com")
-                .userRatings(userOneRatingOne)
-                .mountains(denali)
-                .mountains(mountGilbert)
-                .build();
+        userEntityOne = new UserEntity.UserEntityBuilder().id(1L).userName("Susan97").firstName("Susan").lastName("Jones").email("susan97@gmail.com").userRatings(userOneRatingOne).mountains(denali).mountains(mountGilbert).build();
         denaliDto = new MountainDto(1L, "Denali", 6190, alaskaDto, "USA", "North America", userRatingsDto);
         MountainDto mountGilbertDto = new MountainDto(2L, "Mount Gilbert", 818, alaskaDto, "USA", "North America", userRatingsDto);
         List<MountainDto> mountainsDto = new ArrayList<>();
