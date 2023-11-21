@@ -15,7 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 @RequiredArgsConstructor
@@ -54,7 +53,7 @@ public class AuthenticationService {
             String token = jwtGenerator.generateToken(authentication);
             return new ResponseEntity<>(new AuthenticationResponseDto(token).toString(), HttpStatus.OK);
         } catch (AuthenticationException e) {
-            return new ResponseEntity<>("Authentication error - incorrect login or password", HttpStatus.UNAUTHORIZED)
+            return new ResponseEntity<>("Authentication error - incorrect login or password", HttpStatus.UNAUTHORIZED);
         }
     }
 }
