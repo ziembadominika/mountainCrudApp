@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class AuthenticationService {
         }
         UserEntity userEntity = new UserEntity();
         userEntity.setUserName(registerDto.getUserName());
-        userEntity.setPassword(passwordEncoder.encode(String.valueOf(registerDto.getPassword())).toCharArray());
+        userEntity.setPassword(passwordEncoder.encode(registerDto.getPassword()).toCharArray());
         userEntity.setFirstName(registerDto.getFirstName());
         userEntity.setLastName(registerDto.getLastName());
         userEntity.setEmail(registerDto.getEmail());
@@ -45,11 +46,15 @@ public class AuthenticationService {
         return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
     }
 
-    public ResponseEntity<AuthenticationResponseDto> login(LoginDto loginDto) {
-        Authentication authentication = authenticationManager.authenticate((new UsernamePasswordAuthenticationToken
-                (loginDto.getUserName(), loginDto.getPassword())));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtGenerator.generateToken(authentication);
-        return new ResponseEntity<>(new AuthenticationResponseDto(token), HttpStatus.OK);
+    public ResponseEntity<String> login(LoginDto loginDto) {
+        try {
+            Authentication authentication = authenticationManager.authenticate((new UsernamePasswordAuthenticationToken
+                    (loginDto.getUserName(), loginDto.getPassword())));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token = jwtGenerator.generateToken(authentication);
+            return new ResponseEntity<>(new AuthenticationResponseDto(token).toString(), HttpStatus.OK);
+        } catch (AuthenticationException e) {
+            return new ResponseEntity<>("Authentication error - incorrect login or password", HttpStatus.UNAUTHORIZED)
+        }
     }
 }

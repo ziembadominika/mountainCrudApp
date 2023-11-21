@@ -69,7 +69,7 @@ public class AuthenticationServiceTest {
     @Test
     public void login() {
         //Given&When
-        ResponseEntity<AuthenticationResponseDto> response = authenticationService.login(userOneLoginDetails);
+        ResponseEntity<String> response = authenticationService.login(userOneLoginDetails);
         //Then
         assertEquals(String.valueOf(response.getStatusCode()), "200 OK");
     }
