@@ -13,8 +13,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.Assert.*;
@@ -41,7 +45,7 @@ public class AuthenticationServiceTest {
     private LoginDto userOneLoginDetails;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         userOne = new RegisterDto("UserOne", "Password", "John", "Smith", "jsmith@email.com");
         userTwo = new RegisterDto("UserOne", "password", "Taylor", "Jones", "taylor@email.com");
         userOneLoginDetails = new LoginDto("UserOne", "Password".toCharArray());
@@ -58,7 +62,7 @@ public class AuthenticationServiceTest {
     }
 
     @Test
-    public void shouldNotRegister(){
+    public void shouldNotRegister() {
         //Given
         when(userRepository.existsByUserName("UserOne")).thenReturn(true);
         //When
@@ -66,11 +70,27 @@ public class AuthenticationServiceTest {
         //Then
         assertEquals(userTwoMessage.getBody(), "Username is already taken");
     }
+
     @Test
     public void login() {
         //Given&When
         ResponseEntity<String> response = authenticationService.login(userOneLoginDetails);
         //Then
         assertEquals(String.valueOf(response.getStatusCode()), "200 OK");
+    }
+
+    @Test
+    public void shouldNotLogin() {
+        //Given
+        LoginDto incorrectLoginDto = new LoginDto("incorrectLogin", "incorrectPassword".toCharArray());
+        when(authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(incorrectLoginDto.getUserName(),
+                incorrectLoginDto.getPassword()))).thenThrow(new AuthenticationServiceException("Incorrect credentials"));
+        //When
+        ResponseEntity<String> response = authenticationService.login(incorrectLoginDto);
+        //Then
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        assertEquals("Authentication error - incorrect login or password", response.getBody());
+        verify(authenticationManager, times(1)).authenticate(any());
+        verifyNoMoreInteractions(authenticationManager, jwtGenerator);
     }
 }
