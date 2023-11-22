@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
@@ -69,6 +70,8 @@ public class AuthenticationServiceTest {
         ResponseEntity<String> userTwoMessage = authenticationService.register(userTwo);
         //Then
         assertEquals(userTwoMessage.getBody(), "Username is already taken");
+        assertEquals(userTwoMessage.getStatusCode(), HttpStatus.BAD_REQUEST);
+        Mockito.verify(userRepository, Mockito.never()).save(Mockito.any());
     }
 
     @Test
