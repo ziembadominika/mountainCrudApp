@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -33,7 +34,7 @@ public class AuthenticationService {
         }
         UserEntity userEntity = new UserEntity();
         userEntity.setUserName(registerDto.getUserName());
-        userEntity.setPassword(passwordEncoder.encode(registerDto.getPassword()).toCharArray());
+        userEntity.setPassword((passwordEncoder.encode(registerDto.getPassword())).toCharArray());
         userEntity.setFirstName(registerDto.getFirstName());
         userEntity.setLastName(registerDto.getLastName());
         userEntity.setEmail(registerDto.getEmail());
@@ -54,6 +55,17 @@ public class AuthenticationService {
             return new ResponseEntity<>(new AuthenticationResponseDto(token).toString(), HttpStatus.OK);
         } catch (AuthenticationException e) {
             return new ResponseEntity<>("Authentication error - incorrect login or password", HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    public ResponseEntity<String> changePassword(long id, String newPassword) {
+        Optional<UserEntity> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            user.get().setPassword(passwordEncoder.encode(newPassword).toCharArray());
+            userRepository.save(user.get());
+            return ResponseEntity.ok("Password changed successfully");
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 }
