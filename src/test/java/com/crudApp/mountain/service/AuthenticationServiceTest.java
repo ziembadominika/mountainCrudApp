@@ -112,4 +112,14 @@ public class AuthenticationServiceTest {
         assertEquals(userEntityOne.getPassword(), "newPassword".toCharArray());
         verify(userRepository, times(1)).save(any());
     }
+
+    @Test
+    public void shouldNotChangePassword(){
+        //Given
+        when(userRepository.findById(3L)).thenReturn(Optional.empty());
+        //When
+        ResponseEntity<String> response = authenticationService.changePassword(3L, "newPassword");
+        //Then
+        assertEquals(response, ResponseEntity.notFound().build());
+    }
 }
