@@ -51,7 +51,7 @@ public class AuthenticationServiceTest {
     public void setUp() {
         userOne = new RegisterDto("UserOne", "Password", "John", "Smith", "jsmith@email.com");
         userTwo = new RegisterDto("UserOne", "password", "Taylor", "Jones", "taylor@email.com");
-        userOneLoginDetails = new LoginDto("UserOne", "Password".toCharArray());
+        userOneLoginDetails = new LoginDto("UserOne", "oldPassword");
         userEntityOne = new UserEntity.UserEntityBuilder().id(1L).userName("user97").firstName("Susan").lastName("Jones")
                 .email("susan97@gmail.com").build();
     }
@@ -89,7 +89,7 @@ public class AuthenticationServiceTest {
     @Test
     public void shouldNotLogin() {
         //Given
-        LoginDto incorrectLoginDto = new LoginDto("incorrectLogin", "incorrectPassword".toCharArray());
+        LoginDto incorrectLoginDto = new LoginDto("incorrectLogin", "incorrectPassword");
         when(authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(incorrectLoginDto.getUserName(),
                 incorrectLoginDto.getPassword()))).thenThrow(new AuthenticationServiceException("Incorrect credentials"));
         //When
@@ -105,8 +105,9 @@ public class AuthenticationServiceTest {
     public void shouldChangePassword(){
         //Given
         when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(userEntityOne));
+        when(passwordEncoder.matches("oldPassword", userEntityOne.getPassword())).thenReturn(true);
         //When
-        ResponseEntity<String> response = authenticationService.changePassword(1L, "newPassword");
+        ResponseEntity<String> response = authenticationService.changePassword(1L, "oldPassword", "newPassword");
         //Then
         assertEquals(response.getBody(), "Password changed successfully");
         assertEquals(userEntityOne.getPassword(), "newPassword".toCharArray());
@@ -118,8 +119,8 @@ public class AuthenticationServiceTest {
         //Given
         when(userRepository.findById(3L)).thenReturn(Optional.empty());
         //When
-        ResponseEntity<String> response = authenticationService.changePassword(3L, "newPassword");
+        ResponseEntity<String> response = authenticationService.changePassword(3L, "oldPassword", "newPassword");
         //Then
-        assertEquals(response, ResponseEntity.notFound().build());
+        assertEquals(response.getBody(), "User not found by given id");
     }
 }

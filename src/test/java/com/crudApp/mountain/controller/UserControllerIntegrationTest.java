@@ -34,7 +34,7 @@ public class UserControllerIntegrationTest {
 
     @BeforeAll
     public static void setUp() {
-        loginDto = new LoginDto("user", "password".toCharArray());
+        loginDto = new LoginDto("user", "password");
         userOne = new UserEntityDto();
         userOne.setId(1L);
         userOne.setUserName("UserOne");
