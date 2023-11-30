@@ -35,7 +35,7 @@ public class AuthenticationService {
         }
         UserEntity userEntity = new UserEntity();
         userEntity.setUserName(registerDto.getUserName());
-        userEntity.setPassword((passwordEncoder.encode(registerDto.getPassword())).toCharArray());
+        userEntity.setPassword((passwordEncoder.encode(registerDto.getPassword())));
         userEntity.setFirstName(registerDto.getFirstName());
         userEntity.setLastName(registerDto.getLastName());
         userEntity.setEmail(registerDto.getEmail());
@@ -61,14 +61,14 @@ public class AuthenticationService {
 
     public ResponseEntity<String> changePassword(long id, String oldPassword, String newPassword) {
         Optional<UserEntity> user = userRepository.findById(id);
-        if (user.isPresent() && Arrays.equals(user.get().getPassword(), oldPassword.toCharArray())) {
-            user.get().setPassword(passwordEncoder.encode(newPassword).toCharArray());
+        if (user.isPresent() && passwordEncoder.matches(oldPassword, newPassword)) {
+            user.get().setPassword(passwordEncoder.encode(newPassword));
             userRepository.save(user.get());
             return ResponseEntity.ok("Password changed successfully");
-        } if (user.isPresent() && !Arrays.equals(user.get().getPassword(), oldPassword.toCharArray())) {
-            return ResponseEntity.badRequest().body("old password is incorrect");
+        } if (user.isPresent() && !passwordEncoder.matches(oldPassword, newPassword)) {
+            return ResponseEntity.badRequest().body("Old password is incorrect");
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().body("User not found by given id");
         }
     }
 }
