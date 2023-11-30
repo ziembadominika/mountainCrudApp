@@ -24,7 +24,7 @@ public class AuthenticationController {
     }
 
     @PutMapping(value = "/changePassword")
-    public ResponseEntity<String> changePassword(@RequestParam Long userId, String newPassword){
-        return authenticationService.changePassword(userId, newPassword);
+    public ResponseEntity<String> changePassword(@RequestParam Long userId, String oldPassword, String newPassword){
+        return authenticationService.changePassword(userId, oldPassword, newPassword);
     }
 }

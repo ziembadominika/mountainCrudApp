@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -58,12 +59,14 @@ public class AuthenticationService {
         }
     }
 
-    public ResponseEntity<String> changePassword(long id, String newPassword) {
+    public ResponseEntity<String> changePassword(long id, String oldPassword, String newPassword) {
         Optional<UserEntity> user = userRepository.findById(id);
-        if (user.isPresent()) {
+        if (user.isPresent() && Arrays.equals(user.get().getPassword(), oldPassword.toCharArray())) {
             user.get().setPassword(passwordEncoder.encode(newPassword).toCharArray());
             userRepository.save(user.get());
             return ResponseEntity.ok("Password changed successfully");
+        } if (user.isPresent() && !Arrays.equals(user.get().getPassword(), oldPassword.toCharArray())) {
+            return ResponseEntity.badRequest().body("old password is incorrect");
         } else {
             return ResponseEntity.notFound().build();
         }
