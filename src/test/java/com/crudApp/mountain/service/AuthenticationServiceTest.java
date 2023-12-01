@@ -102,7 +102,7 @@ public class AuthenticationServiceTest {
     }
 
     @Test
-    public void shouldChangePassword(){
+    public void shouldChangePassword() {
         //Given
         when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(userEntityOne));
         when(passwordEncoder.matches("oldPassword", userEntityOne.getPassword())).thenReturn(true);
@@ -115,12 +115,24 @@ public class AuthenticationServiceTest {
     }
 
     @Test
-    public void shouldNotChangePassword(){
+    public void shouldNotChangePasswordIncorrectUserId() {
         //Given
         when(userRepository.findById(3L)).thenReturn(Optional.empty());
         //When
         ResponseEntity<String> response = authenticationService.changePassword(3L, "oldPassword", "newPassword");
         //Then
         assertEquals(response.getBody(), "User not found by given id");
+    }
+
+    @Test
+    public void shouldNotChangePasswordIncorrectOldPassword() {
+        //Given
+        when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(userEntityOne));
+        when(passwordEncoder.matches("Password", userEntityOne.getPassword())).thenReturn(false);
+        //When
+        ResponseEntity<String> response = authenticationService.changePassword(1L, "Password", "newPassword");
+        //Then
+        assertEquals(response.getBody(), "Old password is incorrect");
+        verifyNoMoreInteractions(userRepository, passwordEncoder);
     }
 }
