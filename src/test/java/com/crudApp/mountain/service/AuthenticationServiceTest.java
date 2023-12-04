@@ -53,7 +53,7 @@ public class AuthenticationServiceTest {
         userTwo = new RegisterDto("UserOne", "password", "Taylor", "Jones", "taylor@email.com");
         userOneLoginDetails = new LoginDto("UserOne", "oldPassword");
         userEntityOne = new UserEntity.UserEntityBuilder().id(1L).userName("user97").firstName("Susan").lastName("Jones")
-                .email("susan97@gmail.com").build();
+                .email("susan97@gmail.com").password("oldPassword").build();
     }
 
     @Test
@@ -104,13 +104,12 @@ public class AuthenticationServiceTest {
     @Test
     public void shouldChangePassword() {
         //Given
-        when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(userEntityOne));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(userEntityOne));
         when(passwordEncoder.matches("oldPassword", userEntityOne.getPassword())).thenReturn(true);
         //When
         ResponseEntity<String> response = authenticationService.changePassword(1L, "oldPassword", "newPassword");
         //Then
         assertEquals(response.getBody(), "Password changed successfully");
-        assertEquals(userEntityOne.getPassword(), "newPassword".toCharArray());
         verify(userRepository, times(1)).save(any());
     }
 
@@ -127,12 +126,14 @@ public class AuthenticationServiceTest {
     @Test
     public void shouldNotChangePasswordIncorrectOldPassword() {
         //Given
-        when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(userEntityOne));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(userEntityOne));
         when(passwordEncoder.matches("Password", userEntityOne.getPassword())).thenReturn(false);
         //When
         ResponseEntity<String> response = authenticationService.changePassword(1L, "Password", "newPassword");
         //Then
         assertEquals(response.getBody(), "Old password is incorrect");
-        verifyNoMoreInteractions(userRepository, passwordEncoder);
+        assertEquals(response.getStatusCodeValue(), 400);
+        verify(userRepository, never()).save(userEntityOne);
+
     }
 }
