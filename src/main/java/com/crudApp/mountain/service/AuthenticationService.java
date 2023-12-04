@@ -61,11 +61,11 @@ public class AuthenticationService {
 
     public ResponseEntity<String> changePassword(long id, String oldPassword, String newPassword) {
         Optional<UserEntity> user = userRepository.findById(id);
-        if (user.isPresent() && passwordEncoder.matches(oldPassword, newPassword)) {
+        if (user.isPresent() && passwordEncoder.matches(oldPassword, user.get().getPassword())) {
             user.get().setPassword(passwordEncoder.encode(newPassword));
             userRepository.save(user.get());
             return ResponseEntity.ok("Password changed successfully");
-        } if (user.isPresent() && !passwordEncoder.matches(oldPassword, newPassword)) {
+        } if (user.isPresent() && !passwordEncoder.matches(oldPassword, user.get().getPassword())) {
             return ResponseEntity.badRequest().body("Old password is incorrect");
         } else {
             return ResponseEntity.badRequest().body("User not found by given id");
