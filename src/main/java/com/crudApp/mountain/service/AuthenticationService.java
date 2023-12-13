@@ -15,9 +15,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.Random;
 
 @RequiredArgsConstructor
 @Service
@@ -70,5 +70,30 @@ public class AuthenticationService {
         } else {
             return ResponseEntity.badRequest().body("User not found by given id");
         }
+    }
+
+    public ResponseEntity<String> forgotPassword(String userName){
+        UserEntity user = userRepository.findByUserName(userName);
+        String newPassword = generateNewPassword();
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
+    public String generateNewPassword(){
+        String upperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
+        String numbers = "0123456789";
+        String specialCharacters = "!@#$%^&*()-_=+[]{}|;:',.<>?";
+
+        String allCharacters = upperCaseLetters + lowerCaseLetters + numbers + specialCharacters;
+
+        Random random = new Random();
+        StringBuilder newPassword = new StringBuilder();
+
+        for (int i = 0; i < 10; i++) {
+            newPassword.append(allCharacters.charAt(random.nextInt(allCharacters.length())));
+        }
+
+        return newPassword.toString();
     }
 }
