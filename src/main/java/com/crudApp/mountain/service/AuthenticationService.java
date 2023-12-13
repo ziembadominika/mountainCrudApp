@@ -73,10 +73,15 @@ public class AuthenticationService {
     }
 
     public ResponseEntity<String> forgotPassword(String userName){
-        Optional<UserEntity> user = userRepository.findByUserName(userName);
-        String newPassword = generateNewPassword();
-        user.setPassword(passwordEncoder.encode(newPassword));
-        userRepository.save(user);
+        Optional<UserEntity> optionalUser = userRepository.findByUserName(userName);
+        if(optionalUser.isPresent()){
+            UserEntity user = optionalUser.get();
+            String newPassword = generateNewPassword();
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+            return ResponseEntity.ok("Password changed successfully");
+        }
+        return ResponseEntity.badRequest().body("User not found by given username");
     }
 
     public String generateNewPassword(){
