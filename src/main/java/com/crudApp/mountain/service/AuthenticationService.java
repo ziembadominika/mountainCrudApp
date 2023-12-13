@@ -73,7 +73,7 @@ public class AuthenticationService {
     }
 
     public ResponseEntity<String> forgotPassword(String userName){
-        UserEntity user = userRepository.findByUserName(userName);
+        Optional<UserEntity> user = userRepository.findByUserName(userName);
         String newPassword = generateNewPassword();
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);

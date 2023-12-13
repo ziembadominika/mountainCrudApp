@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    UserEntity findByUserName(String username);
+    Optional<UserEntity> findByUserName(String username);
     Boolean existsByUserName(String userName);
     Optional<List<UserEntity>> findByUserNameContaining(String username, Pageable pageable);
 }
