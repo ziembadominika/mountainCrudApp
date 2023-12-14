@@ -7,6 +7,8 @@ import com.crudApp.mountain.security.JwtGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,6 +30,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtGenerator jwtGenerator;
     private final AuthenticationManager authenticationManager;
+    private final JavaMailSender javaMailSender;
 
     public ResponseEntity<String> register(RegisterDto registerDto) {
         if (userRepository.existsByUserName(registerDto.getUserName())) {
@@ -65,26 +68,28 @@ public class AuthenticationService {
             user.get().setPassword(passwordEncoder.encode(newPassword));
             userRepository.save(user.get());
             return ResponseEntity.ok("Password changed successfully");
-        } if (user.isPresent() && !passwordEncoder.matches(oldPassword, user.get().getPassword())) {
+        }
+        if (user.isPresent() && !passwordEncoder.matches(oldPassword, user.get().getPassword())) {
             return ResponseEntity.badRequest().body("Old password is incorrect");
         } else {
             return ResponseEntity.badRequest().body("User not found by given id");
         }
     }
 
-    public ResponseEntity<String> forgotPassword(String userName){
+    public ResponseEntity<String> forgotPassword(String userName) {
         Optional<UserEntity> optionalUser = userRepository.findByUserName(userName);
-        if(optionalUser.isPresent()){
+        if (optionalUser.isPresent()) {
             UserEntity user = optionalUser.get();
             String newPassword = generateNewPassword();
             user.setPassword(passwordEncoder.encode(newPassword));
             userRepository.save(user);
+            sendMailAboutNewPassword(user.getEmail(), newPassword);
             return ResponseEntity.ok("Password changed successfully");
         }
         return ResponseEntity.badRequest().body("User not found by given username");
     }
 
-    public String generateNewPassword(){
+    public String generateNewPassword() {
         String upperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
         String numbers = "0123456789";
@@ -100,5 +105,13 @@ public class AuthenticationService {
         }
 
         return newPassword.toString();
+    }
+
+    public void sendMailAboutNewPassword(String userMail, String newPassword){
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(userMail);
+        message.setSubject("Your new password");
+        message.setText("We changed your password to: " + newPassword);
+        javaMailSender.send(message);
     }
 }
