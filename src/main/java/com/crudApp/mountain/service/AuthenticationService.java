@@ -5,6 +5,7 @@ import com.crudApp.mountain.repository.RoleRepository;
 import com.crudApp.mountain.repository.UserRepository;
 import com.crudApp.mountain.security.JwtGenerator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
@@ -103,7 +104,6 @@ public class AuthenticationService {
         for (int i = 0; i < 10; i++) {
             newPassword.append(allCharacters.charAt(random.nextInt(allCharacters.length())));
         }
-
         return newPassword.toString();
     }
 

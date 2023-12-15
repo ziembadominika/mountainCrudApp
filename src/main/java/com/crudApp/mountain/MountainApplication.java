@@ -1,5 +1,6 @@
 package com.crudApp.mountain;
 
+import com.crudApp.mountain.service.AuthenticationService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

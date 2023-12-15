@@ -16,12 +16,15 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -42,6 +45,8 @@ public class AuthenticationServiceTest {
     private JwtGenerator jwtGenerator;
     @Mock
     private AuthenticationManager authenticationManager;
+    @Mock
+    private JavaMailSender javaMailSender;
     private RegisterDto userOne;
     private RegisterDto userTwo;
     private LoginDto userOneLoginDetails;
@@ -135,5 +140,37 @@ public class AuthenticationServiceTest {
         assertEquals(response.getStatusCodeValue(), 400);
         verify(userRepository, never()).save(userEntityOne);
 
+    }
+
+    @Test
+    public void shouldGenerateNewPassword() {
+        //Given&When
+        String generatedPassword = authenticationService.generateNewPassword();
+        //Then
+        assertEquals(10, generatedPassword.length());
+        assertTrue(generatedPassword.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]+$"));
+    }
+
+    @Test
+    public void shouldGenerateDifferentPasswords() {
+        //Given&When
+        String firstGeneratedPassword = authenticationService.generateNewPassword();
+        String secondGeneratedPassword = authenticationService.generateNewPassword();
+        //Then
+        assertNotEquals(firstGeneratedPassword, secondGeneratedPassword);
+    }
+
+    @Test
+    public void shouldGenerateUniquePassword() {
+        //Given
+        Set<String> generatedPasswords = new HashSet<>();
+        int numberOfPasswordsToGenerate = 1000;
+        //When&Then
+        while(numberOfPasswordsToGenerate > 0) {
+            String newPassword = authenticationService.generateNewPassword();
+            assertFalse(generatedPasswords.contains(newPassword));
+            generatedPasswords.add(newPassword);
+            numberOfPasswordsToGenerate--;
+        }
     }
 }
