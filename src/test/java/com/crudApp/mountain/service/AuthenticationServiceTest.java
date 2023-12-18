@@ -16,6 +16,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -166,11 +167,24 @@ public class AuthenticationServiceTest {
         Set<String> generatedPasswords = new HashSet<>();
         int numberOfPasswordsToGenerate = 1000;
         //When&Then
-        while(numberOfPasswordsToGenerate > 0) {
+        while (numberOfPasswordsToGenerate > 0) {
             String newPassword = authenticationService.generateNewPassword();
             assertFalse(generatedPasswords.contains(newPassword));
             generatedPasswords.add(newPassword);
             numberOfPasswordsToGenerate--;
         }
+    }
+
+    @Test
+    public void shouldSendEmail() {
+        //Given
+        SimpleMailMessage expectedMessage = new SimpleMailMessage();
+        expectedMessage.setTo(userEntityOne.getEmail());
+        expectedMessage.setSubject("Your new password");
+        expectedMessage.setText("We changed your password to: " + "newPassword");
+        //When
+        authenticationService.sendMailAboutNewPassword(userEntityOne.getEmail(), "newPassword");
+        //Then
+        verify(javaMailSender).send(expectedMessage);
     }
 }
