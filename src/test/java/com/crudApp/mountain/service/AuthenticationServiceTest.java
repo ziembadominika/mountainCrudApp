@@ -4,6 +4,7 @@ import com.crudApp.mountain.domain.LoginDto;
 import com.crudApp.mountain.domain.RegisterDto;
 import com.crudApp.mountain.domain.UserEntity;
 import com.crudApp.mountain.repository.RoleRepository;
+import com.crudApp.mountain.repository.UserRatingRepository;
 import com.crudApp.mountain.repository.UserRepository;
 import com.crudApp.mountain.security.JwtGenerator;
 import org.junit.Before;
@@ -13,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,6 +54,8 @@ public class AuthenticationServiceTest {
     private RegisterDto userTwo;
     private LoginDto userOneLoginDetails;
     private UserEntity userEntityOne;
+    @Autowired
+    private UserRatingRepository userRatingRepository;
 
     @Before
     public void setUp() {
@@ -186,5 +190,34 @@ public class AuthenticationServiceTest {
         authenticationService.sendMailAboutNewPassword(userEntityOne.getEmail(), "newPassword");
         //Then
         verify(javaMailSender).send(expectedMessage);
+    }
+
+    @Test
+    public void shouldChangForgottenPassword(){
+        //Given
+        when(userRepository.findByUserName("UserOne")).thenReturn(Optional.ofNullable(userEntityOne));
+        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
+        //When
+        ResponseEntity<String> response = authenticationService.forgotPassword("UserOne");
+        //Then
+        assertEquals(response.getBody(), "Password changed successfully");
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(userRepository, times(1)).findByUserName("UserOne");
+        verify(userRepository, times(1)).save(userEntityOne);
+        verify(passwordEncoder, times(1)).encode(anyString());
+        verifyNoMoreInteractions(userRepository, passwordEncoder);
+    }
+
+    @Test
+    public void shouldNotChangForgottenPassword(){
+        //Given
+        when(userRepository.findByUserName("user")).thenReturn(Optional.empty());
+        //When
+        ResponseEntity<String> response = authenticationService.forgotPassword("user");
+        //Then
+        assertEquals(response.getBody(), "User not found by given username");
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        verify(userRepository).findByUserName("user");
+        verifyNoMoreInteractions(userRepository);
     }
 }
